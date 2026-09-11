@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, redirect
 import markdown
 
 APP_DIR = Path(__file__).resolve().parent
@@ -37,7 +37,6 @@ def create_app():
 
     # -------------------------------------------------
     # MARKDOWN RENDERER
-    # Converts ##, **bold**, lists, etc. into HTML
     # -------------------------------------------------
     @app.template_filter("markdown")
     def markdown_filter(text):
@@ -76,12 +75,12 @@ def create_app():
     )
 
     # -------------------------------------------------
-    # LOGIN
+    # HOME
+    # Directly open Study Sphere
     # -------------------------------------------------
     @app.route("/")
     def login():
-        """Step 1 of the demo story."""
-        return render_template("login.html")
+        return redirect("/study-sphere")
 
     # -------------------------------------------------
     # STUDY SPHERE DASHBOARD
