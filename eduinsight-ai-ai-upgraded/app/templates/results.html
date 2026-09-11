@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Diagnostic results{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Diagnostic complete — {{ student_name }}</h1>
+  <p class="muted">Score: {{ (pre_score * 100) | round | int }}%</p>
+
+  <h2>Concept mastery map</h2>
+  <table class="mastery-table">
+    <tr><th>Concept</th><th>Mastery</th></tr>
+    {% for cid, score in mastery_map.items() %}
+    <tr>
+      <td>{{ concepts[cid].name }}</td>
+      <td>
+        <div class="bar"><div class="bar-fill" style="width: {{ (score*100)|round|int }}%"></div></div>
+        {{ (score*100)|round|int }}%
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Detected misconception</h2>
+  {% if misconceptions %}
+    {% set m = misconceptions[0] %}
+    <div class="alert">
+      <strong>{{ m.name | replace("-", " ") | title }}</strong>
+      <p>Seen on {{ m.evidence_count }} question(s), average confidence {{ m.avg_confidence }}/5.</p>
+    </div>
+  {% else %}
+    <p class="muted">No repeated misconception pattern detected in this diagnostic.</p>
+  {% endif %}
+
+  <h2>AI-recommended intervention</h2>
+  {% if intervention %}
+    <div class="card inner">
+      <h3>{{ intervention.title }}</h3>
+      <p>{{ intervention.description }}</p>
+      <p class="muted">{{ intervention.activity_type }} · {{ intervention.est_minutes }} min</p>
+      {% if intervention.prerequisite_gaps %}
+        <p class="muted">Prerequisite gap flagged: {{ intervention.prerequisite_gaps | join(", ") }}</p>
+      {% endif %}
+      <p class="muted">Status: awaiting teacher review</p>
+    </div>
+    <p>
+      <a href="{{ url_for('teacher.review_intervention', student_id=session['student_id']) }}">
+        Go to teacher review →
+      </a>
+    </p>
+  {% else %}
+    <p class="muted">No intervention needed — no misconception pattern found.</p>
+  {% endif %}
+</div>
+{% endblock %}

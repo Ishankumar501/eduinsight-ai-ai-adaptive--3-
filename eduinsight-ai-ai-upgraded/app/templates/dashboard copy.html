@@ -1,0 +1,4061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Sphere | Academic Space</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #070b14;
+            --panel: rgba(15, 23, 42, 0.82);
+            --panel-light: rgba(30, 41, 59, 0.78);
+            --border: rgba(71, 85, 105, 0.45);
+            --blue: #38bdf8;
+            --blue-dark: #2563eb;
+            --purple: #8b5cf6;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --red: #ef4444;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(59, 130, 246, 0.12),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(139, 92, 246, 0.12),
+                    transparent 30%
+                ),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           INTRO SCREEN
+        ===================================================== */
+
+        #intro-splash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background:
+                radial-gradient(
+                    circle at center,
+                    #172554 0%,
+                    #070a13 55%,
+                    #020617 100%
+                );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: introExit 0.8s ease 3.6s forwards;
+        }
+
+        .stars,
+        .stars::before,
+        .stars::after {
+            position: absolute;
+            inset: 0;
+            content: "";
+            background-image:
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, #93c5fd 1px, transparent 1px);
+            background-size: 100px 100px, 160px 160px;
+            opacity: 0.35;
+        }
+
+        .stars::before {
+            transform: translate(40px, 70px);
+        }
+
+        .stars::after {
+            transform: translate(-50px, -30px);
+        }
+
+        .logo-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: logoAppear 1.2s cubic-bezier(.2, .8, .2, 1) forwards;
+            transform: scale(0);
+        }
+
+        .earth {
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    #60a5fa,
+                    #2563eb 55%,
+                    #172554
+                );
+            box-shadow:
+                0 0 25px rgba(59, 130, 246, .7),
+                0 0 70px rgba(37, 99, 235, .3);
+            position: relative;
+        }
+
+        .continent {
+            position: absolute;
+            background: #22c55e;
+            border-radius: 50%;
+            opacity: .9;
+        }
+
+        .continent.one {
+            width: 35px;
+            height: 20px;
+            top: 25px;
+            left: 18px;
+            transform: rotate(-20deg);
+        }
+
+        .continent.two {
+            width: 27px;
+            height: 32px;
+            bottom: 18px;
+            right: 20px;
+            transform: rotate(25deg);
+        }
+
+        .glasses {
+            position: absolute;
+            top: 38px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 5;
+        }
+
+        .lens {
+            width: 34px;
+            height: 27px;
+            border: 3px solid #0f172a;
+            background: rgba(255, 255, 255, .18);
+            border-radius: 8px;
+        }
+
+        .bridge {
+            width: 7px;
+            height: 3px;
+            background: #0f172a;
+            margin-top: 12px;
+        }
+
+        .book {
+            position: absolute;
+            width: 90px;
+            height: 30px;
+            background: white;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px 14px 5px 14px;
+            box-shadow: 0 5px 20px rgba(255, 255, 255, .2);
+            z-index: 10;
+        }
+
+        .book::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 3px;
+            height: 24px;
+            width: 2px;
+            background: #94a3b8;
+        }
+
+        .cap {
+            position: absolute;
+            width: 85px;
+            height: 25px;
+            background: #111827;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            clip-path: polygon(
+                50% 0,
+                100% 50%,
+                50% 100%,
+                0 50%
+            );
+            z-index: 12;
+        }
+
+        .brand {
+            margin-top: 30px;
+            font-size: 35px;
+            letter-spacing: 5px;
+            font-weight: 800;
+            opacity: 0;
+            animation: brandAppear .8s ease 1.8s forwards;
+        }
+
+        .brand span {
+            color: var(--blue);
+        }
+
+        .loading-text {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: brandAppear .7s ease 2.2s forwards;
+        }
+
+        @keyframes logoAppear {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        @keyframes brandAppear {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes introExit {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* =====================================================
+           SETUP SCREENS
+        ===================================================== */
+
+        .setup-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .setup-card {
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            background: var(--panel-light);
+            border: 1px solid rgba(56, 189, 248, .35);
+            border-radius: 22px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, .4);
+        }
+
+        .setup-card h1 {
+            color: var(--blue);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 26px;
+        }
+
+        .setup-card > p {
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .language-note {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #cbd5e1;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border-radius: 9px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            outline: none;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select optgroup {
+            color: #38bdf8;
+            background: #0f172a;
+        }
+
+        select option {
+            color: white;
+            background: #0f172a;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, .1);
+        }
+
+        .primary-btn {
+            width: 100%;
+            border: none;
+            border-radius: 9px;
+            padding: 13px;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #38bdf8
+            );
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            transition: .2s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, .3);
+        }
+
+        .secondary-text {
+            text-align: center;
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .secondary-text:hover {
+            color: var(--blue);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =====================================================
+           DASHBOARD
+        ===================================================== */
+
+        #dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 25px 15px;
+            background: rgba(2, 6, 23, .92);
+            border-right: 1px solid var(--border);
+            backdrop-filter: blur(15px);
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            padding: 0 12px 25px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-logo span {
+            color: var(--blue);
+        }
+
+        .nav-item {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            padding: 12px 14px;
+            text-align: left;
+            border-radius: 9px;
+            margin-bottom: 7px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(56, 189, 248, .1);
+            color: var(--blue);
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
+            width: calc(100% - 30px);
+            background: rgba(239, 68, 68, .08);
+            color: #f87171;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, .15);
+            color: #fca5a5;
+        }
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: rgba(15, 23, 42, .6);
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #8b5cf6
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: .2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, .4);
+        }
+
+        .stat-card .icon {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h2 {
+            font-size: 27px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* =====================================================
+           CONTENT GRID
+        ===================================================== */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 10px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+        }
+
+        .add-btn {
+            border: none;
+            background: rgba(56, 189, 248, .12);
+            color: var(--blue);
+            padding: 8px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .add-btn:hover {
+            background: rgba(56, 189, 248, .2);
+        }
+
+        /* =====================================================
+           SUBJECTS
+        ===================================================== */
+
+        .subject {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(71, 85, 105, .25);
+        }
+
+        .subject:last-child {
+            border-bottom: none;
+        }
+
+        .subject-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+
+        .subject-info span:first-child {
+            color: #e2e8f0;
+        }
+
+        .subject-info span:last-child {
+            color: var(--blue);
+            font-size: 13px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 10px;
+            background: #1e293b;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                #2563eb,
+                #38bdf8
+            );
+            border-radius: 10px;
+            transition: width .5s ease;
+        }
+
+        /* =====================================================
+           WORKSPACE
+        ===================================================== */
+
+        .workspace-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .workspace-tab {
+            white-space: nowrap;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: var(--muted);
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .workspace-tab.active {
+            background: var(--blue);
+            color: #07111f;
+            font-weight: 700;
+        }
+
+        .workspace-content {
+            margin-top: 10px;
+            padding: 20px;
+            background: #0f172a;
+            border-radius: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           QUICK ACTIONS
+        ===================================================== */
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .quick-btn {
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 14px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .quick-btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        /* =====================================================
+           CALENDAR
+        ===================================================== */
+
+        .calendar-title {
+            color: var(--blue);
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar div {
+            text-align: center;
+            padding: 7px 3px;
+            font-size: 11px;
+            border-radius: 5px;
+        }
+
+        .calendar .day-name {
+            color: var(--muted);
+            font-weight: bold;
+        }
+
+        .calendar .day {
+            background: rgba(30, 41, 59, .5);
+            color: #cbd5e1;
+        }
+
+        .calendar .today {
+            background: var(--blue);
+            color: #07111f;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           TIMER
+        ===================================================== */
+
+        .timer {
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--blue);
+            margin: 10px 0 15px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .timer-controls button {
+            flex: 1;
+            border: none;
+            padding: 9px;
+            border-radius: 8px;
+            background: #1e293b;
+            color: white;
+        }
+
+        .timer-controls button:hover {
+            background: var(--blue-dark);
+        }
+
+        /* =====================================================
+           ACTIVITY
+        ===================================================== */
+
+        .activity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(71, 85, 105, .25);
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(56, 189, 248, .1);
+            flex-shrink: 0;
+        }
+
+        .activity-text {
+            font-size: 13px;
+        }
+
+        .activity-time {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        /* =====================================================
+           OTHER PAGES
+        ===================================================== */
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero-card {
+            padding: 30px;
+            background:
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(56, 189, 248, .16),
+                    transparent 30%
+                ),
+                var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            margin-bottom: 22px;
+        }
+
+        .hero-card h2 {
+            margin-bottom: 8px;
+        }
+
+        .hero-card p {
+            color: var(--muted);
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .resource-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--panel);
+            transition: .2s;
+        }
+
+        .resource-card:hover {
+            border-color: rgba(56, 189, 248, .4);
+            transform: translateY(-3px);
+        }
+
+        .resource-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .resource-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           GOALS
+        ===================================================== */
+
+        .goal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #1e293b;
+        }
+
+        .delete-goal {
+            border: none;
+            background: transparent;
+            color: #f87171;
+            width: auto;
+            padding: 5px;
+        }
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            padding: 20px;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 420px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .5);
+        }
+
+        .modal-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            border: none;
+            padding: 11px;
+            border-radius: 8px;
+        }
+
+        .cancel-btn {
+            background: #1e293b;
+            color: white;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resource-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 15px 8px;
+            }
+
+            .sidebar-logo {
+                font-size: 0;
+                text-align: center;
+            }
+
+            .sidebar-logo::after {
+                content: "S";
+                font-size: 25px;
+                color: var(--blue);
+            }
+
+            .nav-item {
+                text-align: center;
+                font-size: 0;
+            }
+
+            .logout-btn {
+                font-size: 0;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 18px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .profile span {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar h1 {
+                font-size: 21px;
+            }
+
+            .setup-card {
+                padding: 25px 20px;
+            }
+
+            .brand {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     1. STUDY SPHERE INTRO
+========================================================= -->
+
+<div id="intro-splash">
+
+    <div class="stars"></div>
+
+    <div class="logo-container">
+
+        <div class="cap"></div>
+
+        <div class="earth">
+
+            <div class="continent one"></div>
+            <div class="continent two"></div>
+
+            <div class="glasses">
+
+                <div class="lens"></div>
+
+                <div class="bridge"></div>
+
+                <div class="lens"></div>
+
+            </div>
+
+        </div>
+
+        <div class="book"></div>
+
+    </div>
+
+    <div class="brand">
+        Study <span>Sphere</span>
+    </div>
+
+    <div class="loading-text">
+        YOUR PERSONAL ACADEMIC SPACE
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     2. LANGUAGE SELECTION
+========================================================= -->
+
+<section id="language-screen" class="setup-screen">
+
+    <div class="setup-card">
+
+        <h1>🌌 Welcome to Study Sphere</h1>
+
+        <p>
+            Choose your preferred language for your Study Sphere
+            experience.
+        </p>
+
+        <div class="input-group">
+
+            <label for="language">
+                Interface Language
+            </label>
+
+            <select id="language">
+
+                <!-- INTERNATIONAL -->
+
+                <optgroup label="🌐 International Languages">
+
+                    <option value="English" selected>
+                        English
+                    </option>
+
+                    <option value="Spanish">
+                        Español
+                    </option>
+
+                    <option value="French">
+                        Français
+                    </option>
+
+                    <option value="Portuguese">
+                        Português
+                    </option>
+
+                    <option value="Russian">
+                        Русский
+                    </option>
+
+                    <option value="Arabic">
+                        العربية
+                    </option>
+
+                    <option value="Chinese">
+                        中文
+                    </option>
+
+                    <option value="Japanese">
+                        日本語
+                    </option>
+
+                    <option value="German">
+                        Deutsch
+                    </option>
+
+                </optgroup>
+
+
+                <!-- INDIA -->
+
+                <optgroup label="🇮🇳 Indian Languages">
+
+                    <option value="Assamese">
+                        অসমীয়া - Assamese
+                    </option>
+
+                    <option value="Bengali">
+                        বাংলা - Bengali
+                    </option>
+
+                    <option value="Bodo">
+                        बड़ो - Bodo
+                    </option>
+
+                    <option value="Dogri">
+                        डोगरी - Dogri
+                    </option>
+
+                    <option value="Gujarati">
+                        ગુજરાતી - Gujarati
+                    </option>
+
+                    <option value="Hindi">
+                        हिन्दी - Hindi
+                    </option>
+
+                    <option value="Kannada">
+                        ಕನ್ನಡ - Kannada
+                    </option>
+
+                    <option value="Kashmiri">
+                        کٲشُر - Kashmiri
+                    </option>
+
+                    <option value="Konkani">
+                        कोंकणी - Konkani
+                    </option>
+
+                    <option value="Maithili">
+                        मैथिली - Maithili
+                    </option>
+
+                    <option value="Malayalam">
+                        മലയാളം - Malayalam
+                    </option>
+
+                    <option value="Manipuri">
+                        মৈতৈলোন্ - Manipuri
+                    </option>
+
+                    <option value="Marathi">
+                        मराठी - Marathi
+                    </option>
+
+                    <option value="Nepali">
+                        नेपाली - Nepali
+                    </option>
+
+                    <option value="Odia">
+                        ଓଡ଼ିଆ - Odia
+                    </option>
+
+                    <option value="Punjabi">
+                        ਪੰਜਾਬੀ - Punjabi
+                    </option>
+
+                    <option value="Sanskrit">
+                        संस्कृतम् - Sanskrit
+                    </option>
+
+                    <option value="Santali">
+                        ᱥᱟᱱᱛᱟᱲᱤ - Santali
+                    </option>
+
+                    <option value="Sindhi">
+                        سنڌي - Sindhi
+                    </option>
+
+                    <option value="Tamil">
+                        தமிழ் - Tamil
+                    </option>
+
+                    <option value="Telugu">
+                        తెలుగు - Telugu
+                    </option>
+
+                    <option value="Urdu">
+                        اردو - Urdu
+                    </option>
+
+                </optgroup>
+
+
+                <!-- EAST ASIA -->
+
+                <optgroup label="🌏 East Asian Languages">
+
+                    <option value="Chinese">
+                        中文 - Chinese
+                    </option>
+
+                    <option value="Japanese">
+                        日本語 - Japanese
+                    </option>
+
+                    <option value="Korean">
+                        한국어 - Korean
+                    </option>
+
+                    <option value="Mongolian">
+                        Монгол - Mongolian
+                    </option>
+
+                    <option value="Tibetan">
+                        བོད་སྐད་ - Tibetan
+                    </option>
+
+                </optgroup>
+
+
+                <!-- SOUTHEAST ASIA -->
+
+                <optgroup label="🌴 Southeast Asian Languages">
+
+                    <option value="Indonesian">
+                        Bahasa Indonesia
+                    </option>
+
+                    <option value="Malay">
+                        Bahasa Melayu
+                    </option>
+
+                    <option value="Filipino">
+                        Filipino
+                    </option>
+
+                    <option value="Vietnamese">
+                        Tiếng Việt
+                    </option>
+
+                    <option value="Thai">
+                        ไทย - Thai
+                    </option>
+
+                    <option value="Burmese">
+                        မြန်မာ - Burmese
+                    </option>
+
+                    <option value="Khmer">
+                        ខ្មែរ - Khmer
+                    </option>
+
+                    <option value="Lao">
+                        ລາວ - Lao
+                    </option>
+
+                    <option value="Javanese">
+                        Basa Jawa - Javanese
+                    </option>
+
+                    <option value="Sundanese">
+                        Basa Sunda - Sundanese
+                    </option>
+
+                </optgroup>
+
+
+                <!-- CENTRAL ASIA -->
+
+                <optgroup label="🏔️ Central Asian Languages">
+
+                    <option value="Kazakh">
+                        Қазақша - Kazakh
+                    </option>
+
+                    <option value="Kyrgyz">
+                        Кыргызча - Kyrgyz
+                    </option>
+
+                    <option value="Tajik">
+                        Тоҷикӣ - Tajik
+                    </option>
+
+                    <option value="Turkmen">
+                        Türkmençe - Turkmen
+                    </option>
+
+                    <option value="Uzbek">
+                        O'zbekcha - Uzbek
+                    </option>
+
+                    <option value="Uyghur">
+                        ئۇيغۇرچە - Uyghur
+                    </option>
+
+                </optgroup>
+
+
+                <!-- WEST ASIA -->
+
+                <optgroup label="🕌 West Asian Languages">
+
+                    <option value="Persian">
+                        فارسی - Persian
+                    </option>
+
+                    <option value="Dari">
+                        دری - Dari
+                    </option>
+
+                    <option value="Pashto">
+                        پښتو - Pashto
+                    </option>
+
+                    <option value="Kurdish">
+                        کوردی - Kurdish
+                    </option>
+
+                    <option value="Hebrew">
+                        עברית - Hebrew
+                    </option>
+
+                    <option value="Turkish">
+                        Türkçe - Turkish
+                    </option>
+
+                    <option value="Armenian">
+                        Հայերեն - Armenian
+                    </option>
+
+                    <option value="Azerbaijani">
+                        Azərbaycan dili - Azerbaijani
+                    </option>
+
+                    <option value="Georgian">
+                        ქართული - Georgian
+                    </option>
+
+                </optgroup>
+
+
+                <!-- EUROPE -->
+
+                <optgroup label="🇪🇺 European Languages">
+
+                    <option value="English">
+                        English
+                    </option>
+
+                    <option value="French">
+                        Français
+                    </option>
+
+                    <option value="German">
+                        Deutsch
+                    </option>
+
+                    <option value="Spanish">
+                        Español
+                    </option>
+
+                    <option value="Portuguese">
+                        Português
+                    </option>
+
+                    <option value="Italian">
+                        Italiano
+                    </option>
+
+                    <option value="Dutch">
+                        Nederlands
+                    </option>
+
+                    <option value="Greek">
+                        Ελληνικά - Greek
+                    </option>
+
+                    <option value="Polish">
+                        Polski - Polish
+                    </option>
+
+                    <option value="Ukrainian">
+                        Українська - Ukrainian
+                    </option>
+
+                    <option value="Czech">
+                        Čeština - Czech
+                    </option>
+
+                    <option value="Slovak">
+                        Slovenčina - Slovak
+                    </option>
+
+                    <option value="Hungarian">
+                        Magyar - Hungarian
+                    </option>
+
+                    <option value="Romanian">
+                        Română - Romanian
+                    </option>
+
+                    <option value="Bulgarian">
+                        Български - Bulgarian
+                    </option>
+
+                    <option value="Serbian">
+                        Српски - Serbian
+                    </option>
+
+                    <option value="Croatian">
+                        Hrvatski - Croatian
+                    </option>
+
+                    <option value="Bosnian">
+                        Bosanski - Bosnian
+                    </option>
+
+                    <option value="Slovenian">
+                        Slovenščina - Slovenian
+                    </option>
+
+                    <option value="Albanian">
+                        Shqip - Albanian
+                    </option>
+
+                    <option value="Macedonian">
+                        Македонски - Macedonian
+                    </option>
+
+                    <option value="Lithuanian">
+                        Lietuvių - Lithuanian
+                    </option>
+
+                    <option value="Latvian">
+                        Latviešu - Latvian
+                    </option>
+
+                    <option value="Estonian">
+                        Eesti - Estonian
+                    </option>
+
+                    <option value="Finnish">
+                        Suomi - Finnish
+                    </option>
+
+                    <option value="Swedish">
+                        Svenska - Swedish
+                    </option>
+
+                    <option value="Norwegian">
+                        Norsk - Norwegian
+                    </option>
+
+                    <option value="Danish">
+                        Dansk - Danish
+                    </option>
+
+                    <option value="Icelandic">
+                        Íslenska - Icelandic
+                    </option>
+
+                    <option value="Irish">
+                        Gaeilge - Irish
+                    </option>
+
+                    <option value="Welsh">
+                        Cymraeg - Welsh
+                    </option>
+
+                    <option value="Catalan">
+                        Català - Catalan
+                    </option>
+
+                    <option value="Basque">
+                        Euskara - Basque
+                    </option>
+
+                    <option value="Galician">
+                        Galego - Galician
+                    </option>
+
+                    <option value="Maltese">
+                        Malti - Maltese
+                    </option>
+
+                </optgroup>
+
+
+                <!-- AFRICA -->
+
+                <optgroup label="🌍 African Languages">
+
+                    <option value="Swahili">
+                        Kiswahili - Swahili
+                    </option>
+
+                    <option value="Amharic">
+                        አማርኛ - Amharic
+                    </option>
+
+                    <option value="Hausa">
+                        Hausa
+                    </option>
+
+                    <option value="Yoruba">
+                        Yorùbá
+                    </option>
+
+                    <option value="Igbo">
+                        Igbo
+                    </option>
+
+                    <option value="Somali">
+                        Soomaali - Somali
+                    </option>
+
+                    <option value="Zulu">
+                        isiZulu - Zulu
+                    </option>
+
+                    <option value="Xhosa">
+                        isiXhosa - Xhosa
+                    </option>
+
+                    <option value="Afrikaans">
+                        Afrikaans
+                    </option>
+
+                    <option value="Shona">
+                        chiShona - Shona
+                    </option>
+
+                    <option value="Sesotho">
+                        Sesotho
+                    </option>
+
+                    <option value="Setswana">
+                        Setswana
+                    </option>
+
+                    <option value="Kinyarwanda">
+                        Kinyarwanda
+                    </option>
+
+                    <option value="Luganda">
+                        Luganda
+                    </option>
+
+                    <option value="Malagasy">
+                        Malagasy
+                    </option>
+
+                </optgroup>
+
+
+                <!-- OTHER -->
+
+                <optgroup label="🌎 Other Major Languages">
+
+                    <option value="Quechua">
+                        Runasimi - Quechua
+                    </option>
+
+                    <option value="Guarani">
+                        Guaraní
+                    </option>
+
+                    <option value="Haitian Creole">
+                        Kreyòl Ayisyen
+                    </option>
+
+                    <option value="Esperanto">
+                        Esperanto
+                    </option>
+
+                    <option value="Latin">
+                        Latina - Latin
+                    </option>
+
+                </optgroup>
+
+            </select>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="openAuth()"
+        >
+            Continue →
+        </button>
+
+        <div class="language-note">
+            Your language preference will be remembered.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     3. AUTHENTICATION
+========================================================= -->
+
+<section
+    id="auth-screen"
+    class="setup-screen hidden"
+>
+
+    <div class="setup-card">
+
+        <h1 id="auth-heading">
+            Create Account
+        </h1>
+
+        <p id="auth-description">
+            Create your personal Study Sphere profile.
+        </p>
+
+        <div class="input-group">
+
+            <label for="student-name">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="student-name"
+                placeholder="Enter your full name"
+            >
+
+        </div>
+
+
+        <div
+            class="input-group"
+            id="phone-group"
+        >
+
+            <label for="student-phone">
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="student-phone"
+                placeholder="Enter phone number"
+            >
+
+        </div>
+
+
+        <div
+            class="input-group"
+            id="student-id-group"
+        >
+
+            <label for="student-id">
+                Student ID / Roll Number
+            </label>
+
+            <input
+                type="text"
+                id="student-id"
+                placeholder="Optional"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label for="student-password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="student-password"
+                placeholder="Create password"
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            id="auth-button"
+            onclick="submitAuth()"
+        >
+            Create Account
+        </button>
+
+
+        <div
+            class="secondary-text"
+            id="auth-toggle"
+            onclick="toggleAuth()"
+        >
+            Already registered? Login
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     4. DASHBOARD
+========================================================= -->
+
+<section id="dashboard">
+
+    <div class="dashboard-layout">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                Study <span>Sphere</span>
+            </div>
+
+
+            <button
+                class="nav-item active"
+                onclick="showPage('home', this)"
+            >
+                🏠 Dashboard
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('subjects', this)"
+            >
+                📚 My Subjects
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('workspace', this)"
+            >
+                📁 Workspace
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('progress', this)"
+            >
+                📊 Progress
+            </button>
+
+
+           <button
+    class="nav-item"
+    onclick="window.location.href='http://127.0.0.1:5000/student/learn'"
+>
+    🤖 AI Tutor
+</button>
+<button
+    class="nav-item"
+    onclick="showPage('history', this)"
+>
+    🕘 Study History
+</button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('goals', this)"
+            >
+                🎯 Goals
+            </button>
+
+
+            <button
+                class="nav-item logout-btn"
+                onclick="logout()"
+            >
+                🚪 Logout
+            </button>
+
+        </aside>
+
+
+        <!-- MAIN -->
+
+        <main class="main-content">
+
+
+            <!-- TOP BAR -->
+
+            <div class="topbar">
+
+                <div>
+
+                    <h1 id="welcome-text">
+                        Welcome back, Explorer
+                    </h1>
+
+                    <p>
+                        Your academic universe is waiting.
+                    </p>
+
+                </div>
+
+
+                <div class="profile">
+
+                    <div
+                        class="avatar"
+                        id="avatar"
+                    >
+                        S
+                    </div>
+
+                    <span id="profile-name">
+                        Student
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 HOME
+            ================================================= -->
+<div
+    id="history-page"
+    class="page"
+>
+    <h1>🕘 Study History</h1>
+
+    <p>
+        Here you can see the topics you have studied.
+    </p>
+
+<div id="study-history-list"></div>   
+</div>
+            <div
+                id="home-page"
+                class="page active"
+            >
+
+
+                <!-- STATS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            🔥
+                        </div>
+
+                        <h2 id="streak">
+                            1
+                        </h2>
+
+                        <p>
+                            Day Study Streak
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            📚
+                        </div>
+
+                        <h2 id="subject-count">
+                            0
+                        </h2>
+
+                        <p>
+                            Active Subjects
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            ⏱️
+                        </div>
+
+                        <h2 id="study-hours">
+                            0h
+                        </h2>
+
+                        <p>
+                            Study Time
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            ⭐
+                        </div>
+
+                        <h2 id="credits">
+                            100
+                        </h2>
+
+                        <p>
+                            Academic Credits
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAIN GRID -->
+
+                <div class="content-grid">
+
+
+                    <!-- LEFT COLUMN -->
+
+                    <div>
+
+
+                        <!-- SUBJECT PROGRESS -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    📚 Subject Progress
+                                </h3>
+
+                                <button
+                                    class="add-btn"
+                                    onclick="openSubjectModal()"
+                                >
+                                    + Add Subject
+                                </button>
+
+                            </div>
+
+
+                            <div id="subject-list">
+
+                                <div
+                                    style="
+                                    text-align:center;
+                                    padding:30px;
+                                    color:#94a3b8;
+                                    "
+                                >
+                                    No subjects yet.<br>
+                                    Add your first subject.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- WORKSPACE -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    📁 Academic Workspace
+                                </h3>
+
+                                <button
+                                    class="add-btn"
+                                    onclick="addWorkspace()"
+                                >
+                                    + Workspace
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                class="workspace-tabs"
+                                id="workspace-tabs"
+                            >
+
+                                <div
+                                    class="workspace-tab active"
+                                    onclick="selectWorkspace(this)"
+                                >
+                                    📁 General
+                                </div>
+
+                                <div
+                                    class="workspace-tab"
+                                    onclick="selectWorkspace(this)"
+                                >
+                                    📝 Notes
+                                </div>
+
+                            </div>
+
+
+                            <div class="workspace-content">
+
+                                Select a workspace to organize
+                                your academic materials, notes,
+                                files, assignments and AI resources.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- RECENT ACTIVITY -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    ⚡ Recent Activity
+                                </h3>
+
+                            </div>
+
+
+                            <div id="activity-list">
+
+                                <div class="activity">
+
+                                    <div class="activity-icon">
+                                        🌌
+                                    </div>
+
+                                    <div>
+
+                                        <div class="activity-text">
+                                            Welcome to Study Sphere
+                                        </div>
+
+                                        <div class="activity-time">
+                                            Just now
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RIGHT COLUMN -->
+
+                    <div>
+
+
+                        <!-- TIMER -->
+
+                        <div class="card timer">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    ⏱️ Focus Station
+                                </h3>
+
+                            </div>
+
+
+                            <div
+                                class="timer-display"
+                                id="timer"
+                            >
+                                25:00
+                            </div>
+
+
+                            <div class="timer-controls">
+
+                                <button onclick="startTimer()">
+                                    Start
+                                </button>
+
+                                <button onclick="pauseTimer()">
+                                    Pause
+                                </button>
+
+                                <button onclick="resetTimer()">
+                                    Reset
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CALENDAR -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    📅 Academic Calendar
+                                </h3>
+
+                            </div>
+
+
+                            <div
+                                id="calendar-title"
+                                class="calendar-title"
+                            >
+                            </div>
+
+
+                            <div
+                                id="calendar"
+                                class="calendar"
+                            >
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUICK ACTIONS -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    ⚡ Quick Actions
+                                </h3>
+
+                            </div>
+
+
+                            <div class="quick-actions">
+
+                                <button
+                                    class="quick-btn"
+                                    onclick="openSubjectModal()"
+                                >
+                                    📚 Add Subject
+                                </button>
+
+                                <button
+                                    class="quick-btn"
+                                    onclick="addWorkspace()"
+                                >
+                                    📁 New Workspace
+                                </button>
+
+                                <button
+                                    class="quick-btn"
+                                    onclick="showPageByName('goals')"
+                                >
+                                    🎯 Add Goal
+                                </button>
+
+                                <button
+                                    class="quick-btn"
+                                    onclick="showPageByName('resources')"
+                                >
+                                    🤖 AI Resources
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUBJECTS PAGE
+            ================================================= -->
+
+            <div
+                id="subjects-page"
+                class="page"
+            >
+
+                <div class="hero-card">
+
+                    <h2>
+                        📚 My Subjects
+                    </h2>
+
+                    <p>
+                        Manage your academic subjects and monitor
+                        how much of each subject you have completed.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>
+                            Your Subjects
+                        </h3>
+
+                        <button
+                            class="add-btn"
+                            onclick="openSubjectModal()"
+                        >
+                            + Add Subject
+                        </button>
+
+                    </div>
+
+
+                    <div id="subjects-page-list">
+
+                        <p style="color:#94a3b8;">
+                            No subjects added yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 WORKSPACE PAGE
+            ================================================= -->
+
+            <div
+                id="workspace-page"
+                class="page"
+            >
+
+                <div class="hero-card">
+
+                    <h2>
+                        📁 Personal Academic Workspace
+                    </h2>
+
+                    <p>
+                        Your centralized academic space for notes,
+                        materials, assignments, files and subject
+                        resources.
+                    </p>
+
+                </div>
+
+
+                <div class="resource-grid">
+
+                    <div class="resource-card">
+
+                        <h3>
+                            📄 Notes
+                        </h3>
+
+                        <p>
+                            Store and organize your lecture notes.
+                        </p>
+
+                    </div>
+
+
+                    <div class="resource-card">
+
+                        <h3>
+                            📎 Materials
+                        </h3>
+
+                        <p>
+                            Keep your study materials organized
+                            by subject.
+                        </p>
+
+                    </div>
+
+
+                    <div class="resource-card">
+
+                        <h3>
+                            📝 Assignments
+                        </h3>
+
+                        <p>
+                            Keep track of academic assignments
+                            and tasks.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROGRESS PAGE
+            ================================================= -->
+
+            <div
+                id="progress-page"
+                class="page"
+            >
+
+                <div class="hero-card">
+
+                    <h2>
+                        📊 Academic Progress
+                    </h2>
+
+                    <p>
+                        Track your learning progress across subjects,
+                        study time and academic goals.
+                    </p>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            📚
+                        </div>
+
+                        <h2 id="progress-subjects">
+                            0
+                        </h2>
+
+                        <p>
+                            Subjects
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            🔥
+                        </div>
+
+                        <h2>
+                            1
+                        </h2>
+
+                        <p>
+                            Current Streak
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            ⭐
+                        </div>
+
+                        <h2 id="progress-credits">
+                            100
+                        </h2>
+
+                        <p>
+                            Credits
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="icon">
+                            🎯
+                        </div>
+
+                        <h2 id="goal-progress">
+                            0%
+                        </h2>
+
+                        <p>
+                            Goal Completion
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AI RESOURCES
+            ================================================= -->
+
+            <div
+                id="resources-page"
+                class="page"
+            >
+
+                <div class="hero-card">
+
+                    <h2>
+                        🤖 AI Learning Resources
+                    </h2>
+
+                    <p>
+                        This section is prepared for the
+                        AI-powered recommendation engine of
+                        Study Sphere.
+                    </p>
+
+                </div>
+
+
+                <div class="resource-grid">
+
+                    <div class="resource-card">
+
+                        <h3>
+                            🧠 AI Study Assistant
+                        </h3>
+
+                        <p>
+                            Ask questions and receive personalized
+                            explanations for difficult concepts.
+                        </p>
+
+                    </div>
+
+
+                    <div class="resource-card">
+
+                        <h3>
+                            📖 Smart Recommendations
+                        </h3>
+
+                        <p>
+                            Recommend learning resources based on
+                            subjects and academic progress.
+                        </p>
+
+                    </div>
+
+
+                    <div class="resource-card">
+
+                        <h3>
+                            📊 Learning Insights
+                        </h3>
+
+                        <p>
+                            Analyze study patterns and identify
+                            areas that need attention.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 GOALS
+            ================================================= -->
+
+            <div
+                id="goals-page"
+                class="page"
+            >
+
+                <div class="hero-card">
+
+                    <h2>
+                        🎯 Academic Goals
+                    </h2>
+
+                    <p>
+                        Define your academic targets and turn them
+                        into measurable milestones.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>
+                            Your Goals
+                        </h3>
+
+                        <button
+                            class="add-btn"
+                            onclick="addGoal()"
+                        >
+                            + Add Goal
+                        </button>
+
+                    </div>
+
+
+                    <div id="goal-list">
+
+                        <p style="color:#94a3b8;">
+                            No goals added yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SUBJECT MODAL
+========================================================= -->
+
+<div
+    id="subject-modal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <h2>
+            📚 Add New Subject
+        </h2>
+
+
+        <div class="input-group">
+
+            <label for="new-subject">
+                Subject Name
+            </label>
+
+            <input
+                id="new-subject"
+                type="text"
+                placeholder="e.g. Data Structures"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label for="new-progress">
+                Current Progress (%)
+            </label>
+
+            <input
+                id="new-progress"
+                type="number"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeSubjectModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="primary-btn"
+                onclick="saveSubject()"
+            >
+                Add Subject
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /* =====================================================
+       APPLICATION DATA
+    ===================================================== */
+
+    let authMode = "register";
+
+    let subjects =
+        JSON.parse(
+            localStorage.getItem("studySphereSubjects")
+        ) || [];
+
+    let goals =
+        JSON.parse(
+            localStorage.getItem("studySphereGoals")
+        ) || [];
+
+    let selectedLanguage =
+        localStorage.getItem("studySphereLanguage")
+        || "English";
+
+    let timerSeconds = 25 * 60;
+
+    let timerInterval = null;
+
+
+    /* =====================================================
+       PAGE INITIALIZATION
+    ===================================================== */
+
+    window.addEventListener("load", function () {
+
+        document.getElementById("language").value =
+            selectedLanguage;
+
+        renderCalendar();
+
+        renderSubjects();
+
+        renderGoals();
+        renderStudyHistory();
+
+        updateCredits();
+
+        updateGoalProgress();
+
+    });
+
+
+    /* =====================================================
+       LANGUAGE
+    ===================================================== */
+
+    function openAuth() {
+
+        const language =
+            document.getElementById("language").value;
+
+        selectedLanguage = language;
+
+        localStorage.setItem(
+            "studySphereLanguage",
+            language
+        );
+
+        document
+            .getElementById("language-screen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("auth-screen")
+            .classList.remove("hidden");
+
+    }
+
+
+    /* =====================================================
+       AUTHENTICATION
+    ===================================================== */
+
+    function toggleAuth() {
+
+        if (authMode === "register") {
+
+            authMode = "login";
+
+            document
+                .getElementById("auth-heading")
+                .innerText = "Welcome Back";
+
+            document
+                .getElementById("auth-description")
+                .innerText =
+                "Enter your details to access your academic space.";
+
+            document
+                .getElementById("auth-button")
+                .innerText = "Login";
+
+            document
+                .getElementById("auth-toggle")
+                .innerText =
+                "New student? Create an account";
+
+            document
+                .getElementById("phone-group")
+                .classList.add("hidden");
+
+            document
+                .getElementById("student-id-group")
+                .classList.add("hidden");
+
+        }
+
+        else {
+
+            authMode = "register";
+
+            document
+                .getElementById("auth-heading")
+                .innerText = "Create Account";
+
+            document
+                .getElementById("auth-description")
+                .innerText =
+                "Create your personal Study Sphere profile.";
+
+            document
+                .getElementById("auth-button")
+                .innerText = "Create Account";
+
+            document
+                .getElementById("auth-toggle")
+                .innerText =
+                "Already registered? Login";
+
+            document
+                .getElementById("phone-group")
+                .classList.remove("hidden");
+
+            document
+                .getElementById("student-id-group")
+                .classList.remove("hidden");
+
+        }
+
+    }
+
+
+    function submitAuth() {
+
+        const name =
+            document
+                .getElementById("student-name")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("student-password")
+                .value
+                .trim();
+
+
+        if (!name || !password) {
+
+            alert(
+                "Please enter your name and password."
+            );
+
+            return;
+        }
+
+
+        if (authMode === "register") {
+
+            const phone =
+                document
+                    .getElementById("student-phone")
+                    .value
+                    .trim();
+
+            const id =
+                document
+                    .getElementById("student-id")
+                    .value
+                    .trim();
+
+
+            const user = {
+
+                name: name,
+
+                phone: phone,
+
+                id: id,
+
+                password: password,
+
+                language: selectedLanguage
+
+            };
+
+
+            localStorage.setItem(
+                "studySphereUser",
+                JSON.stringify(user)
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "studySphereLoggedIn",
+            "true"
+        );
+
+
+        openDashboard(name);
+
+    }
+
+
+    function openDashboard(name) {
+
+        document
+            .getElementById("auth-screen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("language-screen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("dashboard")
+            .style.display = "block";
+
+        updateProfile(name);
+
+    }
+
+
+    function updateProfile(name) {
+
+        const cleanName =
+            name || "Student";
+
+        const firstName =
+            cleanName.split(" ")[0];
+
+
+        document
+            .getElementById("welcome-text")
+            .innerText =
+            "Welcome back, " + firstName;
+
+
+        document
+            .getElementById("profile-name")
+            .innerText =
+            cleanName;
+
+
+        document
+            .getElementById("avatar")
+            .innerText =
+            cleanName
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+
+    function logout() {
+
+        localStorage.removeItem(
+            "studySphereLoggedIn"
+        );
+
+        location.reload();
+
+    }
+
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+function renderStudyHistory() {
+
+    const container =
+        document.getElementById("study-history-list");
+
+    if (!container) return;
+
+    const history =
+        JSON.parse(
+            localStorage.getItem("studySphereHistory")
+        ) || [];
+
+    if (history.length === 0) {
+        container.innerHTML =
+            "<p>No study history yet.</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    history.forEach(function (item, index) {
+
+        const card = document.createElement("div");
+
+        card.className = "history-card";
+
+        card.innerHTML = `
+            <h3>📚 ${item.topic}</h3>
+            <p>🕒 ${item.date}</p>
+            <button onclick="openStudyHistory(${index})">
+                Open Lesson →
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+function formatHistoryText(text) {
+
+    if (!text) return "";
+
+    let mathParts = [];
+
+    // Protect display equations $$...$$
+    text = text.replace(/\$\$([\s\S]*?)\$\$/g, function(match) {
+        mathParts.push("\\[" + match.slice(2, -2) + "\\]");
+        return "___MATH_BLOCK_" + (mathParts.length - 1) + "___";
+    });
+
+    // Protect inline equations $...$
+    text = text.replace(/\$([^$\n]+)\$/g, function(match) {
+        mathParts.push("\\(" + match.slice(1, -1) + "\\)");
+        return "___MATH_INLINE_" + (mathParts.length - 1) + "___";
+    });
+
+    let html = text;
+
+    // Headings
+    html = html.replace(/^### (.*)$/gm, "<h3>$1</h3>");
+    html = html.replace(/^## (.*)$/gm, "<h2>$1</h2>");
+    html = html.replace(/^# (.*)$/gm, "<h1>$1</h1>");
+
+    // Horizontal line
+    html = html.replace(/^---$/gm, "<hr>");
+
+    // Bold
+    html = html.replace(/\*\*(.*?)\*\*/gs, "<strong>$1</strong>");
+
+    // Italic
+    html = html.replace(/\*(.*?)\*/gs, "<em>$1</em>");
+
+    // Inline code
+    html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+    // New lines
+    html = html.replace(/\n/g, "<br>");
+
+    // Restore equations
+    html = html.replace(
+        /___MATH_BLOCK_(\d+)___/g,
+        function(match, index) {
+            return mathParts[index];
+        }
+    );
+
+    html = html.replace(
+        /___MATH_INLINE_(\d+)___/g,
+        function(match, index) {
+            return mathParts[index];
+        }
+    );
+
+    return html;
+}
+function openStudyHistory(index) {
+
+    const history =
+        JSON.parse(
+            localStorage.getItem("studySphereHistory")
+        ) || [];
+
+    const item = history[index];
+
+    if (!item) return;
+
+    const container =
+        document.getElementById("study-history-list");
+
+    let conversationHTML = "";
+
+    if (item.conversation && item.conversation.length > 0) {
+
+        conversationHTML = `
+            <hr>
+            <h2>💬 Tutor Conversation</h2>
+        `;
+
+        item.conversation.forEach(function(msg) {
+
+            const role =
+                msg.role === "user" ? "You" : "AI";
+
+            conversationHTML += `
+                <div class="history-message">
+                    <strong>${role}:</strong>
+                    <p>${formatHistoryText(msg.content || msg.reply || "")}</p>
+                </div>
+            `;
+        });
+    }
+
+    container.innerHTML = `
+        <button
+            onclick="renderStudyHistory()"
+            style="margin-bottom:20px;"
+        >
+            ← Back to History
+        </button>
+
+        <div class="history-detail">
+
+            <h1>📚 ${item.topic}</h1>
+
+            <p>🕒 Studied on: ${item.date}</p>
+
+            <hr>
+
+            <h2>📖 AI Lesson</h2>
+
+            <div class="history-lesson">
+                ${formatHistoryText(item.lesson || "No lesson saved.")}
+            </div>
+
+            ${conversationHTML}
+
+        </div>
+    `;
+    if (window.MathJax) {
+    MathJax.typesetPromise([container]);
+}
+}
+    function showPage(page, button) {
+
+        document
+            .querySelectorAll(".page")
+            .forEach(function (element) {
+
+                element.classList.remove("active");
+
+            });
+
+
+        const target =
+            document.getElementById(
+                page + "-page"
+            );
+
+
+        if (target) {
+            target.classList.add("active");
+        }
+
+
+        document
+            .querySelectorAll(".nav-item")
+            .forEach(function (element) {
+
+                element.classList.remove("active");
+
+            });
+
+
+        if (button) {
+            button.classList.add("active");
+        }
+
+
+        if (page === "subjects") {
+            renderSubjects();
+        }
+
+
+        if (page === "progress") {
+
+            document
+                .getElementById("progress-subjects")
+                .innerText =
+                subjects.length;
+
+            updateCredits();
+
+            updateGoalProgress();
+
+        }
+
+    }
+
+
+    function showPageByName(page) {
+
+        const buttons =
+            document.querySelectorAll(".nav-item");
+
+        let targetButton = null;
+
+        buttons.forEach(function(button) {
+
+            if (
+                button.innerText
+                    .toLowerCase()
+                    .includes(page)
+            ) {
+                targetButton = button;
+            }
+
+        });
+
+        showPage(page, targetButton);
+
+    }
+
+
+    /* =====================================================
+       SUBJECTS
+    ===================================================== */
+
+    function openSubjectModal() {
+
+        document
+            .getElementById("subject-modal")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("new-subject")
+            .focus();
+
+    }
+
+
+    function closeSubjectModal() {
+
+        document
+            .getElementById("subject-modal")
+            .classList.add("hidden");
+
+        document
+            .getElementById("new-subject")
+            .value = "";
+
+        document
+            .getElementById("new-progress")
+            .value = 0;
+
+    }
+
+
+    function saveSubject() {
+
+        const name =
+            document
+                .getElementById("new-subject")
+                .value
+                .trim();
+
+
+        let progress =
+            Number(
+                document
+                    .getElementById("new-progress")
+                    .value
+            );
+
+
+        if (!name) {
+
+            alert(
+                "Please enter a subject name."
+            );
+
+            return;
+        }
+
+
+        if (isNaN(progress)) {
+            progress = 0;
+        }
+
+
+        progress =
+            Math.max(
+                0,
+                Math.min(100, progress)
+            );
+
+
+        subjects.push({
+
+            name: name,
+
+            progress: progress
+
+        });
+
+
+        localStorage.setItem(
+            "studySphereSubjects",
+            JSON.stringify(subjects)
+        );
+
+
+        closeSubjectModal();
+
+        renderSubjects();
+
+        updateCredits();
+
+
+        addActivity(
+            "📚",
+            "Added subject: " + name
+        );
+
+    }
+
+
+    function renderSubjects() {
+
+        const list =
+            document.getElementById(
+                "subject-list"
+            );
+
+        const pageList =
+            document.getElementById(
+                "subjects-page-list"
+            );
+
+
+        document
+            .getElementById("subject-count")
+            .innerText =
+            subjects.length;
+
+
+        if (subjects.length === 0) {
+
+            list.innerHTML = `
+
+                <div
+                    style="
+                    text-align:center;
+                    padding:30px;
+                    color:#94a3b8;
+                    "
+                >
+
+                    No subjects yet.<br>
+
+                    Add your first subject.
+
+                </div>
+
+            `;
+
+
+            pageList.innerHTML = `
+
+                <p style="color:#94a3b8;">
+                    No subjects added yet.
+                </p>
+
+            `;
+
+
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+        pageList.innerHTML = "";
+
+
+        subjects.forEach(function(subject) {
+
+            const html = `
+
+                <div class="subject">
+
+                    <div class="subject-info">
+
+                        <span>
+                            📘
+                            ${escapeHTML(subject.name)}
+                        </span>
+
+                        <span>
+                            ${subject.progress}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="
+                            width:${subject.progress}%
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            list.innerHTML += html;
+
+            pageList.innerHTML += html;
+
+        });
+
+    }
+
+
+    /* =====================================================
+       WORKSPACES
+    ===================================================== */
+
+    function selectWorkspace(element) {
+
+        document
+            .querySelectorAll(".workspace-tab")
+            .forEach(function(tab) {
+
+                tab.classList.remove("active");
+
+            });
+
+
+        element.classList.add("active");
+
+
+        const content =
+            document.querySelector(
+                ".workspace-content"
+            );
+
+
+        content.innerText =
+            "You are currently working in " +
+            element.innerText.replace("📁 ", "") +
+            ". Your notes, materials, files and AI resources will appear here.";
+
+    }
+
+
+    function addWorkspace() {
+
+        const name =
+            prompt(
+                "Enter workspace name:"
+            );
+
+
+        if (!name || !name.trim()) {
+            return;
+        }
+
+
+        const bar =
+            document.getElementById(
+                "workspace-tabs"
+            );
+
+
+        const tab =
+            document.createElement("div");
+
+
+        tab.className =
+            "workspace-tab";
+
+
+        tab.innerText =
+            "📁 " + name.trim();
+
+
+        tab.onclick =
+            function() {
+
+                selectWorkspace(tab);
+
+            };
+
+
+        bar.appendChild(tab);
+
+
+        addActivity(
+            "📁",
+            "Created workspace: " +
+            name.trim()
+        );
+
+    }
+
+
+    /* =====================================================
+       CALENDAR
+    ===================================================== */
+
+    function renderCalendar() {
+
+        const calendar =
+            document.getElementById(
+                "calendar"
+            );
+
+
+        const calendarTitle =
+            document.getElementById(
+                "calendar-title"
+            );
+
+
+        const now =
+            new Date();
+
+
+        const year =
+            now.getFullYear();
+
+
+        const month =
+            now.getMonth();
+
+
+        const today =
+            now.getDate();
+
+
+        const monthNames = [
+
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+
+        ];
+
+
+        calendarTitle.innerText =
+            monthNames[month] +
+            " " +
+            year;
+
+
+        const firstDay =
+            new Date(
+                year,
+                month,
+                1
+            ).getDay();
+
+
+        const daysInMonth =
+            new Date(
+                year,
+                month + 1,
+                0
+            ).getDate();
+
+
+        const names =
+            ["S", "M", "T", "W", "T", "F", "S"];
+
+
+        calendar.innerHTML = "";
+
+
+        names.forEach(function(day) {
+
+            const element =
+                document.createElement("div");
+
+            element.className =
+                "day-name";
+
+            element.innerText =
+                day;
+
+            calendar.appendChild(element);
+
+        });
+
+
+        for (
+            let i = 0;
+            i < firstDay;
+            i++
+        ) {
+
+            const empty =
+                document.createElement("div");
+
+            calendar.appendChild(empty);
+
+        }
+
+
+        for (
+            let day = 1;
+            day <= daysInMonth;
+            day++
+        ) {
+
+            const element =
+                document.createElement("div");
+
+
+            element.className =
+                "day";
+
+
+            if (day === today) {
+
+                element.classList.add(
+                    "today"
+                );
+
+            }
+
+
+            element.innerText =
+                day;
+
+
+            calendar.appendChild(
+                element
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FOCUS TIMER
+    ===================================================== */
+
+    function updateTimerDisplay() {
+
+        const minutes =
+            Math.floor(
+                timerSeconds / 60
+            );
+
+
+        const seconds =
+            timerSeconds % 60;
+
+
+        document
+            .getElementById("timer")
+            .innerText =
+            String(minutes).padStart(2, "0")
+            +
+            ":"
+            +
+            String(seconds).padStart(2, "0");
+
+    }
+
+
+    function startTimer() {
+
+        if (timerInterval) {
+            return;
+        }
+
+
+        timerInterval =
+            setInterval(function() {
+
+                if (timerSeconds > 0) {
+
+                    timerSeconds--;
+
+                    updateTimerDisplay();
+
+                }
+
+                else {
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerInterval = null;
+
+
+                    alert(
+                        "Focus session complete! 🎉"
+                    );
+
+
+                    addActivity(
+                        "⏱️",
+                        "Completed a focus session"
+                    );
+
+                }
+
+            }, 1000);
+
+    }
+
+
+    function pauseTimer() {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval = null;
+
+    }
+
+
+    function resetTimer() {
+
+        pauseTimer();
+
+        timerSeconds =
+            25 * 60;
+
+        updateTimerDisplay();
+
+    }
+
+
+    /* =====================================================
+       ACTIVITY
+    ===================================================== */
+
+    function addActivity(icon, text) {
+
+        const activityList =
+            document.getElementById(
+                "activity-list"
+            );
+
+
+        const activity =
+            document.createElement("div");
+
+
+        activity.className =
+            "activity";
+
+
+        activity.innerHTML = `
+
+            <div class="activity-icon">
+                ${icon}
+            </div>
+
+
+            <div>
+
+                <div class="activity-text">
+                    ${escapeHTML(text)}
+                </div>
+
+                <div class="activity-time">
+                    Just now
+                </div>
+
+            </div>
+
+        `;
+
+
+        activityList.prepend(
+            activity
+        );
+
+    }
+
+
+    /* =====================================================
+       GOALS
+    ===================================================== */
+
+    function addGoal() {
+
+        const goal =
+            prompt(
+                "Enter your academic goal:"
+            );
+
+
+        if (!goal || !goal.trim()) {
+            return;
+        }
+
+
+        goals.push({
+
+            text: goal.trim(),
+
+            completed: false
+
+        });
+
+
+        localStorage.setItem(
+            "studySphereGoals",
+            JSON.stringify(goals)
+        );
+
+
+        renderGoals();
+
+        updateGoalProgress();
+
+
+        addActivity(
+            "🎯",
+            "Created goal: " +
+            goal.trim()
+        );
+
+    }
+
+
+    function toggleGoal(index) {
+
+        goals[index].completed =
+            !goals[index].completed;
+
+
+        localStorage.setItem(
+            "studySphereGoals",
+            JSON.stringify(goals)
+        );
+
+
+        renderGoals();
+
+        updateGoalProgress();
+
+    }
+
+
+    function deleteGoal(index) {
+
+        goals.splice(index, 1);
+
+
+        localStorage.setItem(
+            "studySphereGoals",
+            JSON.stringify(goals)
+        );
+
+
+        renderGoals();
+
+        updateGoalProgress();
+
+    }
+
+
+    function renderGoals() {
+
+        const list =
+            document.getElementById(
+                "goal-list"
+            );
+
+
+        if (goals.length === 0) {
+
+            list.innerHTML = `
+
+                <p style="color:#94a3b8;">
+                    No goals added yet.
+                </p>
+
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        goals.forEach(function(goal, index) {
+
+            list.innerHTML += `
+
+                <div class="goal-item">
+
+                    <label
+                        style="
+                        display:flex;
+                        align-items:center;
+                        gap:10px;
+                        cursor:pointer;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            style="width:auto;"
+                            ${goal.completed ? "checked" : ""}
+                            onchange="
+                                toggleGoal(${index})
+                            "
+                        >
+
+                        <span
+                            style="
+                            color:
+                            ${goal.completed
+                                ? "#64748b"
+                                : "#e2e8f0"};
+                            text-decoration:
+                            ${goal.completed
+                                ? "line-through"
+                                : "none"};
+                            "
+                        >
+                            🎯
+                            ${escapeHTML(goal.text)}
+                        </span>
+
+                    </label>
+
+
+                    <button
+                        class="delete-goal"
+                        onclick="
+                            deleteGoal(${index})
+                        "
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    function updateGoalProgress() {
+
+        const progressElement =
+            document.getElementById(
+                "goal-progress"
+            );
+
+
+        if (!progressElement) {
+            return;
+        }
+
+
+        if (goals.length === 0) {
+
+            progressElement.innerText =
+                "0%";
+
+            return;
+
+        }
+
+
+        const completed =
+            goals.filter(
+                function(goal) {
+                    return goal.completed;
+                }
+            ).length;
+
+
+        const percentage =
+            Math.round(
+                (completed / goals.length) * 100
+            );
+
+
+        progressElement.innerText =
+            percentage + "%";
+
+    }
+
+
+    /* =====================================================
+       CREDITS
+    ===================================================== */
+
+    function updateCredits() {
+
+        const credits =
+            100 + (subjects.length * 10);
+
+
+        document
+            .getElementById("credits")
+            .innerText =
+            credits;
+
+
+        document
+            .getElementById("progress-credits")
+            .innerText =
+            credits;
+
+    }
+
+
+    /* =====================================================
+       SECURITY / HTML ESCAPING
+    ===================================================== */
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+
+        div.textContent =
+            text;
+
+
+        return div.innerHTML;
+
+    }
+
+</script>
+<script>
+window.MathJax = {
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+};
+</script>
+
+<script async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</body>
+</html>

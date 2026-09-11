@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- MathJax: renders AI equations properly -->
+<script>
+window.MathJax = {
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    svg: {
+        fontCache: 'global'
+    }
+};
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+<div class="card">
+
+    <h1>📚 {{ state.topic }}</h1>
+
+    <h2>AI Lesson</h2>
+
+    <div class="result markdown-content">
+        {{ state.lesson | markdown | safe }}
+    </div>
+
+    <h2>Ask the tutor</h2>
+
+    <form method="post">
+        <input
+            name="message"
+            placeholder="Ask a doubt..."
+            required
+        >
+        <button type="submit">Ask AI</button>
+    </form>
+
+    {% if reply %}
+    <div class="result markdown-content">
+        <strong>AI:</strong><br>
+        {{ reply | markdown | safe }}
+    </div>
+    {% endif %}
+
+    <p>
+        <a class="button" href="{{ url_for('student.ai_test') }}">
+            I'm ready — Take Test →
+        </a>
+    </p>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.MathJax) {
+        MathJax.typesetPromise();
+    }
+});
+</script>
+
+{% endblock %}

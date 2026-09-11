@@ -1,0 +1,7 @@
+concept_id,concept_name,prerequisite_ids,description
+C1,Fraction Basics,,Understanding numerator and denominator as parts of a whole
+C2,Equivalent Fractions,C1,Recognizing and generating fractions that represent the same value
+C3,Adding Fractions,C2,Adding fractions with same and different denominators
+C4,Comparing Fractions,C1,Ordering and comparing the size of two or more fractions
+C5,Fraction-Decimal-Percent Conversion,C1,Converting between fractions, decimals, and percentages
+C6,Ratios and Proportions,C2,Setting up and solving ratio and proportion problems

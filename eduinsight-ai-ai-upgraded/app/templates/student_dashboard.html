@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Your progress{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Progress — {{ student_name }}</h1>
+
+  <h2>Learning gain</h2>
+  <table class="mastery-table">
+    <tr><th>Pre-score</th><th>Post-score</th><th>Raw gain</th><th>Normalized gain (Hake's g)</th></tr>
+    <tr>
+      <td>{{ (gain.pre_score * 100) | round | int }}%</td>
+      <td>{{ (gain.post_score * 100) | round | int }}%</td>
+      <td>{{ (gain.raw_gain * 100) | round | int }} pts</td>
+      <td>{{ gain.normalized_gain }}</td>
+    </tr>
+  </table>
+
+  <h2>Concept mastery from your diagnostic</h2>
+  <table class="mastery-table">
+    <tr><th>Concept</th><th>Mastery</th></tr>
+    {% for cid, score in mastery_map.items() %}
+    <tr>
+      <td>{{ concepts[cid].name }}</td>
+      <td>
+        <div class="bar"><div class="bar-fill" style="width: {{ (score*100)|round|int }}%"></div></div>
+        {{ (score*100)|round|int }}%
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="{{ url_for('teacher.dashboard') }}">See how this looks on the teacher dashboard →</a></p>
+</div>
+{% endblock %}

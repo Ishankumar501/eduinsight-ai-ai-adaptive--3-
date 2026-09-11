@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}
+<div class="card"><h1>🔄 Fresh Reassessment</h1><p>These are fresh questions on {{ state.topic }}.</p>
+<form method="post">{% for q in state.retest %}{% set qi=loop.index0 %}<div class="question"><h3>{{ loop.index }}. {{ q.question }}</h3>
+{% for key,text in q.options.items() %}<label><input type="radio" name="{{ qi }}" value="{{ key }}" required> {{ key }}. {{ text }}</label><br>{% endfor %}</div>{% endfor %}
+<button type="submit">Submit Reassessment</button></form></div>{% endblock %}

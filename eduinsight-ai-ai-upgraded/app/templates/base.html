@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <title>{% block title %}EduInsight AI{% endblock %}</title>
+
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+  <style>
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dashboard-link {
+      background: #2563eb;
+      color: white;
+      padding: 9px 16px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .dashboard-link:hover {
+      background: #1d4ed8;
+    }
+  </style>
+
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+
+  <header class="topbar">
+
+    <div class="topbar-left">
+      <span class="brand">EduInsight AI</span>
+      <span class="tagline">
+        Diagnose. Detect. Intervene. Measure.
+      </span>
+    </div>
+
+    <!-- MAIN STUDY SPHERE DASHBOARD -->
+    <a class="dashboard-link" href="/study-sphere">
+      🏠 Dashboard
+    </a>
+
+  </header>
+
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+
+</body>
+</html>

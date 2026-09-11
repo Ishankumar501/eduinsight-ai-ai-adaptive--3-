@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Intervention{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ intervention.title }}</h1>
+  <p class="badge">{{ intervention.status }}</p>
+  <p>{{ intervention.description }}</p>
+  <p class="muted">{{ intervention.activity_type }} · {{ intervention.est_minutes }} min</p>
+  {% if intervention.teacher_note %}
+    <p class="muted">Teacher note: {{ intervention.teacher_note }}</p>
+  {% endif %}
+
+  <form method="POST" action="{{ url_for('student.complete_intervention') }}">
+    <button type="submit">I've completed this activity</button>
+  </form>
+</div>
+{% endblock %}

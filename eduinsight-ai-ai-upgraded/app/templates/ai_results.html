@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>🧠 AI Analysis</h1>
+
+    <h2>
+        Score: {{ "%.0f"|format(state.last_analysis.score * 100) }}%
+    </h2>
+
+    <!-- AI Analysis -->
+    <div id="analysisContent" class="result markdown-content"></div>
+
+
+    <!-- Weak Concepts -->
+    <h3>Weak Concepts</h3>
+
+    <p>
+        {{ state.last_analysis.weak_concepts | join(", ") or "None detected" }}
+    </p>
+
+
+    <!-- Next Action -->
+    {% if state.last_analysis.score < 0.8 %}
+
+        <p>
+            <a class="button"
+               href="{{ url_for('student.ai_intervention') }}">
+                🎯 Start Personalized Intervention
+            </a>
+        </p>
+
+    {% else %}
+
+        <p>
+            <a class="button"
+               href="{{ url_for('student.ai_retest') }}">
+                🔄 Take Fresh Reassessment
+            </a>
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Markdown Renderer -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- Security -->
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+    tex: {
+        inlineMath: [
+            ['$', '$'],
+            ['\\(', '\\)']
+        ],
+        displayMath: [
+            ['$$', '$$'],
+            ['\\[', '\\]']
+        ]
+    },
+
+    svg: {
+        fontCache: 'global'
+    }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+
+<script>
+
+const analysisText =
+    {{ state.last_analysis.summary | default("", true) | tojson }};
+
+if (analysisText) {
+
+    const renderedHTML = marked.parse(analysisText);
+
+    document.getElementById("analysisContent").innerHTML =
+        DOMPurify.sanitize(renderedHTML);
+
+    if (window.MathJax) {
+        MathJax.typesetPromise();
+    }
+}
+
+</script>
+
+
+<style>
+
+.markdown-content {
+    font-size: 17px;
+    line-height: 1.75;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+    margin-top: 28px;
+    margin-bottom: 12px;
+}
+
+.markdown-content p {
+    margin: 14px 0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    padding-left: 30px;
+    margin: 14px 0;
+}
+
+.markdown-content li {
+    margin: 7px 0;
+}
+
+.markdown-content strong {
+    font-weight: 700;
+}
+
+.markdown-content code {
+    background: #f1f3f5;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-family: Consolas, monospace;
+}
+
+.markdown-content pre {
+    background: #1e1e1e;
+    color: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 18px 0;
+}
+
+.markdown-content pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid #2563eb;
+    padding-left: 15px;
+    margin: 18px 0;
+}
+
+</style>
+
+{% endblock %}

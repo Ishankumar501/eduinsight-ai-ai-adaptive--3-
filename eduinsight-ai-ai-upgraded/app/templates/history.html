@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>🕘 AI History</h1>
+    <p>Your previous AI learning sessions.</p>
+
+    {% if history %}
+
+        {% for topic, data in history.items() %}
+
+            <div class="card" style="margin-top:25px;">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:20px;
+                ">
+
+                    <div>
+                        <h2 style="margin:0;">
+                            📚 {{ data.get("topic", topic) }}
+                        </h2>
+
+                        {% if data.get("history") %}
+                            <p style="margin-top:10px;">
+                                {{ data["history"][0]["content"][:120] }}...
+                            </p>
+                        {% else %}
+                            <p style="margin-top:10px;">
+                                AI Lesson available
+                            </p>
+                        {% endif %}
+                    </div>
+
+
+                    <div style="
+                        display:flex;
+                        gap:10px;
+                        align-items:center;
+                    ">
+
+                        <!-- OPEN -->
+                        <a
+                            href="{{ url_for('student.history_detail', topic=topic) }}"
+                            style="
+                                background:#2563eb;
+                                color:white;
+                                padding:9px 15px;
+                                border-radius:7px;
+                                text-decoration:none;
+                            "
+                        >
+                            Open Chat →
+                        </a>
+
+
+                        <!-- DELETE -->
+                        <form
+                            method="POST"
+                            action="{{ url_for('student.delete_history', topic=topic) }}"
+                            onsubmit="return confirm('Delete this AI history?');"
+                        >
+
+                            <button
+                                type="submit"
+                                style="
+                                    background:#dc3545;
+                                    color:white;
+                                    border:0;
+                                    padding:9px 14px;
+                                    border-radius:7px;
+                                    cursor:pointer;
+                                "
+                            >
+                                🗑️
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card" style="margin-top:20px;">
+
+            <h2>No AI History Yet</h2>
+
+            <p>
+                Start an AI learning session and your conversations
+                will appear here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

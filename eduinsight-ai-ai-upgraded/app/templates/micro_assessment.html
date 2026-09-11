@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Micro-assessment{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Quick check</h1>
+  <p class="muted">A short check on the concept you just practiced.</p>
+  <form method="POST">
+    {% for q in questions %}
+      <h3>{{ q.text }}</h3>
+      <div class="options">
+        {% for key, text in q.options.items() %}
+        <label class="option">
+          <input type="radio" name="{{ q.question_id }}" value="{{ key }}" required>
+          <span>{{ key }}. {{ text }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit">Submit micro-assessment</button>
+  </form>
+</div>
+{% endblock %}

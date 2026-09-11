@@ -1,0 +1,7 @@
+student_id,name,grade,class_id,C1_mastery,C2_mastery,C3_mastery,C4_mastery,C5_mastery,C6_mastery
+S001,Rahul Sen,6,6A,0.9,0.8,0.4,0.7,0.6,0.5
+S002,Ishita Roy,6,6A,0.8,0.7,0.3,0.8,0.5,0.4
+S003,Aman Verma,6,6A,0.7,0.6,0.5,0.6,0.4,0.3
+S004,Priya Nair,6,6A,1.0,0.9,0.6,0.9,0.7,0.6
+S005,Kabir Ali,6,6A,0.6,0.5,0.2,0.5,0.3,0.2
+S006,Sneha Ghosh,6,6A,0.9,0.7,0.35,0.75,0.55,0.45

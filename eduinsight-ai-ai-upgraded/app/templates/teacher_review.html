@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Teacher review{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Review AI-recommended intervention</h1>
+  <p class="muted">Student: {{ student_id }}</p>
+
+  <div class="card inner">
+    <h3>{{ intervention.title }}</h3>
+    <p>{{ intervention.description }}</p>
+    <p class="muted">{{ intervention.activity_type }} · {{ intervention.est_minutes }} min</p>
+    <p class="muted">Targets: {{ intervention.misconception_name | replace("-", " ") | title }}</p>
+  </div>
+
+  <form method="POST">
+    <label>
+      <input type="radio" name="decision" value="accept" checked>
+      Accept as-is
+    </label>
+    <label>
+      <input type="radio" name="decision" value="modify">
+      Modify before sending to student
+    </label>
+    <label>Modification note (used only if "Modify" is selected)
+      <textarea name="note" rows="3" placeholder="e.g. Swap in the printable worksheet version for this student"></textarea>
+    </label>
+    <button type="submit">Send to student</button>
+  </form>
+</div>
+{% endblock %}

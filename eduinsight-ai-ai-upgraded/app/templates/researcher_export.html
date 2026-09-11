@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Research export{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Anonymized research export</h1>
+  <p class="muted">{{ summary.n_students }} completed record(s) exported.</p>
+  <p class="muted">Files written to <code>{{ json_path }}</code> and <code>{{ csv_path }}</code></p>
+
+  <h2>Summary statistics</h2>
+  <table class="mastery-table">
+    <tr><th>Mean normalized gain</th><th>Std dev</th><th>95% CI</th></tr>
+    <tr>
+      <td>{{ summary.mean_normalized_gain }}</td>
+      <td>{{ summary.stdev_normalized_gain }}</td>
+      <td>{{ summary.gain_95_ci }}</td>
+    </tr>
+  </table>
+
+  <h2>Misconception frequency</h2>
+  <table class="mastery-table">
+    <tr><th>Misconception</th><th>Count</th></tr>
+    {% for name, count in summary.misconception_frequency.items() %}
+    <tr><td>{{ name | replace("-", " ") | title }}</td><td>{{ count }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Anonymized records</h2>
+  <table class="mastery-table">
+    <tr><th>Anon ID</th><th>Condition</th><th>Pre</th><th>Post</th><th>Gain</th></tr>
+    {% for r in records %}
+    <tr>
+      <td>{{ r.anon_id }}</td>
+      <td>{{ r.condition }}</td>
+      <td>{{ (r.pre_score*100)|round|int }}%</td>
+      <td>{{ (r.post_score*100)|round|int }}%</td>
+      <td>{{ r.normalized_gain }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h1>📈 Learning Complete</h1>
+
+    <p>
+        <strong>Topic:</strong> {{ state.topic }}
+    </p>
+
+    <div class="stats">
+        <div>
+            <b>Before</b><br>
+            {{ "%.0f"|format(state.pre_score * 100) }}%
+        </div>
+
+        <div>
+            <b>After</b><br>
+            {{ "%.0f"|format(state.post_score * 100) }}%
+        </div>
+
+        <div>
+            <b>Normalized Gain</b><br>
+            {{ "%.0f"|format(state.learning_gain * 100) }}%
+        </div>
+    </div>
+
+    <div class="result markdown-content">
+        {{ state.post_analysis.summary | markdown | safe }}
+    </div>
+
+    <p>
+        <a class="button" href="{{ url_for('student.learn') }}">
+            Learn another topic →
+        </a>
+    </p>
+</div>
+
+{% endblock %}

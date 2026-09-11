@@ -1,0 +1,6229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Sphere</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+    --bg: #050505;
+    --bg2: #0b0b0d;
+    --card: #101012;
+    --card2: #151518;
+    --border: rgba(255,255,255,0.09);
+    --text: #f5f5f5;
+    --muted: #96969d;
+    --gold: #d6b36a;
+    --gold2: #f0d493;
+    --danger: #d66b6b;
+    --success: #75bd91;
+    --shadow: 0 25px 70px rgba(0,0,0,0.55);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background:
+        radial-gradient(circle at 50% -20%, rgba(214,179,106,0.12), transparent 35%),
+        var(--bg);
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.page {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.gold {
+    color: var(--gold);
+}
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+#logoScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background:
+        radial-gradient(circle, rgba(214,179,106,0.10), transparent 30%),
+        #030303;
+}
+
+.logo-container {
+    animation: fadeIn 1.2s ease;
+}
+
+.logo-orbit {
+    width: 125px;
+    height: 125px;
+    border: 1px solid rgba(214,179,106,0.45);
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 70px rgba(214,179,106,0.08);
+}
+
+.logo-orbit::before {
+    content: "";
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    position: absolute;
+}
+
+.logo-symbol {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--gold);
+    z-index: 2;
+}
+
+.logo-container h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 42px;
+    margin-top: 28px;
+    letter-spacing: 2px;
+}
+
+.logo-container p {
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 3px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   LANGUAGE / AUTH
+========================================================= */
+
+.language-box,
+.auth-box {
+    width: min(480px, 100%);
+    background: linear-gradient(145deg, #111113, #09090a);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 42px;
+    box-shadow: var(--shadow);
+}
+
+.section-label {
+    color: var(--gold);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.language-box h2,
+.auth-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+select,
+input,
+textarea {
+    width: 100%;
+    background: #080809;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 15px;
+    border-radius: 11px;
+    outline: none;
+    transition: 0.25s;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+    border-color: rgba(214,179,106,0.7);
+    box-shadow: 0 0 0 3px rgba(214,179,106,0.07);
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: #c9c9cc;
+    margin-bottom: 8px;
+}
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.optional {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: #080808;
+    font-weight: 700;
+    transition: 0.25s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(214,179,106,0.18);
+}
+
+.secondary-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 16px;
+    border-radius: 10px;
+}
+
+.secondary-btn:hover {
+    border-color: rgba(214,179,106,0.45);
+    color: var(--gold);
+}
+
+.danger-btn {
+    background: transparent;
+    border: 1px solid rgba(214,107,107,0.35);
+    color: var(--danger);
+    padding: 11px 16px;
+    border-radius: 10px;
+}
+
+.switch-auth {
+    text-align: center;
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.switch-auth button {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+/* =========================================================
+   DASHBOARD LAYOUT
+========================================================= */
+
+#dashboard {
+    display: none;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 245px;
+    background: #080809;
+    border-right: 1px solid var(--border);
+    padding: 28px 18px;
+    z-index: 10;
+}
+
+.brand {
+    padding: 0 12px 35px;
+}
+
+.brand-name {
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+.brand-sub {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+.nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px;
+    margin-bottom: 5px;
+    color: #a5a5aa;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    transition: 0.2s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(214,179,106,0.09);
+    color: var(--gold);
+}
+
+.nav-symbol {
+    width: 22px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.main {
+    margin-left: 245px;
+    min-height: 100vh;
+    padding: 38px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 38px;
+}
+
+.page-title {
+    font-family: "Playfair Display", serif;
+    font-size: 34px;
+}
+
+.page-description {
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.6;
+}
+
+.user-badge {
+    border: 1px solid var(--border);
+    padding: 9px 14px;
+    border-radius: 30px;
+    color: var(--gold);
+    font-size: 13px;
+}
+
+/* =========================================================
+   TOP RIGHT STATS
+========================================================= */
+
+.quick-stats {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.quick-stat {
+    min-width: 105px;
+    padding: 11px 14px;
+    background: linear-gradient(145deg, #121214, #0c0c0e);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.quick-stat-label {
+    color: var(--muted);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.quick-stat-value {
+    color: var(--gold);
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+/* =========================================================
+   DASHBOARD CARDS
+========================================================= */
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.stat-card {
+    background: linear-gradient(145deg, #121214, #0c0c0e);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 24px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    margin-top: 12px;
+    color: var(--gold);
+}
+
+.stat-small {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.section-heading h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+}
+
+/* =========================================================
+   SUBJECTS
+========================================================= */
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.subject-card {
+    position: relative;
+    background: linear-gradient(145deg, #121214, #0b0b0d);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 23px;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.subject-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(214,179,106,0.35);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.3);
+}
+
+.subject-code {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.subject-card h3 {
+    font-size: 19px;
+    margin: 10px 0 8px;
+}
+
+.subject-description {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 17px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: #222226;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 20px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 9px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.empty-state {
+    border: 1px dashed rgba(214,179,106,0.25);
+    border-radius: 18px;
+    padding: 45px 25px;
+    text-align: center;
+    color: var(--muted);
+    grid-column: 1 / -1;
+}
+
+.empty-state h3 {
+    color: var(--text);
+    font-family: "Playfair Display", serif;
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+/* =========================================================
+   CALENDAR + TIMER
+========================================================= */
+
+.dashboard-two-column {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.panel {
+    background: linear-gradient(145deg, #121214, #0c0c0e);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.panel h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.calendar-title {
+    font-weight: 600;
+}
+
+.calendar-controls button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    border-radius: 8px;
+    width: 34px;
+    height: 32px;
+    margin-left: 5px;
+}
+
+.calendar-weekdays,
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.calendar-weekdays div {
+    color: var(--muted);
+    font-size: 10px;
+    text-align: center;
+    padding: 6px 0;
+}
+
+.calendar-day {
+    min-height: 38px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: #0b0b0d;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    position: relative;
+}
+
+.calendar-day:hover {
+    border-color: rgba(214,179,106,0.35);
+}
+
+.calendar-day.today {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.calendar-day.completed {
+    background: rgba(117,189,145,0.13);
+    color: var(--success);
+}
+
+.calendar-day.completed::after {
+    content: "✓";
+    position: absolute;
+    font-size: 8px;
+    bottom: 3px;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-note {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.timer-display {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 2px;
+    margin: 15px 0 20px;
+}
+
+.timer-mode {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.timer-mode button {
+    flex: 1;
+    padding: 9px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    border-radius: 8px;
+}
+
+.timer-mode button.active {
+    color: var(--gold);
+    border-color: rgba(214,179,106,0.5);
+    background: rgba(214,179,106,0.07);
+}
+
+.timer-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.timer-input-row input {
+    flex: 1;
+}
+
+.timer-input-row button {
+    width: 90px;
+}
+
+.timer-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.timer-buttons button {
+    flex: 1;
+}
+
+/* =========================================================
+   SUBJECT WORKSPACE
+========================================================= */
+
+.back-btn {
+    margin-bottom: 25px;
+    color: var(--gold);
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.subject-header h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 40px;
+}
+
+.subject-header p {
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.workspace-card {
+    background: linear-gradient(145deg, #121214, #0c0c0e);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 23px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.workspace-card:hover {
+    border-color: rgba(214,179,106,0.4);
+    transform: translateY(-3px);
+}
+
+.workspace-card h3 {
+    margin-top: 17px;
+    font-size: 17px;
+}
+
+.workspace-card p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+    line-height: 1.5;
+}
+
+.workspace-icon {
+    font-size: 23px;
+    color: var(--gold);
+}
+
+.subject-content-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 18px;
+}
+
+.progress-large {
+    height: 12px;
+    background: #222226;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.progress-large .progress-fill {
+    height: 100%;
+}
+
+.subject-progress-note {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   LEARNING TOOLS
+========================================================= */
+let flashcardIndex=0;
+let flashcards=[];
+let mediaRecorder=null;
+let recordedChunks=[];
+
+function openLearningTool(type){
+    if(!currentSubject)return;
+    const modal=document.getElementById("learningToolModal");
+    const title=document.getElementById("learningToolTitle");
+    const content=document.getElementById("learningToolContent");
+    if(type==="podcast"){
+        title.textContent=`${currentSubject.name} • Interactive Podcast`;
+        content.innerHTML=`<p>This podcast mode converts your current subject into a guided study session.</p><div class="panel" style="margin-top:15px"><h3>Episode 1: Core Concepts</h3><p style="margin-top:10px;color:var(--muted)">Welcome to your ${escapeHTML(currentSubject.name)} learning session. Start with the core concepts, pause after each idea, and test yourself before moving forward.</p></div><button class="primary-btn" style="margin-top:15px" onclick="speakPodcast()">▶ Play Voice Summary</button>`;
+    }else if(type==="flashcards"){
+        flashcards=[`What is the main idea behind ${currentSubject.name}?`,`Which core concept should you revise first in ${currentSubject.name}?`,`How would you explain ${currentSubject.name} to a beginner?`,`What is one common mistake students make in ${currentSubject.name}?`];
+        flashcardIndex=0; title.textContent=`${currentSubject.name} • Flashcards`; renderFlashcard(content);
+    }else{
+        title.textContent=`${currentSubject.name} • Record Lecture`;
+        content.innerHTML=`<p>Use your browser microphone to record a short lecture or explanation.</p><div class="record-status" id="recordStatus">Ready to record.</div><button class="primary-btn" id="recordStartBtn" onclick="toggleLectureRecording()">Start Recording</button><audio id="recordedAudio" controls class="hidden" style="width:100%;margin-top:15px"></audio><a id="recordDownload" class="secondary-btn hidden" style="display:block;text-align:center;margin-top:10px" download="study-sphere-lecture.webm">Download Recording</a>`;
+    }
+    modal.classList.remove("hidden");
+}
+function speakPodcast(){
+    if(!('speechSynthesis' in window)){alert("Voice playback is not supported in this browser.");return;}
+    const text=`Welcome to your ${currentSubject.name} study session. Review the core concepts, pause regularly, and test your understanding before continuing.`;
+    const utterance=new SpeechSynthesisUtterance(text); utterance.rate=.95; window.speechSynthesis.speak(utterance);
+}
+function renderFlashcard(container){
+    container.innerHTML=`<div class="flashcard"><strong>${escapeHTML(flashcards[flashcardIndex])}</strong></div><div style="display:flex;gap:10px"><button class="secondary-btn" onclick="previousFlashcard()">Previous</button><button class="primary-btn" onclick="nextFlashcard()">Next</button></div><p class="record-status">Card ${flashcardIndex+1} of ${flashcards.length}</p>`;
+}
+function nextFlashcard(){flashcardIndex=(flashcardIndex+1)%flashcards.length;renderFlashcard(document.getElementById("learningToolContent"));}
+function previousFlashcard(){flashcardIndex=(flashcardIndex-1+flashcards.length)%flashcards.length;renderFlashcard(document.getElementById("learningToolContent"));}
+async function toggleLectureRecording(){
+    const status=document.getElementById("recordStatus"), btn=document.getElementById("recordStartBtn");
+    if(mediaRecorder && mediaRecorder.state==="recording"){ mediaRecorder.stop(); btn.textContent="Start Recording"; status.textContent="Recording stopped. Preview it below."; return; }
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){alert("Microphone recording is not supported in this browser.");return;}
+    try{
+        const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        recordedChunks=[]; mediaRecorder=new MediaRecorder(stream);
+        mediaRecorder.ondataavailable=e=>{if(e.data.size)recordedChunks.push(e.data);};
+        mediaRecorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(recordedChunks,{type:"audio/webm"});const url=URL.createObjectURL(blob);document.getElementById("recordedAudio").src=url;document.getElementById("recordedAudio").classList.remove("hidden");const link=document.getElementById("recordDownload");link.href=url;link.classList.remove("hidden");};
+        mediaRecorder.start(); btn.textContent="Stop Recording"; status.textContent="Recording in progress...";
+    }catch(e){alert("Microphone permission was not granted.");}
+}
+
+/* =========================================================
+   SUBJECT AI
+========================================================= */
+
+.ai-box {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(214,179,106,0.09), transparent 35%),
+        linear-gradient(145deg, #141415, #0b0b0c);
+}
+
+.ai-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-title h3 {
+    margin-bottom: 0;
+}
+
+.ai-title span {
+    color: var(--gold);
+    font-size: 10px;
+}
+
+.subject-ai-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.ai-option {
+    padding: 15px;
+    border-radius: 11px;
+    background: #080809;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+}
+
+.ai-option:hover {
+    border-color: rgba(214,179,106,0.4);
+}
+
+.ai-option strong {
+    color: var(--gold);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ai-option span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.ai-response {
+    min-height: 110px;
+    white-space: pre-line;
+    background: #080809;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    color: #c5c5c8;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 15px;
+}
+
+.ai-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.ai-input-row input {
+    flex: 1;
+}
+
+.ai-input-row button {
+    width: 80px;
+    border: none;
+    border-radius: 10px;
+    background: var(--gold);
+    color: #080808;
+    font-weight: 700;
+}
+
+/* =========================================================
+   FILE SYSTEM
+========================================================= */
+
+.file-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.file-list {
+    display: grid;
+    gap: 10px;
+}
+
+.file-item {
+    background: #09090a;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.file-info {
+    min-width: 0;
+}
+
+.file-name {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.file-preview {
+    color: var(--muted);
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
+}
+
+.file-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.small-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+.small-btn:hover {
+    color: var(--gold);
+    border-color: rgba(214,179,106,0.4);
+}
+
+
+/* =========================================================
+   DAILY SELF-RATING
+========================================================= */
+.self-rating-card {
+    margin-top:18px;
+}
+.self-rating-state {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    flex-wrap:wrap;
+}
+.self-rating-prompt {
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.55;
+    margin:5px 0 0;
+}
+.rating-options {
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+.rating-btn {
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+    border-radius:10px;
+    min-width:82px;
+    padding:10px 12px;
+    cursor:pointer;
+    transition:.2s ease;
+}
+.rating-btn:hover, .rating-btn.selected {
+    border-color:var(--gold);
+    transform:translateY(-1px);
+}
+.rating-btn strong { display:block; font-size:13px; }
+.rating-btn span { display:block; color:var(--muted); font-size:10px; margin-top:3px; }
+.self-rating-complete {
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    background:rgba(214,179,106,.05);
+}
+.self-rating-score { color:var(--gold); font-weight:700; }
+.self-rating-note { color:var(--muted); font-size:12px; margin-top:6px; }
+.self-rating-history {
+    margin-top:12px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =========================================================
+   LEARNING INTELLIGENCE ENGINE
+========================================================= */
+
+function getAssessmentRecords() {
+    return getSubjects().filter(s => s.assessment);
+}
+
+function calculateLearningReadiness() {
+    const goals = getGoals();
+    const subjects = getSubjects();
+    const studySeconds = getTotalStudySeconds();
+    const completedDays = getCompletedDays().length;
+    if (!goals.length || studySeconds <= 0) return null;
+
+    const goalProgress = goals.reduce((sum, goal) => {
+        const progress = Math.min(Number(goal.target || 100), calculateOverallProgress());
+        return sum + Math.min(100, progress);
+    }, 0) / goals.length;
+    const subjectProgress = subjects.length ? calculateOverallProgress() : 0;
+    const consistency = Math.min(100, completedDays * 10);
+
+    return Math.round(goalProgress * 0.55 + subjectProgress * 0.30 + consistency * 0.15);
+}
+
+function getTopicAnalysis(subject) {
+    if (!subject || !subject.assessment) return [];
+    const a = subject.assessment;
+    const total = Number(a.total || 1);
+    const wrong = Array.isArray(a.weakPoints) ? a.weakPoints : [];
+    const records = Array.isArray(a.topicResults) ? a.topicResults : [];
+    if (records.length) return records.map(r => ({topic:r.topic, score:r.score, confidence:r.confidence||0, correct:r.correct}));
+    return [{topic:"Assessment Performance", score:Number(a.percentage||0), confidence:0, correct:Number(a.score||0)}];
+}
+
+function renderLearningIntelligence() {
+    const subjects = getSubjects();
+    const assessed = subjects.filter(s=>s.assessment);
+    const score = calculateLearningReadiness();
+    const readinessCard=document.getElementById("learningReadinessCard");
+    const ring=document.getElementById("readinessRing");
+    const scoreEl=document.getElementById("readinessScore");
+    const explanation=document.getElementById("readinessExplanation");
+    if(readinessCard) readinessCard.classList.toggle("hidden", score === null);
+    if(score !== null){
+        if(ring) ring.style.setProperty("--score",score+"%");
+        if(scoreEl) scoreEl.textContent=score+"%";
+        if(explanation) explanation.textContent = `Your readiness reflects progress toward your goals, subject progress and study consistency.`;
+    }
+
+    const priorities=[];
+    assessed.forEach(subject=>{
+        const pct=Number(subject.assessment.percentage||0);
+        if(pct<80) priorities.push({name:subject.name, reason:`Assessment accuracy ${pct}%`, pct});
+    });
+    priorities.sort((a,b)=>a.pct-b.pct);
+    const list=document.getElementById("priorityList");
+    const text=document.getElementById("todayPriorityText");
+    if(list){
+        list.innerHTML=priorities.length ? priorities.slice(0,3).map(p=>`<div class="priority-item"><div class="priority-meta"><strong>${escapeHTML(p.name)}</strong><span>${escapeHTML(p.reason)}</span></div><span class="gap-pill">Needs attention</span></div>`).join("") : `<div class="intelligence-empty">No major learning gap detected yet. Keep assessing different topics.</div>`;
+    }
+    if(text && priorities.length) text.textContent=`Start with ${priorities[0].name}. It currently has the lowest recent assessment performance.`;
+
+    const topicBox=document.getElementById("dashboardTopicAnalysis");
+    const explain=document.getElementById("dashboardExplainBox");
+    const rows=[];
+    assessed.forEach(s=>getTopicAnalysis(s).forEach(t=>rows.push({...t,subject:s.name})));
+    rows.sort((a,b)=>a.score-b.score);
+    if(topicBox) topicBox.innerHTML=rows.length ? rows.slice(0,6).map(t=>`<div class="topic-row"><div class="topic-row-head"><span>${escapeHTML(t.subject)} • ${escapeHTML(t.topic)}</span><span>${t.score}%</span></div><div class="topic-track"><div class="topic-fill" style="width:${Math.max(0,Math.min(100,t.score))}%"></div></div></div>`).join("") : `<div class="intelligence-empty">Complete a subject assessment to unlock topic-level analysis.</div>`;
+    if(explain) {
+        const weakest=rows[0];
+        explain.innerHTML=weakest ? `<span class="gold">Why this recommendation?</span><p style="margin:7px 0 0">${escapeHTML(weakest.subject)} → ${escapeHTML(weakest.topic)} is currently your lowest-performing area at ${weakest.score}%. Study Sphere prioritizes it before stronger areas.</p>` : `<span class="gold">How it works</span><p style="margin:7px 0 0">Recommendations are driven by your assessment performance, topic results and study consistency rather than by random content generation.</p>`;
+    }
+}
+
+function renderSubjectIntelligence() {
+    const box=document.getElementById("subjectTopicAnalysis");
+    if(!box || !currentSubject) return;
+    const topics=getTopicAnalysis(currentSubject);
+    if(!currentSubject.assessment){ box.innerHTML=`<div class="intelligence-empty">Take the Subject AI assessment first. Study Sphere will then show topic performance, weak areas and a targeted recovery plan here.</div>`; return; }
+    const weakest=topics.slice().sort((a,b)=>a.score-b.score)[0];
+    box.innerHTML=`<div class="topic-bars">${topics.map(t=>`<div class="topic-row"><div class="topic-row-head"><span>${escapeHTML(t.topic)}</span><span>${t.score}%</span></div><div class="topic-track"><div class="topic-fill" style="width:${Math.max(0,Math.min(100,t.score))}%"></div></div></div>`).join("")}</div>
+    <div class="explain-box"><span class="gold">Targeted recommendation</span><p style="margin:7px 0 0">${weakest ? `Prioritize ${escapeHTML(weakest.topic)} because your current performance is ${weakest.score}%. Revise the concept, solve a small practice set, then reassess.` : "Continue with regular assessment and revision."}</p></div>`;
+}
+
+/* =========================================================
+   PROGRESS PAGE
+========================================================= */
+
+.progress-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.progress-subject-row {
+    margin-bottom: 20px;
+}
+
+.progress-row-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.goal-list {
+    display: grid;
+    gap: 12px;
+}
+
+.goal-item {
+    border: 1px solid var(--border);
+    background: #09090a;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.goal-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.goal-progress {
+    height: 7px;
+    background: #222226;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.goal-percent {
+    color: var(--gold);
+    font-size: 11px;
+}
+
+/* =========================================================
+   AI ASSISTANT
+========================================================= */
+
+.chat-box {
+    height: 430px;
+    background: #080809;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.chat-message.ai {
+    background: #141416;
+    color: #c8c8cb;
+    border: 1px solid var(--border);
+}
+
+.chat-message.user {
+    background: rgba(214,179,106,0.12);
+    color: var(--gold2);
+    margin-left: auto;
+}
+
+.chat-input {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.chat-input input {
+    flex: 1;
+}
+
+.chat-input button {
+    width: 100px;
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutUser(){
+    if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+    timerRunning=false;
+    localStorage.removeItem("studySphereLoggedIn");
+    currentSubject=null;
+    document.getElementById("dashboard").style.display="none";
+    document.getElementById("authScreen").classList.remove("hidden");
+    authMode="login";
+    toggleAuth();
+    document.getElementById("loginForm").reset();
+    document.querySelectorAll(".nav-item").forEach((item,i)=>item.classList.toggle("active",i===0));
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.settings-grid {
+    display: grid;
+    gap: 15px;
+}
+
+.setting-row {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #0b0b0d;
+}
+
+.setting-row h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.setting-row p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.modal-box {
+    width: min(700px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #101012;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-family: "Playfair Display", serif;
+}
+
+.close-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 24px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.quiz-question {
+    background: #09090a;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.quiz-question h4 {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.quiz-option {
+    display: block;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    margin-top: 8px;
+    cursor: pointer;
+    color: #c5c5c8;
+}
+
+.quiz-option:hover {
+    border-color: rgba(214,179,106,0.4);
+}
+
+.quiz-option input {
+    width: auto;
+    margin-right: 8px;
+}
+
+
+/* =========================================================
+   ENHANCED LEARNING INTELLIGENCE
+========================================================= */
+.learning-intelligence { margin-top:22px; }
+.intelligence-grid { display:grid; grid-template-columns:1.35fr .65fr; gap:18px; margin-top:18px; }
+.intelligence-card { background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.012)); border:1px solid var(--border); border-radius:16px; padding:20px; }
+.intelligence-card h3 { margin:0 0 7px; }
+.intelligence-card p { color:var(--muted); line-height:1.65; font-size:13px; }
+.readiness-ring { width:116px;height:116px;border-radius:50%;margin:14px auto;display:grid;place-items:center;background:conic-gradient(var(--gold) var(--score,0%),rgba(255,255,255,.07) 0);position:relative; }
+.readiness-ring::after { content:""; position:absolute; inset:9px; background:var(--card); border-radius:50%; }
+.readiness-value { position:relative; z-index:1; font-size:24px; font-weight:700; }
+.priority-item { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:13px 0; border-bottom:1px solid var(--border); }
+.priority-item:last-child { border-bottom:0; }
+.priority-meta { min-width:0; }
+.priority-meta strong { display:block; margin-bottom:4px; }
+.priority-meta span { color:var(--muted); font-size:12px; }
+.gap-pill { font-size:11px; padding:5px 8px; border:1px solid var(--border); border-radius:999px; color:var(--gold2); white-space:nowrap; }
+.topic-bars { margin-top:14px; }
+.topic-row { margin-bottom:14px; }
+.topic-row-head { display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px; }
+.topic-row-head span:last-child { color:var(--gold); }
+.topic-track { height:7px; background:rgba(255,255,255,.07); border-radius:999px; overflow:hidden; }
+.topic-fill { height:100%; background:var(--gold); border-radius:999px; }
+.explain-box { margin-top:16px; padding:15px; border:1px solid var(--border); border-radius:13px; background:rgba(0,0,0,.12); }
+.explain-box .gold { font-weight:700; }
+.confidence-block { margin-top:12px; padding:12px; border:1px solid var(--border); border-radius:11px; }
+.confidence-title { font-size:12px; color:var(--muted); margin-bottom:9px; }
+.confidence-options { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; }
+.confidence-options label { padding:8px 5px; border:1px solid var(--border); border-radius:8px; text-align:center; font-size:11px; cursor:pointer; color:var(--muted); }
+.confidence-options input { width:auto; margin-right:4px; }
+.intelligence-empty { padding:18px; border:1px dashed var(--border); border-radius:13px; color:var(--muted); font-size:13px; }
+@media(max-width:900px){ .intelligence-grid{grid-template-columns:1fr;} .confidence-options{grid-template-columns:repeat(2,1fr);} }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width: 1100px) {
+    .workspace-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-stats {
+        flex-wrap: wrap;
+    }
+}
+
+@media(max-width: 850px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        bottom: auto;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 22px;
+    }
+
+    .topbar {
+        flex-direction: column;
+    }
+
+    .subject-content-grid,
+    .progress-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 650px) {
+    .workspace-grid,
+    .subject-ai-options {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-header {
+        flex-direction: column;
+    }
+
+    .language-box,
+    .auth-box {
+        padding: 27px;
+    }
+
+    .quick-stats {
+        width: 100%;
+    }
+
+    .quick-stat {
+        flex: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   STUDY SPHERE 2.0 MODIFICATIONS
+========================================================= */
+body.theme-nature { --bg:#07120b; --bg2:#0b1b11; --card:#102319; --card2:#15301f; --gold:#83c995; --gold2:#b8ebc5; --border:rgba(131,201,149,.18); background:radial-gradient(circle at 15% 0%,rgba(67,160,96,.24),transparent 34%),radial-gradient(circle at 90% 80%,rgba(45,120,72,.18),transparent 32%),var(--bg); }
+body.theme-ocean { --bg:#041018; --bg2:#071a24; --card:#0b202b; --card2:#10303c; --gold:#6ed8e8; --gold2:#a9f0f7; --border:rgba(110,216,232,.18); background:radial-gradient(circle at 20% 0%,rgba(0,150,190,.25),transparent 35%),radial-gradient(circle at 90% 90%,rgba(0,90,150,.22),transparent 35%),var(--bg); }
+body.theme-minimalist { --bg:#f2f0eb; --bg2:#ebe8e1; --card:#ffffff; --card2:#f7f5f0; --border:rgba(20,20,20,.12); --text:#1d1d1f; --muted:#696969; --gold:#7b5e34; --gold2:#a37d48; --shadow:0 20px 60px rgba(0,0,0,.12); background:linear-gradient(135deg,#f7f5ef,#ebe8df); }
+body.theme-sunset { --bg:#1a0b12; --bg2:#241016; --card:#29141d; --card2:#341b25; --gold:#ffb36b; --gold2:#ffd08c; --border:rgba(255,179,107,.18); background:radial-gradient(circle at 20% 10%,rgba(255,106,72,.25),transparent 35%),radial-gradient(circle at 80% 90%,rgba(154,58,116,.25),transparent 35%),var(--bg); }
+body.theme-space { --bg:#050714; --bg2:#0b0e25; --card:#10152e; --card2:#171d3b; --gold:#8fa8ff; --gold2:#c3d0ff; --border:rgba(143,168,255,.2); background:radial-gradient(circle at 20% 15%,rgba(96,88,220,.28),transparent 25%),radial-gradient(circle at 80% 70%,rgba(41,120,190,.22),transparent 30%),var(--bg); }
+body.theme-mountain { --bg:#0b1116; --bg2:#101a21; --card:#14232b; --card2:#1a2d36; --gold:#9cc6a5; --gold2:#c9e4c9; --border:rgba(156,198,165,.18); background:linear-gradient(160deg,#071016 0%,#10242a 55%,#17302c 100%); }
+body.theme-forest { --bg:#06100a; --bg2:#0c1b10; --card:#102519; --card2:#16351f; --gold:#9bd36a; --gold2:#c6ef9e; --border:rgba(155,211,106,.18); background:radial-gradient(circle at 70% 10%,rgba(100,180,70,.2),transparent 30%),linear-gradient(135deg,#06100a,#0b2114); }
+body.theme-aurora { --bg:#071015; --bg2:#0a1920; --card:#10242a; --card2:#17343b; --gold:#7ee7d1; --gold2:#a8fff0; --border:rgba(126,231,209,.2); background:radial-gradient(ellipse at 20% 10%,rgba(0,230,180,.24),transparent 30%),radial-gradient(ellipse at 80% 30%,rgba(90,80,230,.25),transparent 35%),var(--bg); }
+body.theme-cloudy { --bg:#10151b; --bg2:#172029; --card:#1b2730; --card2:#22323d; --gold:#b8c8d4; --gold2:#e1edf4; --border:rgba(184,200,212,.2); background:linear-gradient(145deg,#0f151b,#273742); }
+body.theme-cyberpunk { --bg:#09030f; --bg2:#14051b; --card:#190820; --card2:#240d2c; --gold:#ff4fd8; --gold2:#8ffcff; --border:rgba(255,79,216,.25); background:radial-gradient(circle at 10% 10%,rgba(255,0,180,.22),transparent 30%),radial-gradient(circle at 90% 80%,rgba(0,230,255,.2),transparent 32%),var(--bg); }
+body.theme-galaxy { --bg:#080615; --bg2:#100b25; --card:#15102f; --card2:#1e1740; --gold:#c58cff; --gold2:#e1c0ff; --border:rgba(197,140,255,.2); background:radial-gradient(circle at 30% 20%,rgba(133,71,220,.25),transparent 30%),radial-gradient(circle at 80% 70%,rgba(57,91,220,.2),transparent 30%),var(--bg); }
+body.theme-cherry { --bg:#16090e; --bg2:#241017; --card:#2a151d; --card2:#351c27; --gold:#f29bb5; --gold2:#ffd0dd; --border:rgba(242,155,181,.2); background:radial-gradient(circle at 20% 10%,rgba(255,126,164,.2),transparent 30%),linear-gradient(145deg,#16090e,#30131e); }
+body.theme-desert { --bg:#17100a; --bg2:#24180e; --card:#2b1e13; --card2:#392818; --gold:#e9bd78; --gold2:#f6d8a5; --border:rgba(233,189,120,.2); background:linear-gradient(145deg,#160f09,#4a2e17); }
+body.theme-deepsea { --bg:#020a11; --bg2:#03131d; --card:#06202b; --card2:#08313d; --gold:#4ed7c7; --gold2:#93f5e8; --border:rgba(78,215,199,.2); background:radial-gradient(circle at 50% 100%,rgba(0,180,170,.2),transparent 40%),linear-gradient(180deg,#02080e,#073341); }
+body.theme-northern { --bg:#040d10; --bg2:#07191a; --card:#0b2422; --card2:#0f312c; --gold:#8fffc0; --gold2:#b5ffe0; --border:rgba(143,255,192,.22); background:radial-gradient(ellipse at 15% 0%,rgba(61,255,159,.25),transparent 30%),radial-gradient(ellipse at 85% 20%,rgba(66,220,255,.2),transparent 30%),var(--bg); }
+body.theme-ai { --bg:#070b12; --bg2:#0d1420; --card:#101a29; --card2:#152338; --gold:#75b7ff; --gold2:#b9dcff; --border:rgba(117,183,255,.2); background:radial-gradient(circle at 15% 10%,rgba(60,140,255,.25),transparent 28%),radial-gradient(circle at 85% 80%,rgba(120,80,255,.22),transparent 30%),var(--bg); }
+body.theme-library { --bg:#120d08; --bg2:#1d130b; --card:#25180e; --card2:#322014; --gold:#d9ad68; --gold2:#f2d29a; --border:rgba(217,173,104,.2); background:radial-gradient(circle at 50% 0%,rgba(205,151,72,.2),transparent 35%),linear-gradient(145deg,#100b07,#29170b); }
+body.theme-neon { --bg:#07090e; --bg2:#10131c; --card:#121722; --card2:#1a2130; --gold:#4dfff1; --gold2:#b0fff8; --border:rgba(77,255,241,.22); background:radial-gradient(circle at 10% 20%,rgba(0,255,220,.18),transparent 28%),radial-gradient(circle at 90% 70%,rgba(255,40,160,.18),transparent 30%),var(--bg); }
+body.theme-cosmic { --bg:#05020c; --bg2:#0c0618; --card:#120b22; --card2:#1b1031; --gold:#d5a6ff; --gold2:#f0d5ff; --border:rgba(213,166,255,.2); background:radial-gradient(circle at 25% 25%,rgba(125,60,220,.25),transparent 30%),radial-gradient(circle at 75% 75%,rgba(30,150,255,.2),transparent 30%),var(--bg); }
+body.theme-minimalist select, body.theme-minimalist input, body.theme-minimalist textarea { background:#fff; color:var(--text); }
+body.theme-minimalist .sidebar { background:#e9e5dc; }
+
+.personalization-box { width:min(700px,100%); background:linear-gradient(145deg,var(--card),var(--card2)); border:1px solid var(--border); border-radius:24px; padding:38px; box-shadow:var(--shadow); }
+.personalization-options { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:20px 0 24px; }
+.choice-card { border:1px solid var(--border); background:rgba(255,255,255,.025); color:var(--text); border-radius:14px; padding:15px; text-align:left; transition:.2s; }
+.choice-card:hover { transform:translateY(-2px); border-color:var(--gold); }
+.choice-card.selected { border-color:var(--gold); box-shadow:0 0 0 2px rgba(214,179,106,.12); background:rgba(214,179,106,.08); }
+.choice-card strong { display:block; margin-bottom:5px; }
+.choice-card span { color:var(--muted); font-size:12px; line-height:1.5; }
+.preference-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:15px 0 24px; }
+.preference-chip { border:1px solid var(--border); border-radius:12px; padding:12px; color:var(--text); background:transparent; }
+.preference-chip.selected { border-color:var(--gold); background:rgba(214,179,106,.1); }
+.grade-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin:15px 0 24px; }
+.grade-option { border:1px solid var(--border); background:transparent; color:var(--text); border-radius:11px; padding:12px 5px; }
+.grade-option.selected { border-color:var(--gold); background:rgba(214,179,106,.1); }
+.step-indicator { display:flex; gap:7px; margin:16px 0 22px; }
+.step-dot { height:5px; flex:1; border-radius:10px; background:rgba(255,255,255,.1); }
+.step-dot.active { background:var(--gold); }
+.theme-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:18px; }
+.theme-card { position:relative; min-height:120px; padding:18px; border:1px solid var(--border); border-radius:16px; overflow:hidden; cursor:pointer; background:linear-gradient(135deg,var(--card),var(--card2)); }
+.theme-card::before { content:""; position:absolute; inset:0; opacity:.22; background:radial-gradient(circle at 80% 20%,var(--gold),transparent 38%); }
+.theme-card > * { position:relative; z-index:1; }
+.theme-card.locked { cursor:not-allowed; opacity:.7; }
+.theme-card.active { outline:2px solid var(--gold); }
+.theme-card h4 { margin-bottom:7px; }
+.theme-card p { font-size:12px; color:var(--muted); }
+.theme-price { margin-top:10px; display:inline-block; font-size:11px; border:1px solid var(--border); border-radius:20px; padding:5px 8px; }
+.theme-lock { float:right; }
+.theme-section { margin-top:28px; }
+.workspace-layout { display:grid; grid-template-columns:3fr 2fr; gap:22px; align-items:start; }
+.workspace-tools { display:flex; flex-direction:column; gap:12px; }
+.workspace-tool-card { display:flex; align-items:center; gap:16px; padding:17px; border:1px solid var(--border); border-radius:14px; background:linear-gradient(145deg,var(--card),var(--card2)); cursor:pointer; transition:.2s; }
+.workspace-tool-card:hover { transform:translateX(3px); border-color:var(--gold); }
+.workspace-tool-card .workspace-icon { flex:0 0 46px; }
+.workspace-tool-card h3 { margin-bottom:4px; }
+.workspace-tool-card p { color:var(--muted); font-size:12px; line-height:1.5; }
+.workspace-progress-panel { position:sticky; top:22px; }
+.attachment-box { border:1px dashed var(--border); border-radius:14px; padding:15px; margin-top:8px; background:rgba(255,255,255,.02); }
+.attachment-list { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+.attachment-pill { padding:6px 9px; border-radius:20px; border:1px solid var(--border); font-size:11px; color:var(--muted); }
+.file-preview-media { margin-top:8px; max-width:100%; border-radius:10px; }
+.file-preview-media img { max-width:180px; max-height:120px; border-radius:9px; }
+.tool-modal-content { line-height:1.7; }
+.flashcard { border:1px solid var(--border); border-radius:16px; padding:28px; min-height:180px; display:flex; align-items:center; justify-content:center; text-align:center; background:linear-gradient(145deg,var(--card),var(--card2)); margin:15px 0; }
+.record-status { color:var(--muted); margin:12px 0; }
+
+@media(max-width:850px){ .personalization-options,.theme-grid,.workspace-layout{grid-template-columns:1fr;} .preference-grid{grid-template-columns:repeat(2,1fr);} .grade-grid{grid-template-columns:repeat(5,1fr);} .workspace-progress-panel{position:static;} }
+@media(max-width:520px){ .grade-grid{grid-template-columns:repeat(2,1fr);} .preference-grid{grid-template-columns:1fr;} }
+
+
+.dashboard-main-layout { display:grid; grid-template-columns:3fr 2fr; gap:22px; align-items:start; }
+.dashboard-side-stack { display:flex; flex-direction:column; gap:22px; }
+.dashboard-main-layout .section-heading { margin-top:0; }
+@media(max-width:1100px){ .dashboard-main-layout{grid-template-columns:1fr;} .dashboard-side-stack{display:grid;grid-template-columns:1fr 1fr;} }
+@media(max-width:650px){ .dashboard-side-stack{grid-template-columns:1fr;} }
+
+
+/* =========================================================
+   FINAL UI POLISH
+========================================================= */
+.sidebar { display:flex; flex-direction:column; }
+.sidebar-nav { flex:1; }
+.logout-btn { width:100%; margin-top:auto; display:flex; align-items:center; gap:13px; padding:13px 14px; color:#d98b8b; background:transparent; border:1px solid rgba(217,139,139,.16); border-radius:10px; text-align:left; cursor:pointer; transition:.2s; }
+.logout-btn:hover { background:rgba(217,139,139,.08); border-color:rgba(217,139,139,.32); }
+.logout-btn .nav-symbol { color:#d98b8b; }
+.personalization-options { display:grid !important; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; margin:20px 0 24px; }
+.preference-grid { display:flex !important; flex-direction:column; gap:11px; margin:20px 0 24px; }
+.choice-card, .preference-chip { width:100%; min-height:54px; box-sizing:border-box; }
+.choice-card { padding:16px 18px; }
+.preference-chip { text-align:left; padding:15px 18px; font-size:14px; }
+.theme-page-grid { display:grid; grid-template-columns:1fr; gap:20px; }
+.theme-page-grid .theme-section { margin-top:0; }
+.ai-generation-panel { margin-top:20px; padding-top:20px; border-top:1px solid var(--border); }
+.ai-generation-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+.ai-generate-option { padding:14px; border:1px solid var(--border); border-radius:12px; background:rgba(255,255,255,.02); color:var(--text); text-align:left; cursor:pointer; }
+.ai-generate-option:hover { border-color:var(--gold); transform:translateY(-1px); }
+.ai-generate-option strong { display:block; color:var(--gold); margin-bottom:5px; }
+.ai-generate-option span { font-size:11px; color:var(--muted); line-height:1.45; }
+.ai-attachment-input { margin-top:12px; }
+@media(max-width:700px){ .ai-generation-grid{grid-template-columns:1fr;} .personalization-options{grid-template-columns:1fr;} }
+
+
+/* =========================================================
+   PROFESSIONAL DASHBOARD + ASSISTANT POLISH
+========================================================= */
+/* Preserve the intended 60 / 40 page split on desktop. */
+.dashboard-main-layout, .workspace-layout {
+    grid-template-columns: 3fr 2fr;
+}
+.dashboard-goals-block {
+    margin-top: 26px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+.dashboard-subheading { margin-bottom: 14px; }
+.dashboard-subheading h3 { font-family: "Playfair Display", serif; font-size: 22px; }
+.dashboard-goals-block .goal-list { display:flex; flex-direction:column; gap:10px; }
+.personalization-finish {
+    padding: 22px; margin: 8px 0 20px;
+    border: 1px solid var(--border); border-radius: 14px;
+    background: rgba(255,255,255,.02);
+}
+.personalization-finish h3 { margin: 7px 0; }
+.assistant-attachment-bar {
+    margin-top: 14px; padding: 12px;
+    border: 1px solid var(--border); border-radius: 12px;
+    background: rgba(255,255,255,.02);
+}
+.assistant-attachment-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.attachment-action {
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height:38px; padding:0 13px; border:1px solid var(--border);
+    border-radius:9px; background:transparent; color:var(--text);
+    font:inherit; font-size:12px; cursor:pointer;
+}
+.attachment-action:hover { border-color:var(--gold); color:var(--gold); }
+.attachment-action input { display:none; }
+.assistant-attachment-list { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+.assistant-attachment-list:empty { display:none; }
+.assistant-file-pill { padding:6px 9px; border:1px solid var(--border); border-radius:20px; font-size:11px; color:var(--muted); }
+@media(max-width:700px){ .assistant-attachment-actions{display:grid;grid-template-columns:1fr 1fr;} }
+
+/* =========================================================
+   ROLE PERSONALIZATION + LOCALIZATION
+========================================================= */
+.role-dashboard-panel{margin:0 0 22px;padding:22px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));}
+.role-dashboard-heading{align-items:flex-start;margin-bottom:18px;}
+.role-dashboard-heading .page-description{margin-top:5px;max-width:760px;}
+.role-module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.role-module-card{display:flex;flex-direction:column;gap:9px;min-height:145px;padding:18px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.018);transition:.2s ease;cursor:pointer;}
+.role-module-card:hover{transform:translateY(-2px);border-color:var(--gold);background:rgba(255,255,255,.035);}
+.role-module-icon{font-size:25px;}
+.role-module-card h3{font-size:17px;margin:0;}
+.role-module-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5;}
+.role-module-action{margin-top:auto;color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+@media(max-width:900px){.role-module-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.role-module-grid{grid-template-columns:1fr;}.role-dashboard-panel{padding:16px;}}
+
+/* Professional UI refinement: no decorative emojis in Study Sphere. */
+.role-module-icon{font-family:Inter,system-ui,sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;width:30px;height:30px;border:1px solid rgba(212,175,55,.35);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;}
+.role-badge{font-family:Inter,system-ui,sans-serif;}
+.ss-rtl{direction:rtl;}
+.ss-rtl .sidebar{left:auto;right:0;}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     1. LOGO
+========================================================= -->
+
+<section id="logoScreen" class="page center-screen">
+
+    <div class="logo-container">
+        <div class="logo-orbit">
+            <div class="logo-symbol">S</div>
+        </div>
+
+        <h1>Study Sphere</h1>
+        <p>Your Personal Academic Space</p>
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     2. LANGUAGE
+========================================================= -->
+
+<section id="languageScreen" class="page center-screen hidden">
+
+    <div class="language-box">
+
+        <div class="section-label">Welcome to Study Sphere</div>
+
+        <h2>Select Language</h2>
+
+        <p class="subtitle">
+            Choose your preferred language to continue to your academic space.
+        </p>
+
+        <div class="form-group">
+
+            <label for="languageSelect">
+                Preferred Language
+            </label>
+
+            <select id="languageSelect">
+
+                <option value="">Select a language</option>
+
+                <option>English</option>
+                <option>Hindi</option>
+                <option>Bengali</option>
+                <option>German</option>
+                <option>French</option>
+                <option>Spanish</option>
+                <option>Portuguese</option>
+                <option>Italian</option>
+                <option>Dutch</option>
+                <option>Russian</option>
+                <option>Ukrainian</option>
+                <option>Polish</option>
+                <option>Czech</option>
+                <option>Slovak</option>
+                <option>Romanian</option>
+                <option>Hungarian</option>
+                <option>Greek</option>
+                <option>Turkish</option>
+                <option>Arabic</option>
+                <option>Hebrew</option>
+                <option>Persian</option>
+                <option>Urdu</option>
+                <option>Punjabi</option>
+                <option>Gujarati</option>
+                <option>Marathi</option>
+                <option>Tamil</option>
+                <option>Telugu</option>
+                <option>Kannada</option>
+                <option>Malayalam</option>
+                <option>Odia</option>
+                <option>Assamese</option>
+                <option>Nepali</option>
+                <option>Sinhala</option>
+                <option>Thai</option>
+                <option>Vietnamese</option>
+                <option>Indonesian</option>
+                <option>Malay</option>
+                <option>Filipino</option>
+                <option>Chinese</option>
+                <option>Japanese</option>
+                <option>Korean</option>
+                <option>Mongolian</option>
+                <option>Swahili</option>
+                <option>Zulu</option>
+                <option>Afrikaans</option>
+                <option>Amharic</option>
+                <option>Somali</option>
+                <option>Yoruba</option>
+                <option>Igbo</option>
+                <option>Hausa</option>
+                <option>Latin</option>
+                <option>Armenian</option>
+                <option>Georgian</option>
+                <option>Serbian</option>
+                <option>Croatian</option>
+                <option>Bulgarian</option>
+                <option>Slovenian</option>
+                <option>Lithuanian</option>
+                <option>Latvian</option>
+                <option>Estonian</option>
+                <option>Albanian</option>
+                <option>Pashto</option>
+                <option>Uzbek</option>
+                <option>Kazakh</option>
+                <option>Other</option>
+
+            </select>
+
+        </div>
+
+        <button class="primary-btn" onclick="continueLanguage()">
+            Continue
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     3. PERSONALIZATION
+========================================================= -->
+
+<section id="personalizationScreen" class="page center-screen hidden">
+    <div class="personalization-box">
+        <div class="section-label">Personalize Your Study Sphere</div>
+        <h2 id="personalizationTitle">Tell us how you learn</h2>
+        <p class="subtitle" id="personalizationSubtitle">A few choices help us shape your academic space around you.</p>
+
+        <div class="step-indicator">
+            <div class="step-dot active" id="stepDot1"></div>
+            <div class="step-dot" id="stepDot2"></div>
+        </div>
+
+        <div id="personaStep">
+            <label>What best describes you?</label>
+            <div class="personalization-options" id="personaOptions"></div>
+            <button class="primary-btn" onclick="nextPersonalizationStep()">Continue</button>
+        </div>
+
+        <div id="preferenceStep" class="hidden">
+            <label>Which smart-learning features help you most?</label>
+            <div class="preference-grid" id="preferenceOptions"></div>
+            <button class="primary-btn" onclick="nextPersonalizationStep()">Continue</button>
+        </div>
+
+        <div id="personalizationFinishStep" class="hidden">
+            <div class="personalization-finish">
+                <div class="section-label">Profile Ready</div>
+                <h3>Your learning space is ready to be personalized.</h3>
+                <p class="subtitle">You can add subjects and goals after signing up. Study Sphere will use those goals to build your learning insights.</p>
+            </div>
+            <button class="primary-btn" onclick="finishPersonalization()">Continue to Sign Up</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================================
+     3. AUTHENTICATION
+========================================================= -->
+
+<section id="authScreen" class="page center-screen hidden">
+
+    <div class="auth-box">
+
+        <div class="section-label">
+            Secure Academic Access
+        </div>
+
+        <h2 id="authTitle">Welcome Back</h2>
+
+        <p class="subtitle" id="authSubtitle">
+            Sign in to continue to your Study Sphere.
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label>Email ID</label>
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required>
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+        <form id="signupForm" class="hidden">
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    id="signupName"
+                    placeholder="Enter your full name"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Email ID</label>
+                <input
+                    type="email"
+                    id="signupEmail"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="Create a password"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input
+                    type="tel"
+                    id="signupMobile"
+                    placeholder="Enter your mobile number"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    University / Institution
+                    <span class="optional">(Optional)</span>
+                </label>
+                <input
+                    type="text"
+                    id="signupUniversity"
+                    placeholder="Enter your university">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Enrollment Number / Student ID
+                    <span class="optional">(Optional)</span>
+                </label>
+                <input
+                    type="text"
+                    id="signupEnrollment"
+                    placeholder="Enter enrollment ID">
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <div class="switch-auth">
+
+            <span id="switchText">
+                Don't have an account?
+            </span>
+
+            <button onclick="toggleAuth()" id="switchButton">
+                Sign Up
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     4. DASHBOARD
+========================================================= -->
+
+<section id="dashboard">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-name">
+                Study Sphere
+            </div>
+
+            <div class="brand-sub">
+                Academic Intelligence
+            </div>
+
+        </div>
+
+       <button class="nav-item active" onclick="showPage('dashboardHome', this)">
+    <span class="nav-symbol">▣</span>
+    <span id="navDashboard">Dashboard</span>
+</button>
+            <button class="nav-item" onclick="showPage('subjectsPage', this)">
+                <span class="nav-symbol">◈</span>
+                <span id="navLearningLabel">My Subjects</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('progressPage', this)">
+                <span class="nav-symbol">◫</span>
+                <span id="navProgressLabel">Progress</span>
+            </button>
+
+            <button class="nav-item" onclick="window.location.href='/student/learn'"
+                <span class="nav-symbol">◎</span>
+                <span id="navAssistantLabel">AI Study Assistant</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='/student/history'">
+    <span class="nav-symbol">◷</span>
+    <span id="navHistoryLabel">History</span>
+</button>
+
+            <button class="nav-item" onclick="showPage('themesPage', this)">
+                <span class="nav-symbol">✦</span>
+                <span id="navThemesLabel">Study Themes</span>
+            </button>
+
+            <button class="nav-item" onclick="showPage('settingsPage', this)">
+                <span class="nav-symbol">◌</span>
+                <span id="navSettingsLabel">Settings</span>
+            </button>
+        </div>
+
+        <button class="logout-btn" onclick="logoutUser()">
+            <span class="nav-symbol">↪</span>
+            Logout
+        </button>
+
+    </aside>
+
+
+    <main class="main">
+
+        <!-- =================================================
+             DASHBOARD HOME
+        ================================================= -->
+
+        <div id="dashboardHome">
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="section-label">
+                        Personal Academic Space
+                    </div>
+
+                    <h1 class="page-title">
+                        Welcome, <span id="userName"></span>
+                    </h1>
+
+                    <p class="page-description">
+                        Ready for your next study session?
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <div class="quick-stats">
+
+                        <div class="quick-stat">
+                            <div class="quick-stat-label">
+                                Streak
+                            </div>
+                            <div class="quick-stat-value">
+                                <span id="streakCount">0</span> days
+                            </div>
+                        </div>
+
+                        <div class="quick-stat">
+                            <div class="quick-stat-label">
+                                Academic Credits
+                            </div>
+                            <div class="quick-stat-value">
+                                <span id="creditCount">0</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="user-badge" id="userLanguage"
+                         style="margin-top:10px;text-align:center;">
+                        English
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="overview-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Active Subjects
+                    </div>
+
+                    <div class="stat-value" id="activeSubjectCount">
+                        0
+                    </div>
+
+                    <div class="stat-small">
+                        Subjects currently in your academic space
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Overall Progress
+                    </div>
+
+                    <div class="stat-value" id="overallProgress">
+                        0%
+                    </div>
+
+                    <div class="stat-small">
+                        Calculated from your actual subject progress
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Today's Study Hours
+                    </div>
+
+                    <div class="stat-value" id="todayStudyHours">
+                        0h 0m
+                    </div>
+
+                    <div class="stat-small">
+                        Resets for the new calendar day
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="learning-intelligence">
+                <div class="section-heading">
+                    <div>
+                        <div class="section-label">Learning Intelligence</div>
+                        <h2>What should you focus on next?</h2>
+                    </div>
+                    <button class="secondary-btn" onclick="showPage('progressPage')">View Full Analysis</button>
+                </div>
+
+                <div class="intelligence-grid">
+                    <div class="intelligence-card">
+                        <h3>Today's Priority</h3>
+                        <p id="todayPriorityText">Complete an assessment to let Study Sphere identify your highest-priority learning gap.</p>
+                        <div id="priorityList"></div>
+                    </div>
+                    <div class="intelligence-card hidden" id="learningReadinessCard" style="text-align:center">
+                        <h3>Learning Readiness</h3>
+                        <p>Based on your goals, subject progress and study consistency.</p>
+                        <div class="readiness-ring" id="readinessRing" style="--score:0%"><span class="readiness-value" id="readinessScore">0%</span></div>
+                        <div id="readinessExplanation" class="stat-small">Complete a goal and study session to unlock this insight.</div>
+                    </div>
+                </div>
+
+                <div class="intelligence-card self-rating-card">
+                    <div class="section-heading">
+                        <div>
+                            <div class="section-label">Daily Reflection</div>
+                            <h3>How did today's priority feel?</h3>
+                            <p class="self-rating-prompt">Complete your priority, then rate your own experience. This is about reflection, not marks.</p>
+                        </div>
+                        <span class="gap-pill" id="selfRatingDateLabel">Today</span>
+                    </div>
+                    <div id="selfRatingArea"></div>
+                </div>
+
+                <div class="intelligence-card" style="margin-top:18px">
+                    <div class="section-heading">
+                        <div>
+                            <h3>Concept Mastery & Learning Gaps</h3>
+                            <p style="margin:4px 0 0">The system prioritizes concepts where your assessment performance needs attention.</p>
+                        </div>
+                    </div>
+                    <div id="dashboardTopicAnalysis" class="topic-bars"></div>
+                    <div id="dashboardExplainBox" class="explain-box"></div>
+                </div>
+            </div>
+
+            <section class="role-dashboard-panel" id="roleDashboardPanel">
+                <div class="section-heading role-dashboard-heading">
+                    <div>
+                        <div class="section-label" id="roleDashboardLabel">Personalized Workspace</div>
+                        <h2 id="roleDashboardTitle">Your Learning Workspace</h2>
+                        <p class="page-description" id="roleDashboardDescription">Your dashboard adapts to the way you learn and work.</p>
+                    </div>
+                    <span class="user-badge" id="roleBadge">Student</span>
+                </div>
+                <div class="role-module-grid" id="roleModuleGrid"></div>
+            </section>
+
+            <div class="dashboard-main-layout">
+                <div class="panel">
+                    <div class="section-heading">
+                        <h2 id="activeSubjectsTitle">Active Subjects</h2>
+                        <button class="secondary-btn" onclick="showPage('subjectsPage')">Manage Subjects</button>
+                    </div>
+                    <div class="subject-grid" id="dashboardSubjects"></div>
+
+                    <div class="dashboard-goals-block">
+                        <div class="section-heading dashboard-subheading">
+                            <div>
+                                <div class="section-label">Personal Targets</div>
+                                <h3>Goals</h3>
+                            </div>
+                            <button class="secondary-btn" onclick="openGoalModal()">+ Add Goal</button>
+                        </div>
+                        <div class="goal-list" id="dashboardGoalList"></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-side-stack">
+                    <div class="panel">
+                        <div class="calendar-header">
+                            <div class="calendar-title" id="calendarMonth"></div>
+                            <div class="calendar-controls"><button onclick="changeCalendarMonth(-1)">‹</button><button onclick="changeCalendarMonth(1)">›</button></div>
+                        </div>
+                        <div class="calendar-weekdays"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+                        <div class="calendar-days" id="calendarDays"></div>
+                        <div class="calendar-note">Click a date to mark it as academically completed.</div>
+                    </div>
+
+                    <div class="panel">
+                        <h3>Focus Timer</h3>
+                        <div class="timer-mode"><button id="studyModeBtn" class="active" onclick="setTimerMode('study')">Study</button><button id="breakModeBtn" onclick="setTimerMode('break')">Break</button></div>
+                        <div class="timer-display" id="timerDisplay">25:00</div>
+                        <div class="timer-input-row"><input type="number" id="timerMinutes" min="1" placeholder="Minutes"><button class="secondary-btn" onclick="setTimerFromInput()">Set</button></div>
+                        <div class="timer-buttons"><button class="primary-btn" id="timerStartBtn" onclick="startTimer()">Start</button><button class="secondary-btn" onclick="pauseTimer()">Pause</button><button class="secondary-btn" onclick="resetTimer()">Reset</button></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MY SUBJECTS
+        ================================================= -->
+
+        <div id="subjectsPage" class="hidden">
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="section-label">
+                        Academic Library
+                    </div>
+
+                    <h1 class="page-title">
+                        My Subjects
+                    </h1>
+
+                    <p class="page-description">
+                        Create, organize and manage your own academic subjects.
+                    </p>
+
+                </div>
+
+                <button class="primary-btn"
+                        style="width:auto"
+                        onclick="openSubjectForm()">
+                    + Add Subject
+                </button>
+
+            </div>
+
+
+            <div class="subject-grid"
+                 id="allSubjects">
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SUBJECT WORKSPACE
+        ================================================= -->
+
+        <div id="subjectWorkspace" class="hidden">
+
+            <button class="back-btn"
+                    onclick="showPage('subjectsPage')">
+                ← Back to My Subjects
+            </button>
+
+
+            <div class="subject-header">
+
+                <div>
+
+                    <div class="section-label"
+                         id="workspaceCode">
+                        SUBJECT
+                    </div>
+
+                    <h1 id="workspaceTitle">
+                        Subject
+                    </h1>
+
+                    <p id="workspaceDescription">
+                        Your dedicated academic workspace.
+                    </p>
+
+                </div>
+
+                <button class="danger-btn"
+                        onclick="removeCurrentSubject()">
+                    Remove Subject
+                </button>
+
+            </div>
+
+
+            <div class="section-heading">
+
+                <h2>
+                    Workspace
+                </h2>
+
+            </div>
+
+
+            <div class="workspace-layout">
+                <div class="workspace-tools">
+                    <div class="workspace-tool-card" onclick="openFileManager('Notes')">
+                        <div class="workspace-icon">N</div>
+                        <div><h3>Notes</h3><p>Create and organize notes. Attach text, PDF, images, audio, video or documents.</p></div>
+                    </div>
+                    <div class="workspace-tool-card" onclick="openFileManager('Materials')">
+                        <div class="workspace-icon">M</div>
+                        <div><h3>Materials</h3><p>Store study resources with multi-format attachments.</p></div>
+                    </div>
+                    <div class="workspace-tool-card" onclick="openFileManager('Assignments')">
+                        <div class="workspace-icon">A</div>
+                        <div><h3>Assignments</h3><p>Create and manage assignments and their supporting files.</p></div>
+                    </div>
+                    <div class="workspace-tool-card" onclick="openSubjectAI()">
+                        <div class="workspace-icon">AI</div>
+                        <div><h3>Subject AI</h3><p>Ask questions, take assessments and analyze subject performance.</p></div>
+                    </div>
+                    <div class="workspace-tool-card" onclick="openLearningTool('podcast')">
+                        <div class="workspace-icon">P</div>
+                        <div><h3>Interactive Podcast</h3><p>Turn your subject into an interactive audio-style learning session.</p></div>
+                    </div>
+                    <div class="workspace-tool-card" onclick="openLearningTool('flashcards')">
+                        <div class="workspace-icon">F</div>
+                        <div><h3>Flashcards</h3><p>Review concepts with quick interactive cards.</p></div>
+                    </div>
+                    <div class="workspace-tool-card" onclick="openLearningTool('record')">
+                        <div class="workspace-icon">R</div>
+                        <div><h3>Record Lecture</h3><p>Record a lecture in your browser and preview it in this workspace.</p></div>
+                    </div>
+                </div>
+
+                <div class="panel workspace-progress-panel">
+                    <h3>Subject Progress</h3>
+                    <p id="progressText">0% completed</p>
+                    <div class="progress-large"><div class="progress-fill" id="largeProgress" style="width:0%"></div></div>
+                    <div class="progress-info"><span>Modules completed</span><span id="moduleCount">0 / 0</span></div>
+                    <br>
+                    <p class="subject-progress-note">Progress is controlled by the academic assessment system. Students cannot manually mark modules complete.</p>
+                </div>
+            </div>
+
+            <div class="intelligence-card" style="margin-top:18px">
+                <div class="section-heading">
+                    <div>
+                        <div class="section-label">Subject Intelligence</div>
+                        <h2 id="subjectAnalysisTitle">Your learning analysis</h2>
+                    </div>
+                </div>
+                <div id="subjectTopicAnalysis"></div>
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PROGRESS
+        ================================================= -->
+
+        <div id="progressPage" class="hidden">
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="section-label">
+                        Academic Analytics
+                    </div>
+
+                    <h1 class="page-title">
+                        Progress
+                    </h1>
+
+                    <p class="page-description">
+                        Track your goals, study activity and overall academic development.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-summary">
+
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Overall Progress
+                    </div>
+                    <div class="stat-value"
+                         id="progressOverall">
+                        0%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Total Study Time
+                    </div>
+                    <div class="stat-value"
+                         id="totalStudyTime">
+                        0h
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Academic Credits
+                    </div>
+                    <div class="stat-value"
+                         id="progressCredits">
+                        0
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="panel"
+                 style="margin-bottom:18px">
+
+                <div class="section-heading">
+
+                    <h2>
+                        Subject Progress
+                    </h2>
+
+                </div>
+
+                <div id="progressSubjects">
+                </div>
+
+            </div>
+
+
+            <div class="intelligence-card" style="margin-bottom:18px">
+                <div class="section-label">Explain My Progress</div>
+                <h2>Why does Study Sphere recommend these topics?</h2>
+                <p id="progressExplanation">Your recommendations will become more specific after you complete assessments and build topic-level performance data.</p>
+                <div id="progressGapAnalysis" style="margin-top:14px"></div>
+            </div>
+
+            <div class="panel">
+
+                <div class="section-heading">
+
+                    <h2>
+                        My Goals
+                    </h2>
+
+                    <button class="secondary-btn"
+                            onclick="openGoalModal()">
+                        + Add Goal
+                    </button>
+
+                </div>
+
+                <div class="goal-list"
+                     id="goalList">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             AI STUDY ASSISTANT
+        ================================================= -->
+
+        <div id="assistantPage" class="hidden">
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="section-label">
+                        Academic Intelligence
+                    </div>
+
+                    <h1 class="page-title">
+                        AI Study Assistant
+                    </h1>
+
+                    <p class="page-description">
+                        Your general academic AI assistant for study planning,
+                        explanations and learning support.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="chat-box"
+                     id="assistantChat">
+
+                    <div class="chat-message ai">
+                        Hello. I am your Study Sphere AI Study Assistant.
+
+                        You can ask me about concepts, study planning,
+                        revision strategies, assignments or general academic questions.
+
+                        Connect this interface to your preferred AI API later
+                        for real AI-generated responses.
+                    </div>
+
+                </div>
+
+
+                <div class="assistant-attachment-bar">
+                    <div class="assistant-attachment-actions">
+                        <label class="attachment-action">
+                            <input type="file" id="assistantFileInput" multiple accept="*/*" onchange="handleAssistantFiles(this.files)">
+                            <span>Choose files</span>
+                        </label>
+                        <button type="button" class="attachment-action" onclick="chooseAssistantType('audio')">Audio</button>
+                        <button type="button" class="attachment-action" onclick="chooseAssistantType('video')">Video</button>
+                        <button type="button" class="attachment-action" onclick="chooseAssistantType('document')">Documents</button>
+                        <button type="button" class="attachment-action" onclick="chooseAssistantType('image')">Images</button>
+                    </div>
+                    <div id="assistantAttachmentList" class="assistant-attachment-list"></div>
+                </div>
+
+                <div class="chat-input">
+                    <input id="assistantInput" placeholder="Ask your AI Study Assistant...">
+                    <button class="primary-btn" onclick="askAssistant()">Send</button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STUDY THEMES
+        ================================================= -->
+
+        <div id="themesPage" class="hidden">
+            <div class="topbar">
+                <div>
+                    <div class="section-label">Personalize Your Space</div>
+                    <h1 class="page-title">Study Themes</h1>
+                    <p class="page-description">Choose a visual theme for your entire Study Sphere experience. Unlock premium themes with Academic Credits.</p>
+                </div>
+                <div class="user-badge" id="themePageCredits">Academic Credits: 0</div>
+            </div>
+            <div class="panel theme-section">
+                <h3>Choose Your Theme</h3>
+                <div class="theme-grid" id="themeGridPage"></div>
+            </div>
+        </div>
+
+
+        <!-- =================================================
+             SETTINGS
+        ================================================= -->
+
+        <div id="settingsPage" class="hidden">
+
+            <div class="topbar">
+
+                <div>
+
+                    <div class="section-label">
+                        Personalization
+                    </div>
+
+                    <h1 class="page-title">
+                        Settings
+                    </h1>
+
+                    <p class="page-description">
+                        Manage your Study Sphere academic profile.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+                <div class="setting-row">
+
+                    <h3>
+                        Profile
+                    </h3>
+
+                    <p id="settingsProfile">
+                        Your profile information will appear here.
+                    </p>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <h3>
+                        Preferred Language
+                    </h3>
+
+                    <p id="settingsLanguage">
+                        English
+                    </p>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <h3>
+                        Academic Statistics
+                    </h3>
+
+                    <p>
+                        Your streak, study hours and academic credits are
+                        calculated automatically from your activity.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</section>
+
+
+<!-- =========================================================
+     LEARNING TOOLS MODAL
+========================================================= -->
+<div class="modal hidden" id="learningToolModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div><div class="section-label">SMART LEARNING</div><h2 id="learningToolTitle">Learning Tool</h2></div>
+            <button class="close-btn" onclick="closeModal('learningToolModal')">×</button>
+        </div>
+        <div id="learningToolContent" class="tool-modal-content"></div>
+    </div>
+</div>
+
+
+<!-- =========================================================
+     SUBJECT FORM MODAL
+========================================================= -->
+
+<div class="modal hidden"
+     id="subjectFormModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="subjectFormTitle">
+                Add Subject
+            </h2>
+
+            <button class="close-btn"
+                    onclick="closeModal('subjectFormModal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Subject Name
+            </label>
+
+            <input
+                id="newSubjectName"
+                placeholder="e.g. Data Structures">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Subject Code
+                <span class="optional">(Optional)</span>
+            </label>
+
+            <input
+                id="newSubjectCode"
+                placeholder="e.g. CSE201">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                id="newSubjectDescription"
+                rows="4"
+                placeholder="Describe your subject...">
+            </textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Number of Modules
+            </label>
+
+            <input
+                type="number"
+                id="newSubjectModules"
+                min="1"
+                value="10">
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="addSubject()">
+            Add Subject
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FILE MANAGER MODAL
+========================================================= -->
+
+<div class="modal hidden"
+     id="fileManagerModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <div class="section-label"
+                     id="fileTypeLabel">
+                    NOTES
+                </div>
+
+                <h2 id="fileManagerTitle">
+                    Notes
+                </h2>
+            </div>
+
+            <button class="close-btn"
+                    onclick="closeModal('fileManagerModal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="file-toolbar">
+
+            <span style="color:var(--muted);font-size:12px">
+                Separate files are stored inside this subject.
+            </span>
+
+            <button class="primary-btn"
+                    style="width:auto"
+                    onclick="createFile()">
+                + New File
+            </button>
+
+        </div>
+
+
+        <div class="file-list"
+             id="fileList">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FILE EDITOR MODAL
+========================================================= -->
+
+<div class="modal hidden"
+     id="fileEditorModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="fileEditorTitle">
+                New Note
+            </h2>
+
+            <button class="close-btn"
+                    onclick="closeModal('fileEditorModal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                File Name
+            </label>
+
+            <input
+                id="fileNameInput"
+                placeholder="Enter file name">
+
+        </div>
+
+
+        <div class="form-group">
+            <label>Content</label>
+            <textarea id="fileContentInput" rows="10" placeholder="Write your content here..."></textarea>
+        </div>
+
+        <div class="form-group attachment-box">
+            <label>Attach files</label>
+            <input type="file" id="fileAttachmentInput" multiple accept="*/*">
+            <p class="subject-progress-note" style="margin-top:8px">You can attach PDF, image, audio, video and other document files.</p>
+            <div id="attachmentPreview" class="attachment-list"></div>
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="saveFile()">
+            Save File
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SUBJECT AI MODAL
+========================================================= -->
+
+<div class="modal hidden"
+     id="subjectAIModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <div class="section-label">
+                    SUBJECT AI
+                </div>
+
+                <h2 id="subjectAITitle">
+                    Subject AI
+                </h2>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="closeModal('subjectAIModal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="subject-ai-options">
+
+            <button class="ai-option"
+                    onclick="showSubjectAIAsk()">
+
+                <strong>Ask AI</strong>
+
+                <span>
+                    Ask questions about this subject.
+                </span>
+
+            </button>
+
+
+            <button class="ai-option"
+                    onclick="startSubjectQuiz()">
+
+                <strong>Assessment</strong>
+
+                <span>
+                    Take an AI-powered subject quiz.
+                </span>
+
+            </button>
+
+
+            <button class="ai-option"
+                    onclick="showAssessmentResult()">
+
+                <strong>Analysis</strong>
+
+                <span>
+                    View score, weak points and generated notes.
+                </span>
+
+            </button>
+
+        </div>
+
+        <div class="ai-generation-panel">
+            <h3>AI Content Studio</h3>
+            <p class="subject-progress-note">Generate study resources in the format you need. Real media generation requires the connected backend/API.</p>
+            <input class="ai-attachment-input" type="file" id="subjectAIAttachment" multiple accept="*/*">
+            <div class="ai-generation-grid">
+                <button class="ai-generate-option" onclick="generateSubjectContent('image')"><strong>Generate Image</strong><span>Create a visual study aid or concept illustration.</span></button>
+                <button class="ai-generate-option" onclick="generateSubjectContent('video')"><strong>Generate Video</strong><span>Create a lesson/video concept from your prompt.</span></button>
+                <button class="ai-generate-option" onclick="generateSubjectContent('audio')"><strong>Generate Audio</strong><span>Create an audio explanation or study narration.</span></button>
+                <button class="ai-generate-option" onclick="generateSubjectContent('document')"><strong>Generate Document</strong><span>Create structured study material or a document.</span></button>
+                <button class="ai-generate-option" onclick="generateSubjectContent('pdf')"><strong>Generate PDF</strong><span>Prepare a printable PDF-ready study resource.</span></button>
+                <button class="ai-generate-option" onclick="findSubjectResources()"><strong>Find Resources</strong><span>Request useful external links and references.</span></button>
+            </div>
+            <div id="subjectAIGenerationResult" class="ai-response" style="margin-top:14px">Choose a generation option to prepare your request.</div>
+        </div>
+
+        <div id="subjectAIAskArea"
+             class="hidden">
+
+            <div class="ai-response"
+                 id="subjectAIResponse">
+                Ask me anything about this subject.
+            </div>
+
+            <div class="ai-input-row">
+
+                <input
+                    id="subjectAIInput"
+                    placeholder="Ask a question...">
+
+                <button onclick="askSubjectAI()">
+                    Ask
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div id="quizArea"
+             class="hidden">
+
+            <div id="quizQuestions">
+            </div>
+
+            <button class="primary-btn"
+                    onclick="submitQuiz()">
+                Submit Assessment
+            </button>
+
+        </div>
+
+
+        <div id="assessmentResultArea"
+             class="hidden">
+
+            <div class="panel">
+
+                <h3>
+                    Latest Assessment
+                </h3>
+
+                <div id="assessmentResult">
+                    No assessment has been completed yet.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     GOAL MODAL
+========================================================= -->
+
+<div class="modal hidden"
+     id="goalModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Add Academic Goal
+            </h2>
+
+            <button class="close-btn"
+                    onclick="closeModal('goalModal')">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Goal
+            </label>
+
+            <input
+                id="goalName"
+                placeholder="e.g. Complete Module 3">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Target Percentage
+            </label>
+
+            <input
+                type="number"
+                id="goalTarget"
+                min="1"
+                max="100"
+                value="100">
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="addGoal()">
+            Add Goal
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
+
+let currentSubject = null;
+let currentFileType = "Notes";
+let currentFileId = null;
+let authMode = "login";
+
+let calendarDate = new Date();
+
+let timerSeconds = 25 * 60;
+let timerInterval = null;
+let timerRunning = false;
+let timerMode = "study";
+
+let quizQuestions = [];
+
+
+/* =========================================================
+   STORAGE HELPERS
+========================================================= */
+
+function getSubjects() {
+    return JSON.parse(
+        localStorage.getItem("studySphereSubjects") || "[]"
+    );
+}
+
+function saveSubjects(data) {
+    localStorage.setItem(
+        "studySphereSubjects",
+        JSON.stringify(data)
+    );
+}
+
+function getGoals() {
+    return JSON.parse(
+        localStorage.getItem("studySphereGoals") || "[]"
+    );
+}
+
+function saveGoals(data) {
+    localStorage.setItem(
+        "studySphereGoals",
+        JSON.stringify(data)
+    );
+}
+
+function getStudyData() {
+    return JSON.parse(
+        localStorage.getItem("studySphereStudyData") || "{}"
+    );
+}
+
+function saveStudyData(data) {
+    localStorage.setItem(
+        "studySphereStudyData",
+        JSON.stringify(data)
+    );
+}
+
+
+/* =========================================================
+   DAILY SELF-RATING / REFLECTION
+========================================================= */
+
+function getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function getDailyReflections() {
+    return JSON.parse(localStorage.getItem("studySphereDailyReflections") || "{}");
+}
+
+function saveDailyReflections(data) {
+    localStorage.setItem("studySphereDailyReflections", JSON.stringify(data));
+}
+
+function getTodayReflection() {
+    const data = getDailyReflections();
+    return data[getTodayKey()] || null;
+}
+
+function completeTodayPriority() {
+    const data = getDailyReflections();
+    const key = getTodayKey();
+    data[key] = { ...(data[key] || {}), completed: true, completedAt: new Date().toISOString() };
+    saveDailyReflections(data);
+    renderSelfRating();
+}
+
+function saveSelfRating(rating) {
+    const data = getDailyReflections();
+    const key = getTodayKey();
+    data[key] = {
+        ...(data[key] || {}),
+        completed: true,
+        rating: Number(rating),
+        ratedAt: new Date().toISOString()
+    };
+    saveDailyReflections(data);
+    renderSelfRating();
+    updateAllDashboardData();
+}
+
+function selfRatingLabel(rating) {
+    return ({1:"Very difficult",2:"Difficult",3:"Okay",4:"Good",5:"Excellent"})[rating] || "";
+}
+
+function renderSelfRating() {
+    const area = document.getElementById("selfRatingArea");
+    if (!area) return;
+    const reflection = getTodayReflection();
+
+    if (!reflection || !reflection.completed) {
+        area.innerHTML = `
+            <div class="self-rating-state">
+                <div>
+                    <strong>Did you finish today's priority?</strong>
+                    <p class="self-rating-prompt">Mark it complete when you're done. Then Study Sphere will ask for a quick self-rating.</p>
+                </div>
+                <button class="primary-btn" onclick="completeTodayPriority()">✓ I completed it</button>
+            </div>`;
+        return;
+    }
+
+    if (!reflection.rating) {
+        area.innerHTML = `
+            <div>
+                <strong>Priority completed ✓</strong>
+                <p class="self-rating-prompt">How did the session feel for you today?</p>
+                <div class="rating-options">
+                    ${[1,2,3,4,5].map(n => `<button class="rating-btn" onclick="saveSelfRating(${n})"><strong>${n} / 5</strong><span>${selfRatingLabel(n)}</span></button>`).join("")}
+                </div>
+            </div>`;
+        return;
+    }
+
+    area.innerHTML = `
+        <div class="self-rating-complete">
+            <strong>Today's reflection is saved.</strong>
+            <div class="self-rating-score">Your self-rating: ${reflection.rating}/5 • ${selfRatingLabel(reflection.rating)}</div>
+            <div class="self-rating-note">Your rating is stored for today and can be used as a reflection signal alongside your study activity and assessment data.</div>
+            <div class="self-rating-history">You can rate again by choosing a different score below.</div>
+            <div class="rating-options">
+                ${[1,2,3,4,5].map(n => `<button class="rating-btn ${reflection.rating===n?'selected':''}" onclick="saveSelfRating(${n})"><strong>${n} / 5</strong><span>${selfRatingLabel(n)}</span></button>`).join("")}
+            </div>
+        </div>`;
+}
+
+function getCompletedDays() {
+    return JSON.parse(
+        localStorage.getItem("studySphereCompletedDays") || "[]"
+    );
+}
+
+function saveCompletedDays(data) {
+    localStorage.setItem(
+        "studySphereCompletedDays",
+        JSON.stringify(data)
+    );
+}
+
+function getCredits() {
+    return Number(
+        localStorage.getItem("studySphereCredits") || 0
+    );
+}
+
+function saveCredits(value) {
+    localStorage.setItem(
+        "studySphereCredits",
+        String(value)
+    );
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function dateKey(date = new Date()) {
+
+    const year = date.getFullYear();
+
+    const month =
+        String(date.getMonth() + 1)
+        .padStart(2, "0");
+
+    const day =
+        String(date.getDate())
+        .padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+function formatDate(date) {
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+}
+
+
+/* =========================================================
+   THEMES
+========================================================= */
+
+const studyThemes = [
+    {name:"Default Study", className:"default", cost:0, tier:"Free"},
+    {name:"Nature", className:"nature", cost:0, tier:"Free"},
+    {name:"Ocean", className:"ocean", cost:0, tier:"Free"},
+    {name:"Minimalist", className:"minimalist", cost:0, tier:"Free"},
+    {name:"Sunset", className:"sunset", cost:0, tier:"Free"},
+    {name:"Space", className:"space", cost:100, tier:"100 Credits"},
+    {name:"Mountain", className:"mountain", cost:100, tier:"100 Credits"},
+    {name:"Forest", className:"forest", cost:100, tier:"100 Credits"},
+    {name:"Aurora", className:"aurora", cost:100, tier:"100 Credits"},
+    {name:"Cloudy Sky", className:"cloudy", cost:100, tier:"100 Credits"},
+    {name:"Cyberpunk", className:"cyberpunk", cost:200, tier:"200 Credits"},
+    {name:"Galaxy", className:"galaxy", cost:200, tier:"200 Credits"},
+    {name:"Cherry Blossom", className:"cherry", cost:200, tier:"200 Credits"},
+    {name:"Desert", className:"desert", cost:200, tier:"200 Credits"},
+    {name:"Deep Sea", className:"deepsea", cost:200, tier:"200 Credits"},
+    {name:"Northern Lights", className:"northern", cost:300, tier:"300 Credits"},
+    {name:"Futuristic AI", className:"ai", cost:300, tier:"300 Credits"},
+    {name:"Enchanted Library", className:"library", cost:300, tier:"300 Credits"},
+    {name:"Neon City", className:"neon", cost:300, tier:"300 Credits"},
+    {name:"Cosmic Dream", className:"cosmic", cost:300, tier:"300 Credits"}
+];
+
+function getActiveTheme(){ return localStorage.getItem("studySphereTheme") || "default"; }
+function applyTheme(themeClass){
+    studyThemes.forEach(t=>{ if(t.className) document.body.classList.remove("theme-"+t.className); });
+    if(themeClass && themeClass!=="default") document.body.classList.add("theme-"+themeClass);
+    localStorage.setItem("studySphereTheme",themeClass||"default");
+    renderThemePicker();
+}
+function renderThemePicker(){
+    const credits=getCredits();
+    const active=getActiveTheme();
+    const grids=[document.getElementById("themeGrid"),document.getElementById("themeGridPage")].filter(Boolean);
+    const notice=document.getElementById("themeCreditsNotice"); if(notice)notice.textContent=`Academic Credits: ${credits}`;
+    const pageNotice=document.getElementById("themePageCredits"); if(pageNotice)pageNotice.textContent=`Academic Credits: ${credits}`;
+    const html=studyThemes.map(t=>{
+        const unlocked=credits>=t.cost;
+        return `<div class="theme-card ${active===t.className?"active":""} ${unlocked?"":"locked"}" onclick="selectTheme('${t.className}')"><span class="theme-lock">${unlocked?"✓":"🔒"}</span><h4>${t.name}</h4><p>${t.tier}${t.cost?" • Earn credits through study time":""}</p><span class="theme-price">${t.cost===0?"FREE":t.cost+" CREDITS"}</span></div>`;
+    }).join("");
+    grids.forEach(grid=>grid.innerHTML=html);
+}
+function selectTheme(themeClass){
+    const theme=studyThemes.find(t=>t.className===themeClass); if(!theme)return;
+    if(getCredits()<theme.cost){ alert(`You need ${theme.cost-getCredits()} more Academic Credits to unlock ${theme.name}.`); return; }
+    applyTheme(themeClass);
+}
+applyTheme(getActiveTheme());
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+setTimeout(() => {
+
+    document
+        .getElementById("logoScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("languageScreen")
+        .classList.remove("hidden");
+
+}, 1800);
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+function continueLanguage() {
+
+    const language =
+        document
+        .getElementById("languageSelect")
+        .value;
+
+    if (!language) {
+
+        alert(
+            "Please select your preferred language."
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        "studySphereLanguage",
+        language
+    );
+
+    document
+        .getElementById("languageScreen")
+        .classList.add("hidden");
+
+    showPersonalization();
+}
+
+
+/* =========================================================
+   PERSONALIZATION
+========================================================= */
+
+const personaData = [
+    ["Student","Learn, revise, practice, and track academic progress"],
+    ["Teacher / Faculty","Organize teaching resources and learning materials"],
+    ["Researcher","Manage research notes, references, and deep study"],
+    ["Working Professional","Build skills and learn around your professional schedule"],
+    ["Lifelong Learner","Explore subjects and learn at your own pace"]
+];
+
+const learningPreferences = [
+    "Visual Learning",
+    "Audio & Podcasts",
+    "Notes & Summaries",
+    "Practice & Flashcards",
+    "Revision Plans"
+];
+
+let personalizationStep = 1;
+let personalizationData = { persona:"", preferences:[] };
+
+function showPersonalization(){
+    personalizationStep = 1;
+    document.getElementById("personalizationScreen").classList.remove("hidden");
+    renderPersonalization();
+}
+
+function renderPersonalization(){
+    document.querySelectorAll("#personalizationScreen > .personalization-box > div[id$='Step']").forEach(x=>x.classList.add("hidden"));
+    const ids=["personaStep","preferenceStep","personalizationFinishStep"];
+    document.getElementById(ids[personalizationStep-1]).classList.remove("hidden");
+    for(let i=1;i<=2;i++) document.getElementById("stepDot"+i).classList.toggle("active",i<=Math.min(personalizationStep,2));
+    if(personalizationStep===1){
+        const box=document.getElementById("personaOptions");
+        box.innerHTML=personaData.map((p,i)=>`<button type="button" class="choice-card ${personalizationData.persona===p[0]?"selected":""}" onclick="selectPersona(${i})"><strong>${p[0]}</strong><span>${p[1]}</span></button>`).join("");
+    }
+    if(personalizationStep===2){
+        const box=document.getElementById("preferenceOptions");
+        box.innerHTML=learningPreferences.map((p,i)=>`<button type="button" class="preference-chip ${personalizationData.preferences.includes(p)?"selected":""}" onclick="togglePreference(${i})">${p}</button>`).join("");
+    }
+}
+function selectPersona(i){ personalizationData.persona=personaData[i][0]; renderPersonalization(); }
+function togglePreference(i){ const p=learningPreferences[i]; personalizationData.preferences=personalizationData.preferences.includes(p)?personalizationData.preferences.filter(x=>x!==p):[...personalizationData.preferences,p]; renderPersonalization(); }
+function nextPersonalizationStep(){
+    if(personalizationStep===1 && !personalizationData.persona){alert("Please select what best describes you.");return;}
+    if(personalizationStep===2 && personalizationData.preferences.length===0){alert("Please select at least one learning preference.");return;}
+    if(personalizationStep===2){ personalizationStep=3; renderPersonalization(); return; }
+    personalizationStep++; renderPersonalization();
+}
+function finishPersonalization(){
+    localStorage.setItem("studySpherePersonalization",JSON.stringify(personalizationData));
+    document.getElementById("personalizationScreen").classList.add("hidden");
+    document.getElementById("authScreen").classList.remove("hidden");
+    authMode="signup"; toggleAuth();
+}
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function toggleAuth() {
+
+    authMode =
+        authMode === "login"
+        ? "signup"
+        : "login";
+
+    const login =
+        document.getElementById("loginForm");
+
+    const signup =
+        document.getElementById("signupForm");
+
+    const title =
+        document.getElementById("authTitle");
+
+    const subtitle =
+        document.getElementById("authSubtitle");
+
+    const switchText =
+        document.getElementById("switchText");
+
+    const switchButton =
+        document.getElementById("switchButton");
+
+
+    if (authMode === "signup") {
+
+        login.classList.add("hidden");
+
+        signup.classList.remove("hidden");
+
+        title.textContent =
+            "Create Your Academic Space";
+
+        subtitle.textContent =
+            "Register once and build your personalized Study Sphere.";
+
+        switchText.textContent =
+            "Already have an account?";
+
+        switchButton.textContent =
+            "Login";
+
+    } else {
+
+        signup.classList.add("hidden");
+
+        login.classList.remove("hidden");
+
+        title.textContent =
+            "Welcome Back";
+
+        subtitle.textContent =
+            "Sign in to continue to your Study Sphere.";
+
+        switchText.textContent =
+            "Don't have an account?";
+
+        switchButton.textContent =
+            "Sign Up";
+    }
+}
+
+
+/* =========================================================
+   SIGNUP
+========================================================= */
+
+document
+    .getElementById("signupForm")
+    .addEventListener(
+        "submit",
+        function(e) {
+
+            e.preventDefault();
+
+            const user = {
+
+                name:
+                    document
+                    .getElementById("signupName")
+                    .value
+                    .trim(),
+
+                email:
+                    document
+                    .getElementById("signupEmail")
+                    .value
+                    .toLowerCase()
+                    .trim(),
+
+                password:
+                    document
+                    .getElementById("signupPassword")
+                    .value,
+
+                mobile:
+                    document
+                    .getElementById("signupMobile")
+                    .value,
+
+                university:
+                    document
+                    .getElementById("signupUniversity")
+                    .value,
+
+                enrollment:
+                    document
+                    .getElementById("signupEnrollment")
+                    .value,
+
+                personalization:
+                    JSON.parse(localStorage.getItem("studySpherePersonalization") || "{}")
+            };
+
+
+            const existingUser =
+                JSON.parse(
+                    localStorage.getItem(
+                        "studySphereUser"
+                    )
+                );
+
+
+            if (
+                existingUser &&
+                existingUser.email === user.email
+            ) {
+
+                alert(
+                    "An account with this email already exists. Please login."
+                );
+
+                authMode = "signup";
+
+                toggleAuth();
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "studySphereUser",
+                JSON.stringify(user)
+            );
+
+
+            /*
+               IMPORTANT:
+               A newly registered student starts with
+               absolutely no subjects and 0 progress.
+            */
+
+            localStorage.removeItem(
+                "studySphereSubjects"
+            );
+
+            localStorage.removeItem(
+                "studySphereGoals"
+            );
+
+            localStorage.removeItem(
+                "studySphereStudyData"
+            );
+
+            localStorage.removeItem(
+                "studySphereCompletedDays"
+            );
+
+            localStorage.setItem(
+                "studySphereCredits",
+                "0"
+            );
+
+
+            alert(
+                "Account created successfully. You can now login."
+            );
+
+
+            authMode = "login";
+
+            toggleAuth();
+
+            document
+                .getElementById("loginEmail")
+                .value =
+                user.email;
+
+        }
+    );
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        function(e) {
+
+            e.preventDefault();
+
+            const email =
+                document
+                .getElementById("loginEmail")
+                .value
+                .toLowerCase()
+                .trim();
+
+            const password =
+                document
+                .getElementById("loginPassword")
+                .value;
+
+
+            const storedUser =
+                JSON.parse(
+                    localStorage.getItem(
+                        "studySphereUser"
+                    )
+                );
+
+
+            if (!storedUser) {
+
+                alert(
+                    "No account found. Please sign up first."
+                );
+
+                return;
+            }
+
+
+            if (
+                storedUser.email === email &&
+                storedUser.password === password
+            ) {
+
+                localStorage.setItem(
+                    "studySphereLoggedIn",
+                    "true"
+                );
+
+                enterDashboard(storedUser);
+
+            } else {
+
+                alert(
+                    "Incorrect email or password."
+                );
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   DASHBOARD ENTRY
+========================================================= */
+
+function enterDashboard(user) {
+
+    document
+        .getElementById("authScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("dashboard")
+        .style.display = "block";
+
+
+    document
+        .getElementById("userName")
+        .textContent =
+        user.name;
+
+
+    document
+        .getElementById("userLanguage")
+        .textContent =
+        localStorage.getItem(
+            "studySphereLanguage"
+        ) || "English";
+
+
+    updateAllDashboardData();
+
+    renderCalendar();
+
+    renderGoals();
+    renderDashboardGoals();
+
+    renderProgressPage();
+    renderLearningIntelligence();
+    renderSelfRating();
+    renderThemePicker();
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(pageId, button = null) {
+
+    const pages = [
+        "dashboardHome",
+        "subjectsPage",
+        "subjectWorkspace",
+        "progressPage",
+        "assistantPage",
+        "themesPage",
+        "settingsPage"
+    ];
+
+
+    pages.forEach(id => {
+
+        const page =
+            document.getElementById(id);
+
+        if (page) {
+            page.classList.add("hidden");
+        }
+
+    });
+
+
+    const target =
+        document.getElementById(pageId);
+
+    if (target) {
+        target.classList.remove("hidden");
+    }
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
+
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+
+    if (pageId === "dashboardHome") {
+
+        updateAllDashboardData();
+        renderCalendar();
+        renderLearningIntelligence();
+
+    }
+
+    if (pageId === "subjectsPage") {
+        renderAllSubjects();
+    }
+
+    if (pageId === "progressPage") {
+        renderProgressPage();
+    }
+
+    if (pageId === "themesPage") {
+        renderThemePicker();
+    }
+
+    if (pageId === "settingsPage") {
+        renderSettings();
+    }
+}
+
+
+/* =========================================================
+   SUBJECT CREATION
+========================================================= */
+
+function openSubjectForm() {
+
+    document
+        .getElementById("newSubjectName")
+        .value = "";
+
+    document
+        .getElementById("newSubjectCode")
+        .value = "";
+
+    document
+        .getElementById("newSubjectDescription")
+        .value = "";
+
+    document
+        .getElementById("newSubjectModules")
+        .value = "10";
+
+
+    document
+        .getElementById("subjectFormModal")
+        .classList.remove("hidden");
+}
+
+
+function addSubject() {
+
+    const name =
+        document
+        .getElementById("newSubjectName")
+        .value
+        .trim();
+
+    const code =
+        document
+        .getElementById("newSubjectCode")
+        .value
+        .trim();
+
+    const description =
+        document
+        .getElementById("newSubjectDescription")
+        .value
+        .trim();
+
+    const modules =
+        Number(
+            document
+            .getElementById("newSubjectModules")
+            .value
+        );
+
+
+    if (!name) {
+
+        alert(
+            "Please enter a subject name."
+        );
+
+        return;
+    }
+
+
+    if (!modules || modules < 1) {
+
+        alert(
+            "Please enter a valid number of modules."
+        );
+
+        return;
+    }
+
+
+    const subjects = getSubjects();
+
+
+    const newSubject = {
+
+        id: Date.now(),
+
+        name: name,
+
+        code:
+            code ||
+            "SUB" +
+            String(subjects.length + 1)
+            .padStart(3, "0"),
+
+        description:
+            description ||
+            "Your dedicated academic workspace.",
+
+        modules: modules,
+
+        completed: 0,
+
+        progress: 0,
+
+        files: {
+            Notes: [],
+            Materials: [],
+            Assignments: []
+        },
+
+        assessment: null
+
+    };
+
+
+    subjects.push(newSubject);
+
+    saveSubjects(subjects);
+
+    closeModal("subjectFormModal");
+
+    renderAllSubjects();
+
+    updateAllDashboardData();
+
+    alert(
+        `${name} has been added to My Subjects.`
+    );
+}
+
+
+/* =========================================================
+   SUBJECT CARD
+========================================================= */
+
+function createSubjectCard(subject) {
+
+    return `
+
+        <div class="subject-card"
+             onclick="openSubject(${subject.id})">
+
+            <div class="subject-code">
+                ${escapeHTML(subject.code)}
+            </div>
+
+            <h3>
+                ${escapeHTML(subject.name)}
+            </h3>
+
+            <div class="subject-description">
+                ${escapeHTML(subject.description)}
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width:${subject.progress}%">
+                </div>
+
+            </div>
+
+            <div class="progress-info">
+
+                <span>
+                    Subject Progress
+                </span>
+
+                <span>
+                    ${subject.progress}%
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+function renderAllSubjects() {
+
+    const subjects = getSubjects();
+
+    const container =
+        document.getElementById("allSubjects");
+
+
+    if (subjects.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <h3>
+                    No Subjects Yet
+                </h3>
+
+                <p>
+                    Your academic space is empty.
+                    Add your first subject to begin.
+                </p>
+
+                <button
+                    class="primary-btn"
+                    style="width:auto;margin-top:18px"
+                    onclick="openSubjectForm()">
+
+                    + Add Your First Subject
+
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        subjects
+        .map(createSubjectCard)
+        .join("");
+}
+
+
+/* =========================================================
+   DASHBOARD ACTIVE SUBJECTS
+========================================================= */
+
+function renderDashboardSubjects() {
+
+    const subjects = getSubjects();
+
+    const container =
+        document.getElementById("dashboardSubjects");
+
+
+    if (subjects.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <h3>
+                    No Active Subjects
+                </h3>
+
+                <p>
+                    Add subjects from My Subjects and
+                    they will appear here automatically.
+                </p>
+
+                <button
+                    class="primary-btn"
+                    style="width:auto;margin-top:18px"
+                    onclick="showPage('subjectsPage')">
+
+                    Go to My Subjects
+
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /*
+       Dashboard only shows active subjects.
+       It does NOT display a full subject library here.
+    */
+
+    container.innerHTML =
+        subjects
+        .map(createSubjectCard)
+        .join("");
+}
+
+
+/* =========================================================
+   OPEN SUBJECT
+========================================================= */
+
+function openSubject(id) {
+
+    const subjects = getSubjects();
+
+    currentSubject =
+        subjects.find(
+            subject => subject.id === id
+        );
+
+
+    if (!currentSubject) return;
+
+
+    document
+        .getElementById("dashboardHome")
+        .classList.add("hidden");
+
+    document
+        .getElementById("subjectsPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("progressPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("assistantPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("themesPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("settingsPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("subjectWorkspace")
+        .classList.remove("hidden");
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+
+    document
+        .querySelectorAll(".nav-item")[1]
+        .classList.add("active");
+
+
+    document
+        .getElementById("workspaceCode")
+        .textContent =
+        currentSubject.code;
+
+
+    document
+        .getElementById("workspaceTitle")
+        .textContent =
+        currentSubject.name;
+
+
+    document
+        .getElementById("workspaceDescription")
+        .textContent =
+        currentSubject.description;
+
+
+    updateSubjectProgress();
+    renderSubjectIntelligence();
+}
+
+
+/* =========================================================
+   SUBJECT PROGRESS
+========================================================= */
+
+function updateSubjectProgress() {
+
+    if (!currentSubject) return;
+
+
+    document
+        .getElementById("progressText")
+        .textContent =
+        `${currentSubject.progress}% completed`;
+
+
+    document
+        .getElementById("largeProgress")
+        .style.width =
+        currentSubject.progress + "%";
+
+
+    document
+        .getElementById("moduleCount")
+        .textContent =
+        `${currentSubject.completed} / ${currentSubject.modules}`;
+
+}
+
+
+/*
+   There is deliberately NO "Mark Next Module Complete"
+   button.
+
+   Progress is controlled by the assessment/academic
+   evaluation system.
+*/
+
+
+/* =========================================================
+   REMOVE SUBJECT
+========================================================= */
+
+function removeCurrentSubject() {
+
+    if (!currentSubject) return;
+
+
+    const confirmed =
+        confirm(
+            `Remove "${currentSubject.name}" from My Subjects?`
+        );
+
+
+    if (!confirmed) return;
+
+
+    let subjects = getSubjects();
+
+
+    subjects =
+        subjects.filter(
+            subject =>
+                subject.id !== currentSubject.id
+        );
+
+
+    saveSubjects(subjects);
+
+    currentSubject = null;
+
+    updateAllDashboardData();
+
+    showPage("subjectsPage");
+
+    alert(
+        "Subject removed successfully."
+    );
+}
+
+
+/* =========================================================
+   FILE MANAGER
+========================================================= */
+
+function openFileManager(type) {
+
+    if (!currentSubject) return;
+
+
+    currentFileType = type;
+
+
+    document
+        .getElementById("fileTypeLabel")
+        .textContent =
+        type.toUpperCase();
+
+
+    document
+        .getElementById("fileManagerTitle")
+        .textContent =
+        `${currentSubject.name} • ${type}`;
+
+
+    renderFiles();
+
+
+    document
+        .getElementById("fileManagerModal")
+        .classList.remove("hidden");
+}
+
+
+function renderFiles() {
+
+    const subjects = getSubjects();
+
+    const subject =
+        subjects.find(
+            s => s.id === currentSubject.id
+        );
+
+
+    if (!subject) return;
+
+
+    const files =
+        subject.files[currentFileType] || [];
+
+
+    const container =
+        document.getElementById("fileList");
+
+
+    if (files.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <h3>
+                    No ${currentFileType} Yet
+                </h3>
+
+                <p>
+                    Create your first ${currentFileType.toLowerCase()}
+                    as a separate file.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        files
+        .map(file => `
+
+            <div class="file-item">
+
+                <div class="file-info">
+
+                    <div class="file-name">
+                        ${escapeHTML(file.name)}
+                    </div>
+
+                    <div class="file-preview">
+                        ${escapeHTML((file.content || "").replace(/\n/g, " ").slice(0, 130))}
+                        ${(file.attachments || []).length ? `<div class="attachment-list">${file.attachments.map(a=>`<span class="attachment-pill">📎 ${escapeHTML(a.name)}</span>`).join("")}</div>` : ""}
+                    </div>
+
+                </div>
+
+                <div class="file-actions">
+
+                    <button
+                        class="small-btn"
+                        onclick="editFile(${file.id})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="small-btn"
+                        onclick="deleteFile(${file.id})">
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `)
+        .join("");
+}
+
+
+/* =========================================================
+   CREATE FILE
+========================================================= */
+
+function createFile() {
+
+    currentFileId = null;
+
+
+    document
+        .getElementById("fileEditorTitle")
+        .textContent =
+        `New ${currentFileType.slice(0, -1)}`;
+
+
+    document
+        .getElementById("fileNameInput")
+        .value = "";
+
+
+    document
+        .getElementById("fileContentInput")
+        .value = "";
+
+    const attachmentInput = document.getElementById("fileAttachmentInput");
+    if (attachmentInput) attachmentInput.value = "";
+    const attachmentPreview = document.getElementById("attachmentPreview");
+    if (attachmentPreview) attachmentPreview.innerHTML = "";
+
+    document
+        .getElementById("fileEditorModal")
+        .classList.remove("hidden");
+}
+
+
+/* =========================================================
+   EDIT FILE
+========================================================= */
+
+function editFile(id) {
+
+    const subjects = getSubjects();
+
+    const subject =
+        subjects.find(
+            s => s.id === currentSubject.id
+        );
+
+
+    if (!subject) return;
+
+
+    const file =
+        subject.files[currentFileType]
+        .find(
+            f => f.id === id
+        );
+
+
+    if (!file) return;
+
+
+    currentFileId = id;
+
+
+    document
+        .getElementById("fileEditorTitle")
+        .textContent =
+        `Edit ${currentFileType.slice(0, -1)}`;
+
+
+    document
+        .getElementById("fileNameInput")
+        .value =
+        file.name;
+
+
+    document
+        .getElementById("fileContentInput")
+        .value =
+        file.content || "";
+
+    const attachmentInput = document.getElementById("fileAttachmentInput");
+    if (attachmentInput) attachmentInput.value = "";
+    const attachmentPreview = document.getElementById("attachmentPreview");
+    if (attachmentPreview) attachmentPreview.innerHTML = (file.attachments || []).map(a=>`<span class="attachment-pill">${escapeHTML(a.name)}</span>`).join("");
+
+    document
+        .getElementById("fileEditorModal")
+        .classList.remove("hidden");
+}
+
+
+/* =========================================================
+   SAVE FILE
+========================================================= */
+
+function saveFile() {
+    const name=document.getElementById("fileNameInput").value.trim();
+    const content=document.getElementById("fileContentInput").value.trim();
+    const input=document.getElementById("fileAttachmentInput");
+    const selectedFiles=input ? Array.from(input.files || []) : [];
+    if(!name){ alert("Please enter a file name."); return; }
+    if(!content && selectedFiles.length===0){ alert("Please write content or attach at least one file."); return; }
+
+    const subjects=getSubjects();
+    const subject=subjects.find(s=>s.id===currentSubject.id);
+    if(!subject)return;
+    if(!subject.files[currentFileType])subject.files[currentFileType]=[];
+
+    const finish=(attachments)=>{
+        if(currentFileId===null){
+            subject.files[currentFileType].push({id:Date.now(),name,content,attachments,createdAt:new Date().toISOString()});
+        }else{
+            const file=subject.files[currentFileType].find(f=>f.id===currentFileId);
+            if(file){ file.name=name; file.content=content; file.attachments=attachments.length?attachments:(file.attachments||[]); file.updatedAt=new Date().toISOString(); }
+        }
+        saveSubjects(subjects); closeModal("fileEditorModal"); renderFiles(); alert("File saved successfully.");
+    };
+
+    if(!selectedFiles.length){
+        const existing= currentFileId!==null ? ((subject.files[currentFileType].find(f=>f.id===currentFileId)||{}).attachments||[]) : [];
+        finish(existing); return;
+    }
+
+    Promise.all(selectedFiles.map(file=>new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve({name:file.name,type:file.type,size:file.size,data:reader.result});
+        reader.onerror=reject; reader.readAsDataURL(file);
+    }))).then(finish).catch(()=>alert("One or more attachments could not be read."));
+}
+
+
+
+/* =========================================================
+   DELETE FILE
+========================================================= */
+
+function deleteFile(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this file?"
+        );
+
+
+    if (!confirmed) return;
+
+
+    const subjects = getSubjects();
+
+    const subject =
+        subjects.find(
+            s => s.id === currentSubject.id
+        );
+
+
+    if (!subject) return;
+
+
+    subject.files[currentFileType] =
+        subject.files[currentFileType]
+        .filter(
+            file => file.id !== id
+        );
+
+
+    saveSubjects(subjects);
+
+    renderFiles();
+}
+
+
+/* =========================================================
+   SUBJECT AI
+========================================================= */
+
+function openSubjectAI() {
+
+    if (!currentSubject) return;
+
+
+    document
+        .getElementById("subjectAITitle")
+        .textContent =
+        `${currentSubject.name} • Subject AI`;
+
+
+    document
+        .getElementById("subjectAIAskArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("quizArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("assessmentResultArea")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("subjectAIModal")
+        .classList.remove("hidden");
+}
+
+
+function showSubjectAIAsk() {
+
+    document
+        .getElementById("subjectAIAskArea")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("quizArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("assessmentResultArea")
+        .classList.add("hidden");
+
+}
+
+
+function askSubjectAI() {
+
+    const input =
+        document
+        .getElementById("subjectAIInput");
+
+    const question =
+        input.value.trim();
+
+
+    if (!question && !assistantAttachments.length) return;
+
+
+    document
+        .getElementById("subjectAIResponse")
+        .textContent =
+        `Subject AI received your question about ${currentSubject.name}.
+
+Question:
+${question}
+
+This interface is prepared for connection to an actual AI model. Once your backend/API is connected, the AI can analyze your subject materials and provide a real academic response.`;
+
+    input.value = "";
+}
+
+
+function getSubjectAIAttachments(){
+    const input=document.getElementById("subjectAIAttachment");
+    return input ? Array.from(input.files||[]) : [];
+}
+
+function generateSubjectContent(type){
+    if(!currentSubject)return;
+    const files=getSubjectAIAttachments();
+    const result=document.getElementById("subjectAIGenerationResult");
+    const label=type.charAt(0).toUpperCase()+type.slice(1);
+    result.innerHTML=`<strong class="gold">${label} generation request prepared</strong><p style="margin-top:8px;color:var(--muted)">Subject: ${escapeHTML(currentSubject.name)}<br>Attachments: ${files.length ? files.map(f=>escapeHTML(f.name)).join(", ") : "None"}<br><br>Connect your AI backend to generate the actual ${label.toLowerCase()} and return a preview or downloadable file.</p>`;
+}
+
+function findSubjectResources(){
+    if(!currentSubject)return;
+    const result=document.getElementById("subjectAIGenerationResult");
+    result.innerHTML=`<strong class="gold">Resource search request prepared</strong><p style="margin-top:8px;color:var(--muted)">A connected AI/search backend can return verified learning links, references, videos, documents and other useful resources for ${escapeHTML(currentSubject.name)}.</p>`;
+}
+
+
+/* =========================================================
+   SUBJECT QUIZ
+========================================================= */
+
+function startSubjectQuiz() {
+
+    document
+        .getElementById("subjectAIAskArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("assessmentResultArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("quizArea")
+        .classList.remove("hidden");
+
+
+    quizQuestions = [
+
+        {
+            question:
+                `Which concept is most important when studying ${currentSubject.name}?`,
+
+            options: [
+                "Understanding the core concepts",
+                "Memorizing without understanding",
+                "Skipping difficult topics",
+                "Studying only before exams"
+            ],
+
+            answer: 0,
+            topic: "Core Concepts"
+        },
+
+        {
+            question:
+                `What is generally the best way to improve performance in ${currentSubject.name}?`,
+
+            options: [
+                "Regular practice and assessment",
+                "Avoiding revision",
+                "Ignoring mistakes",
+                "Studying only one topic forever"
+            ],
+
+            answer: 0,
+            topic: "Practice & Revision"
+        },
+
+        {
+            question:
+                `What should a student do after identifying a weak topic?`,
+
+            options: [
+                "Revise and practice the weak topic",
+                "Ignore it",
+                "Remove it from the syllabus",
+                "Stop studying the subject"
+            ],
+
+            answer: 0,
+            topic: "Weak-Topic Recovery"
+        }
+
+    ];
+
+
+    const container =
+        document.getElementById("quizQuestions");
+
+
+    container.innerHTML =
+        quizQuestions
+        .map(
+            (q, index) => `
+
+                <div class="quiz-question">
+
+                    <h4>
+                        ${index + 1}. ${escapeHTML(q.question)}
+                    </h4>
+
+                    ${q.options
+                        .map(
+                            (option, optionIndex) => `
+
+                                <label class="quiz-option">
+
+                                    <input
+                                        type="radio"
+                                        name="question${index}"
+                                        value="${optionIndex}">
+
+                                    ${escapeHTML(option)}
+
+                                </label>
+
+                            `
+                        )
+                        .join("")
+                    }
+
+                </div>
+
+            `
+        )
+        .join("");
+}
+
+
+/* =========================================================
+   SUBMIT QUIZ
+========================================================= */
+
+function submitQuiz() {
+
+    let score = 0;
+
+
+    quizQuestions.forEach(
+        (question, index) => {
+
+            const selected =
+                document.querySelector(
+                    `input[name="question${index}"]:checked`
+                );
+
+
+            if (
+                selected &&
+                Number(selected.value) ===
+                question.answer
+            ) {
+
+                score++;
+
+            }
+
+        }
+    );
+
+
+    const percentage =
+        Math.round(
+            score /
+            quizQuestions.length *
+            100
+        );
+
+
+    const weakPoints = [];
+    const topicResults = [];
+
+
+    quizQuestions.forEach(
+        (question, index) => {
+
+            const selected =
+                document.querySelector(
+                    `input[name="question${index}"]:checked`
+                );
+
+
+            if (
+                !selected ||
+                Number(selected.value) !==
+                question.answer
+            ) {
+
+                weakPoints.push(
+                    `Question ${index + 1}`
+                );
+
+            }
+
+        }
+    );
+
+
+    const subjects = getSubjects();
+
+    const subject =
+        subjects.find(
+            s => s.id === currentSubject.id
+        );
+
+
+    if (subject) {
+
+        subject.assessment = {
+
+            score: score,
+
+            total:
+                quizQuestions.length,
+
+            percentage: percentage,
+
+            weakPoints: weakPoints,
+
+            date:
+                new Date().toISOString()
+
+        };
+
+        saveSubjects(subjects);
+
+        currentSubject = subject;
+    }
+
+
+    /*
+       Academic credits are earned through actual
+       academic activity. This assessment gives a
+       small credit increment.
+    */
+
+    if (score > 0) {
+
+        saveCredits(
+            getCredits() + score * 5
+        );
+
+    }
+
+
+    updateAllDashboardData();
+
+
+    alert(
+        `Assessment completed.\n\nScore: ${score}/${quizQuestions.length} (${percentage}%)`
+    );
+
+
+    showAssessmentResult();
+}
+
+
+/* =========================================================
+   ASSESSMENT RESULT + WEAK POINTS
+========================================================= */
+
+function showAssessmentResult() {
+
+    document
+        .getElementById("subjectAIAskArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("quizArea")
+        .classList.add("hidden");
+
+    document
+        .getElementById("assessmentResultArea")
+        .classList.remove("hidden");
+
+
+    const subjects = getSubjects();
+
+    const subject =
+        subjects.find(
+            s => s.id === currentSubject.id
+        );
+
+
+    const container =
+        document.getElementById(
+            "assessmentResult"
+        );
+
+
+    if (
+        !subject ||
+        !subject.assessment
+    ) {
+
+        container.innerHTML = `
+
+            <p style="color:var(--muted)">
+                No assessment has been completed yet.
+                Take an assessment first.
+            </p>
+
+        `;
+
+        return;
+    }
+
+
+    const assessment =
+        subject.assessment;
+
+
+    let weakText =
+        assessment.weakPoints.length
+        ? assessment.weakPoints.join(", ")
+        : "No major weak points detected.";
+
+
+    container.innerHTML = `
+
+        <p>
+            <strong>Score:</strong>
+            ${assessment.score}/${assessment.total}
+        </p>
+
+        <p style="margin-top:10px">
+            <strong>Percentage:</strong>
+            <span class="gold">
+                ${assessment.percentage}%
+            </span>
+        </p>
+
+        <p style="margin-top:15px">
+            <strong>Weak Points:</strong>
+            ${escapeHTML(weakText)}
+        </p>
+
+        <div class="explain-box">
+            <strong class="gold">Confidence Check</strong>
+            <p style="margin-top:7px">High confidence on an incorrect answer may indicate a misconception. Low confidence on a correct answer may indicate that the concept is understood but needs reinforcement.</p>
+        </div>
+
+        <div style="
+            margin-top:20px;
+            padding:15px;
+            border:1px solid var(--border);
+            border-radius:12px;
+            background:#09090a;
+        ">
+
+            <strong class="gold">
+                AI-Generated Improvement Notes
+            </strong>
+
+            <p style="
+                color:var(--muted);
+                font-size:12px;
+                line-height:1.7;
+                margin-top:8px;
+            ">
+
+                Based on this assessment, your revision
+                should focus on the concepts represented
+                by the missed questions.
+
+                A connected AI model will later generate
+                detailed notes specifically for your
+                underprepared portions of
+                ${escapeHTML(currentSubject.name)}.
+
+            </p>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   PROGRESS CALCULATION
+========================================================= */
+
+function calculateOverallProgress() {
+
+    const subjects = getSubjects();
+
+    if (subjects.length === 0) {
+        return 0;
+    }
+
+
+    const total =
+        subjects.reduce(
+            (sum, subject) =>
+                sum + Number(subject.progress || 0),
+            0
+        );
+
+
+    return Math.round(
+        total / subjects.length
+    );
+}
+
+
+/* =========================================================
+   DASHBOARD STATISTICS
+========================================================= */
+
+function updateAllDashboardData() {
+
+    const subjects = getSubjects();
+
+
+    document
+        .getElementById("activeSubjectCount")
+        .textContent =
+        subjects.length;
+
+
+    const overall =
+        calculateOverallProgress();
+
+
+    document
+        .getElementById("overallProgress")
+        .textContent =
+        overall + "%";
+
+
+    document
+        .getElementById("progressOverall")
+        .textContent =
+        overall + "%";
+
+
+    document
+        .getElementById("creditCount")
+        .textContent =
+        getCredits();
+
+
+    document
+        .getElementById("progressCredits")
+        .textContent =
+        getCredits();
+
+
+    document
+        .getElementById("todayStudyHours")
+        .textContent =
+        formatStudyTime(
+            getTodayStudySeconds()
+        );
+
+
+    document
+        .getElementById("totalStudyTime")
+        .textContent =
+        formatStudyTime(
+            getTotalStudySeconds()
+        );
+
+
+    updateStreak();
+
+    renderDashboardSubjects();
+
+    renderAllSubjects();
+
+    renderProgressPage();
+}
+
+
+/* =========================================================
+   STUDY TIME
+========================================================= */
+
+function getTodayStudySeconds() {
+
+    const data = getStudyData();
+
+    return Number(
+        data[dateKey()] || 0
+    );
+}
+
+
+function getTotalStudySeconds() {
+
+    const data = getStudyData();
+
+    return Object
+        .values(data)
+        .reduce(
+            (sum, seconds) =>
+                sum + Number(seconds || 0),
+            0
+        );
+}
+
+
+function addStudySeconds(seconds) {
+
+    if (seconds <= 0) return;
+
+
+    const data = getStudyData();
+
+    const today = dateKey();
+
+
+    data[today] =
+        Number(data[today] || 0) +
+        seconds;
+
+
+    saveStudyData(data);
+
+
+    /*
+       Academic credit rule is intentionally simple
+       for now. Your later command can define the exact
+       credit calculation.
+    */
+
+    const addedCredits =
+        Math.floor(seconds / 60);
+
+
+    if (addedCredits > 0) {
+
+        saveCredits(
+            getCredits() + addedCredits
+        );
+
+    }
+
+
+    updateStreak();
+
+    updateAllDashboardData();
+    renderThemePicker();
+}
+
+
+/* =========================================================
+   FORMAT STUDY TIME
+========================================================= */
+
+function formatStudyTime(seconds) {
+
+    seconds =
+        Math.max(
+            0,
+            Math.floor(seconds)
+        );
+
+
+    const hours =
+        Math.floor(
+            seconds / 3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+
+    return `${hours}h ${minutes}m`;
+}
+
+
+/* =========================================================
+   STREAK
+========================================================= */
+
+function updateStreak() {
+
+    const data = getStudyData();
+
+    let streak = 0;
+
+    const today = new Date();
+
+
+    while (true) {
+
+        const key =
+            dateKey(today);
+
+
+        if (
+            Number(data[key] || 0) > 0
+        ) {
+
+            streak++;
+
+            today.setDate(
+                today.getDate() - 1
+            );
+
+        } else {
+
+            break;
+
+        }
+
+    }
+
+
+    document
+        .getElementById("streakCount")
+        .textContent =
+        streak;
+
+
+    return streak;
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function setTimerMode(mode) {
+
+    timerMode = mode;
+
+
+    document
+        .getElementById("studyModeBtn")
+        .classList.toggle(
+            "active",
+            mode === "study"
+        );
+
+
+    document
+        .getElementById("breakModeBtn")
+        .classList.toggle(
+            "active",
+            mode === "break"
+        );
+}
+
+
+function setTimerFromInput() {
+
+    const minutes =
+        Number(
+            document
+            .getElementById("timerMinutes")
+            .value
+        );
+
+
+    if (!minutes || minutes < 1) {
+
+        alert(
+            "Please enter a valid number of minutes."
+        );
+
+        return;
+    }
+
+
+    pauseTimer();
+
+    timerSeconds =
+        minutes * 60;
+
+    updateTimerDisplay();
+}
+
+
+function startTimer() {
+
+    if (timerRunning) return;
+
+
+    timerRunning = true;
+
+
+    document
+        .getElementById("timerStartBtn")
+        .textContent =
+        "Running";
+
+
+    timerInterval =
+        setInterval(
+            () => {
+
+                if (timerSeconds <= 0) {
+
+                    pauseTimer();
+
+                    if (timerMode === "study") {
+
+                        addStudySeconds(
+                            timerStudyElapsed
+                        );
+
+                        timerStudyElapsed = 0;
+
+                    }
+
+                    alert(
+                        timerMode === "study"
+                        ? "Study session completed."
+                        : "Break session completed."
+                    );
+
+                    return;
+                }
+
+
+                timerSeconds--;
+
+                if (
+                    timerMode === "study"
+                ) {
+
+                    timerStudyElapsed++;
+
+                }
+
+
+                updateTimerDisplay();
+
+            },
+            1000
+        );
+}
+
+
+let timerStudyElapsed = 0;
+
+
+function pauseTimer() {
+
+    if (timerInterval) {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval = null;
+
+    }
+
+
+    timerRunning = false;
+
+
+    document
+        .getElementById("timerStartBtn")
+        .textContent =
+        "Start";
+
+
+    /*
+       Save study time when pausing too,
+       so active study sessions count.
+    */
+
+    if (
+        timerMode === "study" &&
+        timerStudyElapsed > 0
+    ) {
+
+        addStudySeconds(
+            timerStudyElapsed
+        );
+
+        timerStudyElapsed = 0;
+
+    }
+}
+
+
+function resetTimer() {
+
+    pauseTimer();
+
+    timerSeconds =
+        25 * 60;
+
+    timerStudyElapsed = 0;
+
+    updateTimerDisplay();
+}
+
+
+function updateTimerDisplay() {
+
+    const minutes =
+        Math.floor(
+            timerSeconds / 60
+        );
+
+    const seconds =
+        timerSeconds % 60;
+
+
+    document
+        .getElementById("timerDisplay")
+        .textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+function renderCalendar() {
+
+    const year =
+        calendarDate.getFullYear();
+
+    const month =
+        calendarDate.getMonth();
+
+
+    document
+        .getElementById("calendarMonth")
+        .textContent =
+        calendarDate.toLocaleDateString(
+            undefined,
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    const container =
+        document
+        .getElementById("calendarDays");
+
+
+    const completedDays =
+        getCompletedDays();
+
+
+    let html = "";
+
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        html += `
+            <div class="calendar-day empty"></div>
+        `;
+
+    }
+
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const key =
+            dateKey(date);
+
+
+        const isToday =
+            key === dateKey();
+
+
+        const completed =
+            completedDays.includes(key);
+
+
+        html += `
+
+            <div
+                class="calendar-day
+                    ${isToday ? "today" : ""}
+                    ${completed ? "completed" : ""}"
+                onclick="toggleCalendarDay('${key}')">
+
+                ${day}
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML = html;
+}
+
+
+function changeCalendarMonth(direction) {
+
+    calendarDate.setMonth(
+        calendarDate.getMonth() +
+        direction
+    );
+
+    renderCalendar();
+}
+
+
+function toggleCalendarDay(key) {
+
+    let completedDays =
+        getCompletedDays();
+
+
+    if (
+        completedDays.includes(key)
+    ) {
+
+        completedDays =
+            completedDays.filter(
+                day => day !== key
+            );
+
+    } else {
+
+        completedDays.push(key);
+
+    }
+
+
+    saveCompletedDays(
+        completedDays
+    );
+
+
+    renderCalendar();
+}
+
+
+/* =========================================================
+   PROGRESS PAGE
+========================================================= */
+
+function renderProgressPage() {
+
+    const subjects = getSubjects();
+
+    const container =
+        document.getElementById(
+            "progressSubjects"
+        );
+
+
+    if (subjects.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <h3>
+                    No Academic Progress Yet
+                </h3>
+
+                <p>
+                    Add subjects and complete assessments
+                    to build your progress record.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        container.innerHTML =
+            subjects
+            .map(subject => `
+
+                <div class="progress-subject-row">
+
+                    <div class="progress-row-head">
+
+                        <span>
+                            ${escapeHTML(subject.name)}
+                        </span>
+
+                        <span class="gold">
+                            ${subject.progress}%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width:${subject.progress}%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `)
+            .join("");
+
+    }
+
+
+    renderGoals();
+    renderLearningIntelligence();
+    renderSelfRating();
+    const pe=document.getElementById("progressExplanation");
+    const pg=document.getElementById("progressGapAnalysis");
+    const subjectsNow=getSubjects().filter(s=>s.assessment);
+    const gaps=subjectsNow.sort((a,b)=>Number(a.assessment.percentage||0)-Number(b.assessment.percentage||0));
+    if(pe) pe.textContent=gaps.length ? `Your current priority is ${gaps[0].name}, where the latest assessment score is ${gaps[0].assessment.percentage}%. The system recommends targeted revision before spending more time on stronger subjects.` : "Your recommendations will become more specific after you complete assessments and build topic-level performance data.";
+    if(pg) pg.innerHTML=gaps.length ? gaps.slice(0,4).map(s=>`<div class="priority-item"><div class="priority-meta"><strong>${escapeHTML(s.name)}</strong><span>Latest assessment: ${s.assessment.percentage}%</span></div><span class="gap-pill">Priority ${s.assessment.percentage<60?'High':s.assessment.percentage<80?'Medium':'Low'}</span></div>`).join("") : `<div class="intelligence-empty">No assessment data yet.</div>`;
+}
+
+
+/* =========================================================
+   GOALS
+========================================================= */
+
+function openGoalModal() {
+
+    document
+        .getElementById("goalName")
+        .value = "";
+
+    document
+        .getElementById("goalTarget")
+        .value = "100";
+
+
+    document
+        .getElementById("goalModal")
+        .classList.remove("hidden");
+}
+
+
+function addGoal() {
+
+    const name =
+        document
+        .getElementById("goalName")
+        .value
+        .trim();
+
+    const target =
+        Number(
+            document
+            .getElementById("goalTarget")
+            .value
+        );
+
+
+    if (!name) {
+
+        alert(
+            "Please enter a goal."
+        );
+
+        return;
+    }
+
+
+    const goals = getGoals();
+
+
+    goals.push({
+
+        id: Date.now(),
+
+        name: name,
+
+        target: target || 100,
+
+        progress: 0,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    saveGoals(goals);
+
+    closeModal("goalModal");
+
+    renderGoals();
+    renderDashboardGoals();
+    renderLearningIntelligence();
+}
+
+function renderDashboardGoals() {
+    const container = document.getElementById("dashboardGoalList");
+    if(!container) return;
+    const goals = getGoals();
+    if(!goals.length){
+        container.innerHTML = `<div class="intelligence-empty">Set a clear academic goal to give Study Sphere a target for your learning insights.</div>`;
+        return;
+    }
+    const progress = calculateOverallProgress();
+    container.innerHTML = goals.map(goal => {
+        const pct = Math.min(progress, Number(goal.target || 100));
+        return `<div class="goal-item"><div class="goal-head"><strong>${escapeHTML(goal.name)}</strong><span class="goal-percent">${pct}%</span></div><div class="goal-progress"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+    }).join("");
+}
+
+
+function renderGoals() {
+
+    const goals = getGoals();
+
+    const container =
+        document.getElementById(
+            "goalList"
+        );
+
+
+    if (!container) return;
+
+
+    if (goals.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <h3>
+                    No Goals Added
+                </h3>
+
+                <p>
+                    Add an academic goal to start tracking it.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const subjects =
+        getSubjects();
+
+
+    container.innerHTML =
+        goals
+        .map(goal => {
+
+            /*
+               Goal progress is derived from overall
+               academic progress for now.
+
+               This can later be connected to specific
+               subjects/modules.
+            */
+
+            const progress =
+                calculateOverallProgress();
+
+
+            return `
+
+                <div class="goal-item">
+
+                    <div class="goal-head">
+
+                        <strong>
+                            ${escapeHTML(goal.name)}
+                        </strong>
+
+                        <span class="goal-percent">
+                            ${Math.min(
+                                progress,
+                                goal.target
+                            )}%
+                        </span>
+
+                    </div>
+
+                    <div class="goal-progress">
+
+                        <div
+                            class="progress-fill"
+                            style="width:${Math.min(
+                                progress,
+                                goal.target
+                            )}%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+}
+
+
+/* =========================================================
+   GENERAL AI ASSISTANT
+========================================================= */
+
+let assistantAttachments = [];
+function handleAssistantFiles(files){
+    assistantAttachments = Array.from(files || []);
+    renderAssistantAttachments();
+}
+function chooseAssistantType(type){
+    const input=document.getElementById("assistantFileInput");
+    const acceptMap={
+        audio:"audio/*", video:"video/*", image:"image/*", document:".pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx,.csv"
+    };
+    input.setAttribute("accept", acceptMap[type] || "*/*");
+    input.click();
+}
+function renderAssistantAttachments(){
+    const box=document.getElementById("assistantAttachmentList");
+    if(!box) return;
+    box.innerHTML=assistantAttachments.map(f=>`<span class="assistant-file-pill">${escapeHTML(f.name)}</span>`).join("");
+}
+
+function askAssistant() {
+
+    const input =
+        document
+        .getElementById("assistantInput");
+
+    const question =
+        input.value.trim();
+
+
+    if (!question) return;
+
+
+    const chat =
+        document
+        .getElementById("assistantChat");
+
+
+    chat.innerHTML += `
+
+        <div class="chat-message user">
+            ${escapeHTML(question)}
+        </div>
+
+    `;
+
+
+    chat.innerHTML += `
+
+        <div class="chat-message ai">
+
+            I received your question:
+
+            "${escapeHTML(question || "Please review the attached material.")}"
+
+            ${assistantAttachments.length ? `Attachments selected: ${assistantAttachments.map(f=>escapeHTML(f.name)).join(", ")}.` : ""}
+
+            This Study Sphere interface is ready
+            to connect with a real AI model through
+            your backend API.
+
+        </div>
+
+    `;
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+
+    input.value = "";
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function renderSettings() {
+
+    const user =
+        JSON.parse(
+            localStorage.getItem(
+                "studySphereUser"
+            )
+        );
+
+
+    if (!user) return;
+
+
+    document
+        .getElementById("settingsProfile")
+        .textContent =
+        `${user.name} • ${user.email}`;
+
+
+    document
+        .getElementById("settingsLanguage")
+        .textContent =
+        localStorage.getItem(
+            "studySphereLanguage"
+        ) || "English";
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function closeModal(id) {
+
+    document
+        .getElementById(id)
+        .classList.add("hidden");
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   LOGIN SECURITY
+========================================================= */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        /*
+           Dashboard is NEVER automatically opened.
+
+           Every fresh entry follows:
+
+           Logo
+              ↓
+           Language
+              ↓
+           Login / Sign Up
+              ↓
+           Dashboard
+        */
+
+        updateTimerDisplay();
+        renderSelfRating();
+
+    }
+);
+
+
+
+/* =========================================================
+   STUDY SPHERE 3.0 — ROLE PERSONALIZATION + REAL UI LANGUAGE
+   Keeps the existing dashboard architecture and layers dynamic
+   role modules and localization on top of it.
+========================================================= */
+(function(){
+    const ROLE_CONFIG={
+      "Student":{
+        icon:"", focus:"Study + Exams + Progress", assistant:"AI Study Assistant",
+        modules:["My Subjects","Study Materials","AI Quiz & Tests","Learning Progress","Study Goals / Streak","AI Study Assistant"]
+      },
+      "Teacher / Faculty":{
+        icon:"", focus:"Teaching + Content + Student Insights", assistant:"AI Teaching Assistant",
+        modules:["My Courses","Create / Upload Materials","AI Quiz Generator","Student Performance","Course Progress","AI Teaching Assistant"]
+      },
+      "Researcher":{
+        icon:"", focus:"Research + Papers + Knowledge", assistant:"AI Research Assistant",
+        modules:["Research Projects","Papers & Documents","AI Paper Summarizer","Research Notes","Literature Insights","AI Research Assistant"]
+      },
+      "Working Professional":{
+        icon:"", focus:"Skills + Career + Productivity", assistant:"AI Career Assistant",
+        modules:["My Skills","Learning Goals","Courses / Resources","Skill Gap Analysis","Progress Tracker","AI Career Assistant"]
+      },
+      "Lifelong Learner":{
+        icon:"", focus:"Exploration + Personal Learning", assistant:"AI Learning Assistant",
+        modules:["Learning Interests","Learning Paths","Saved Resources","AI Recommendations","Progress Tracker","AI Learning Assistant"]
+      }
+    };
+    const ROLE_ACTIONS={
+      "My Subjects":"subjectsPage","Study Materials":"subjectsPage","AI Quiz & Tests":"progressPage","Learning Progress":"progressPage","Study Goals / Streak":"dashboardHome","AI Study Assistant":"assistantPage",
+      "My Courses":"subjectsPage","Create / Upload Materials":"subjectsPage","AI Quiz Generator":"progressPage","Student Performance":"progressPage","Course Progress":"progressPage","AI Teaching Assistant":"assistantPage",
+      "Research Projects":"subjectsPage","Papers & Documents":"subjectsPage","AI Paper Summarizer":"assistantPage","Research Notes":"subjectsPage","Literature Insights":"assistantPage","AI Research Assistant":"assistantPage",
+      "My Skills":"subjectsPage","Learning Goals":"dashboardHome","Courses / Resources":"subjectsPage","Skill Gap Analysis":"progressPage","Progress Tracker":"progressPage","AI Career Assistant":"assistantPage",
+      "Learning Interests":"subjectsPage","Learning Paths":"subjectsPage","Saved Resources":"subjectsPage","AI Recommendations":"assistantPage","AI Learning Assistant":"assistantPage"
+    };
+    const ROLE_DESCRIPTIONS={
+      "Student":"Study, revise, practice, prepare for exams, and track academic progress.",
+      "Teacher / Faculty":"Organize teaching content, generate assessments, and understand student performance.",
+      "Researcher":"Organize projects, papers, notes, and discover useful knowledge faster.",
+      "Working Professional":"Build skills, close skill gaps, and learn efficiently around your work.",
+      "Lifelong Learner":"Explore interests, follow learning paths, save resources, and learn at your own pace."
+    };
+    const LANG_CODES={English:"en",Hindi:"hi",Bengali:"bn",German:"de",French:"fr",Spanish:"es",Portuguese:"pt",Italian:"it",Dutch:"nl",Russian:"ru",Ukrainian:"uk",Polish:"pl",Czech:"cs",Slovak:"sk",Romanian:"ro",Hungarian:"hu",Greek:"el",Turkish:"tr",Arabic:"ar",Hebrew:"he",Persian:"fa",Urdu:"ur",Punjabi:"pa",Gujarati:"gu",Marathi:"mr",Tamil:"ta",Telugu:"te",Kannada:"kn",Malayalam:"ml",Odia:"or",Assamese:"as",Nepali:"ne",Sinhala:"si",Thai:"th",Vietnamese:"vi",Indonesian:"id",Malay:"ms",Filipino:"tl",Chinese:"zh-CN",Japanese:"ja",Korean:"ko",Mongolian:"mn",Swahili:"sw",Zulu:"zu",Afrikaans:"af",Amharic:"am",Somali:"so",Yoruba:"yo",Igbo:"ig",Hausa:"ha",Latin:"la",Armenian:"hy",Georgian:"ka",Serbian:"sr",Croatian:"hr",Bulgarian:"bg",Slovenian:"sl",Lithuanian:"lt",Latvian:"lv",Estonian:"et",Albanian:"sq",Pashto:"ps",Uzbek:"uz",Kazakh:"kk"};
+    const LANG_PACKS={
+      Hindi:{"Dashboard":"डैशबोर्ड","My Subjects":"मेरे विषय","Progress":"प्रगति","AI Study Assistant":"AI अध्ययन सहायक","Study Themes":"अध्ययन थीम","Settings":"सेटिंग्स","Logout":"लॉग आउट","Active Subjects":"सक्रिय विषय","Goals":"लक्ष्य","Manage Subjects":"विषय प्रबंधित करें","+ Add Goal":"+ लक्ष्य जोड़ें","Focus Timer":"फोकस टाइमर","Study":"अध्ययन","Break":"विराम","Start":"शुरू करें","Pause":"रोकें","Reset":"रीसेट","Today":"आज","Welcome Back":"वापसी पर स्वागत है","Sign Up":"साइन अप","Create Account":"खाता बनाएं","Continue":"जारी रखें","Select Language":"भाषा चुनें","Preferred Language":"पसंदीदा भाषा","Personal Academic Space":"व्यक्तिगत शैक्षणिक स्थान","Ready for your next study session?":"अपने अगले अध्ययन सत्र के लिए तैयार हैं?","Personalized Workspace":"व्यक्तिगत कार्यक्षेत्र","Your Learning Workspace":"आपका सीखने का कार्यक्षेत्र","My Learning":"मेरी सीख","Resources":"संसाधन","AI Assistant":"AI सहायक"},
+      Bengali:{"Dashboard":"ড্যাশবোর্ড","My Subjects":"আমার বিষয়সমূহ","Progress":"অগ্রগতি","AI Study Assistant":"AI স্টাডি সহকারী","Study Themes":"স্টাডি থিম","Settings":"সেটিংস","Logout":"লগ আউট","Active Subjects":"সক্রিয় বিষয়সমূহ","Goals":"লক্ষ্য","Manage Subjects":"বিষয় পরিচালনা করুন","+ Add Goal":"+ লক্ষ্য যোগ করুন","Focus Timer":"ফোকাস টাইমার","Study":"পড়াশোনা","Break":"বিরতি","Start":"শুরু","Pause":"বিরতি দিন","Reset":"রিসেট","Today":"আজ","Welcome Back":"স্বাগতম","Sign Up":"সাইন আপ","Create Account":"অ্যাকাউন্ট তৈরি করুন","Continue":"চালিয়ে যান","Select Language":"ভাষা নির্বাচন করুন","Preferred Language":"পছন্দের ভাষা","Personalized Workspace":"ব্যক্তিগত ওয়ার্কস্পেস","Your Learning Workspace":"আপনার শেখার ওয়ার্কস্পেস","AI Assistant":"AI সহকারী"},
+      German:{"Dashboard":"Dashboard","My Subjects":"Meine Fächer","Progress":"Fortschritt","AI Study Assistant":"KI-Lernassistent","Study Themes":"Lernthemen","Settings":"Einstellungen","Logout":"Abmelden","Active Subjects":"Aktive Fächer","Goals":"Ziele","Manage Subjects":"Fächer verwalten","+ Add Goal":"+ Ziel hinzufügen","Focus Timer":"Fokus-Timer","Study":"Lernen","Break":"Pause","Start":"Starten","Pause":"Pausieren","Reset":"Zurücksetzen","Today":"Heute","Welcome Back":"Willkommen zurück","Sign Up":"Registrieren","Create Account":"Konto erstellen","Continue":"Weiter","Select Language":"Sprache auswählen","Preferred Language":"Bevorzugte Sprache","Personalized Workspace":"Personalisierter Arbeitsbereich","Your Learning Workspace":"Dein Lernarbeitsbereich","AI Assistant":"KI-Assistent"},
+      French:{"Dashboard":"Tableau de bord","My Subjects":"Mes matières","Progress":"Progression","AI Study Assistant":"Assistant d’étude IA","Study Themes":"Thèmes d’étude","Settings":"Paramètres","Logout":"Déconnexion","Active Subjects":"Matières actives","Goals":"Objectifs","Manage Subjects":"Gérer les matières","+ Add Goal":"+ Ajouter un objectif","Focus Timer":"Minuteur de concentration","Study":"Étude","Break":"Pause","Start":"Démarrer","Pause":"Pause","Reset":"Réinitialiser","Today":"Aujourd’hui","Welcome Back":"Bon retour","Sign Up":"S’inscrire","Create Account":"Créer un compte","Continue":"Continuer","Select Language":"Choisir la langue","Preferred Language":"Langue préférée","Personalized Workspace":"Espace personnalisé","Your Learning Workspace":"Votre espace d’apprentissage","AI Assistant":"Assistant IA"},
+      Spanish:{"Dashboard":"Panel","My Subjects":"Mis materias","Progress":"Progreso","AI Study Assistant":"Asistente de estudio IA","Study Themes":"Temas de estudio","Settings":"Configuración","Logout":"Cerrar sesión","Active Subjects":"Materias activas","Goals":"Objetivos","Manage Subjects":"Gestionar materias","+ Add Goal":"+ Añadir objetivo","Focus Timer":"Temporizador de enfoque","Study":"Estudiar","Break":"Descanso","Start":"Iniciar","Pause":"Pausar","Reset":"Reiniciar","Today":"Hoy","Welcome Back":"Bienvenido de nuevo","Sign Up":"Registrarse","Create Account":"Crear cuenta","Continue":"Continuar","Select Language":"Seleccionar idioma","Preferred Language":"Idioma preferido","Personalized Workspace":"Espacio personalizado","Your Learning Workspace":"Tu espacio de aprendizaje","AI Assistant":"Asistente IA"},
+      Portuguese:{"Dashboard":"Painel","My Subjects":"Minhas disciplinas","Progress":"Progresso","AI Study Assistant":"Assistente de estudos IA","Study Themes":"Temas de estudo","Settings":"Configurações","Logout":"Sair","Active Subjects":"Disciplinas ativas","Goals":"Metas","Manage Subjects":"Gerenciar disciplinas","+ Add Goal":"+ Adicionar meta","Focus Timer":"Temporizador de foco","Study":"Estudar","Break":"Pausa","Start":"Iniciar","Pause":"Pausar","Reset":"Redefinir","Today":"Hoje","Welcome Back":"Bem-vindo de volta","Sign Up":"Cadastrar","Create Account":"Criar conta","Continue":"Continuar","Select Language":"Selecionar idioma","Preferred Language":"Idioma preferido","Personalized Workspace":"Espaço personalizado","Your Learning Workspace":"Seu espaço de aprendizagem","AI Assistant":"Assistente IA"},
+      Italian:{"Dashboard":"Dashboard","My Subjects":"Le mie materie","Progress":"Progresso","AI Study Assistant":"Assistente allo studio IA","Study Themes":"Temi di studio","Settings":"Impostazioni","Logout":"Esci","Active Subjects":"Materie attive","Goals":"Obiettivi","Manage Subjects":"Gestisci materie","+ Add Goal":"+ Aggiungi obiettivo","Focus Timer":"Timer di concentrazione","Study":"Studio","Break":"Pausa","Start":"Avvia","Pause":"Pausa","Reset":"Reimposta","Today":"Oggi","Welcome Back":"Bentornato","Sign Up":"Registrati","Create Account":"Crea account","Continue":"Continua","Select Language":"Seleziona lingua","Preferred Language":"Lingua preferita","Personalized Workspace":"Spazio personalizzato","Your Learning Workspace":"Il tuo spazio di apprendimento","AI Assistant":"Assistente IA"},
+      Arabic:{"Dashboard":"لوحة التحكم","My Subjects":"موادي الدراسية","Progress":"التقدم","AI Study Assistant":"مساعد الدراسة بالذكاء الاصطناعي","Study Themes":"سمات الدراسة","Settings":"الإعدادات","Logout":"تسجيل الخروج","Active Subjects":"المواد النشطة","Goals":"الأهداف","Manage Subjects":"إدارة المواد","+ Add Goal":"+ إضافة هدف","Focus Timer":"مؤقت التركيز","Study":"دراسة","Break":"استراحة","Start":"بدء","Pause":"إيقاف مؤقت","Reset":"إعادة ضبط","Today":"اليوم","Welcome Back":"مرحبًا بعودتك","Sign Up":"إنشاء حساب","Create Account":"إنشاء حساب","Continue":"متابعة","Select Language":"اختر اللغة","Preferred Language":"اللغة المفضلة","Personalized Workspace":"مساحة عمل مخصصة","Your Learning Workspace":"مساحة التعلم الخاصة بك","AI Assistant":"مساعد الذكاء الاصطناعي"},
+      Urdu:{"Dashboard":"ڈیش بورڈ","My Subjects":"میرے مضامین","Progress":"پیش رفت","AI Study Assistant":"AI مطالعہ معاون","Study Themes":"مطالعہ کے موضوعات","Settings":"ترتیبات","Logout":"لاگ آؤٹ","Active Subjects":"فعال مضامین","Goals":"اہداف","Manage Subjects":"مضامین کا نظم کریں","+ Add Goal":"+ ہدف شامل کریں","Focus Timer":"فوکس ٹائمر","Study":"مطالعہ","Break":"وقفہ","Start":"شروع کریں","Pause":"روکیں","Reset":"ری سیٹ","Today":"آج","Welcome Back":"خوش آمدید","Sign Up":"سائن اپ","Create Account":"اکاؤنٹ بنائیں","Continue":"جاری رکھیں","Select Language":"زبان منتخب کریں","Preferred Language":"پسندیدہ زبان","Personalized Workspace":"ذاتی ورک اسپیس","Your Learning Workspace":"آپ کی لرننگ ورک اسپیس","AI Assistant":"AI معاون"}
+    };
+    const cacheKey="studySphereTranslationCache";
+    let translationCache={}; try{translationCache=JSON.parse(localStorage.getItem(cacheKey)||"{}");}catch(e){}
+    let translationTimer=null;
+    function role(){
+      let p={}; try{p=JSON.parse(localStorage.getItem("studySpherePersonalization")||"{}");}catch(e){}
+      return ROLE_CONFIG[p.persona]?p.persona:"Student";
+    }
+    function lang(){return localStorage.getItem("studySphereLanguage")||"English";}
+    function translateLocal(text){
+      const pack=LANG_PACKS[lang()]; return pack&&pack[text]?pack[text]:text;
+    }
+    function renderRoleDashboard(){
+      const r=role(), c=ROLE_CONFIG[r];
+      const grid=document.getElementById("roleModuleGrid"); if(!grid)return;
+      document.getElementById("roleDashboardLabel").textContent=translateLocal("Personalized Workspace");
+      document.getElementById("roleDashboardTitle").textContent=translateLocal("Your Learning Workspace");
+      document.getElementById("roleDashboardDescription").textContent=translateLocal(ROLE_DESCRIPTIONS[r])||ROLE_DESCRIPTIONS[r];
+      document.getElementById("roleBadge").textContent=translateLocal(r);
+      grid.innerHTML=c.modules.map((m,i)=>`<button type="button" class="role-module-card" onclick="openRoleModule(${i})"><span class="role-module-icon">${["📚","📄","🤖","📊","🎯","✨"][i]}</span><h3>${escapeHTML(translateLocal(m))}</h3><p>${escapeHTML(c.focus)}</p><span class="role-module-action">${escapeHTML(translateLocal("Open module"))} →</span></button>`).join("");
+    }
+    window.openRoleModule=function(i){const r=role(), m=ROLE_CONFIG[r].modules[i]; const page=ROLE_ACTIONS[m]||"dashboardHome"; if(page==="dashboardHome"){document.getElementById("dashboardHome")?.scrollIntoView({behavior:"smooth"});}else{const btn=[...document.querySelectorAll(".nav-item")].find(x=>x.textContent.toLowerCase().includes((page==="subjectsPage"?"subject":page==="progressPage"?"progress":page==="assistantPage"?"assistant":"dashboard"))); showPage(page,btn||null);} };
+    window.getStudySphereRole=role;
+    window.getStudySphereLanguage=lang;
+    window.getStudySphereLanguageCode=()=>LANG_CODES[lang()]||"en";
+    window.getStudySphereAssistantInstruction=()=>`Respond only in ${lang()}. The user's Study Sphere role is ${role()}. Be helpful, accurate, and concise.`;
+
+    async function remoteTranslate(text){
+      if(lang()==="English"||!text||text.length>180)return text;
+      const code=LANG_CODES[lang()]||"en"; const key=code+"|"+text;
+      if(translationCache[key])return translationCache[key];
+      try{
+        const url="https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+encodeURIComponent(code)+"&dt=t&q="+encodeURIComponent(text);
+        const res=await fetch(url); if(!res.ok)throw new Error("translation failed"); const data=await res.json();
+        const out=(data?.[0]||[]).map(x=>x?.[0]||"").join("").trim();
+        if(out){translationCache[key]=out;localStorage.setItem(cacheKey,JSON.stringify(translationCache));return out;}
+      }catch(e){}
+      return text;
+    }
+    function collectTextNodes(root){
+      const out=[]; const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{if(!n.nodeValue.trim()||n.parentElement.closest("script,style,option,[data-no-translate='true']"))return NodeFilter.FILTER_REJECT; return NodeFilter.FILTER_ACCEPT;}}); let n; while(n=walker.nextNode())out.push(n); return out;
+    }
+    function normalizeText(value){return String(value||"").replace(/\s+/g," ").trim();}
+    function setNodeText(node, translated){
+      const raw=node.getAttribute("data-ss-original")||normalizeText(node.nodeValue);
+      if(!node.getAttribute("data-ss-original")) node.setAttribute("data-ss-original",raw);
+      const leading=(node.nodeValue.match(/^\s*/)||[""])[0];
+      const trailing=(node.nodeValue.match(/\s*$/)||[""])[0];
+      node.nodeValue=leading+translated+trailing;
+    }
+    function collectTranslatableNodes(root){
+      const out=[]; const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+        const p=n.parentElement; if(!p)return NodeFilter.FILTER_REJECT;
+        if(!normalizeText(n.nodeValue)||p.closest("script,style,option,textarea,[data-no-translate='true']")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }}); let n; while(n=walker.nextNode())out.push(n); return out;
+    }
+    function collectTranslatableAttributes(root){
+      const out=[]; root.querySelectorAll("input[placeholder],textarea[placeholder],input[aria-label],button[title],*[title]").forEach(el=>{
+        ["placeholder","aria-label","title"].forEach(a=>{if(el.hasAttribute(a)&&normalizeText(el.getAttribute(a)))out.push([el,a,el.getAttribute(a)]);});
+      }); return out;
+    }
+    function localTranslation(text){
+      const pack=LANG_PACKS[lang()]||{}; return pack[text]||text;
+    }
+    async function translateBatch(items){
+      const selected=lang(), code=LANG_CODES[selected]||"en";
+      if(selected==="English"||!items.length)return new Map();
+      const result=new Map();
+      const unique=[...new Set(items.map(x=>normalizeText(x)).filter(Boolean))];
+      const pending=unique.filter(t=>!(LANG_PACKS[selected]||{})[t] && !translationCache[code+"|"+t]);
+      // Translate the complete visible UI, not an arbitrary first-N subset.
+      for(let i=0;i<pending.length;i+=8){
+        const chunk=pending.slice(i,i+8);
+        await Promise.all(chunk.map(async t=>{
+          const v=await remoteTranslate(t); if(v&&v!==t) result.set(t,v);
+        }));
+      }
+      unique.forEach(t=>result.set(t,localTranslation(t)||result.get(t)||translationCache[code+"|"+t]||t));
+      return result;
+    }
+    async function applyLanguage(){
+      const selected=lang();
+      document.documentElement.lang=LANG_CODES[selected]||"en";
+      document.documentElement.dir=["Arabic","Hebrew","Persian","Urdu","Pashto"].includes(selected)?"rtl":"ltr";
+      document.body.classList.toggle("ss-rtl",document.documentElement.dir==="rtl");
+      const nodes=collectTranslatableNodes(document.body);
+      const attrs=collectTranslatableAttributes(document.body);
+      // Always restore the original English source before applying the new language.
+      nodes.forEach(n=>{const raw=n.getAttribute("data-ss-original")||normalizeText(n.nodeValue); if(!n.getAttribute("data-ss-original"))n.setAttribute("data-ss-original",raw); setNodeText(n,raw);});
+      attrs.forEach(([el,a,v])=>{const key="data-ss-original-"+a;if(!el.hasAttribute(key))el.setAttribute(key,v);el.setAttribute(a,el.getAttribute(key));});
+      if(selected!=="English"){
+        const texts=nodes.map(n=>n.getAttribute("data-ss-original"));
+        const map=await translateBatch(texts.concat(attrs.map(x=>x[2])));
+        // Ignore stale responses if user changed language during translation.
+        if(lang()!==selected)return;
+        nodes.forEach(n=>{const raw=n.getAttribute("data-ss-original"); const t=(LANG_PACKS[selected]||{})[raw]||map.get(raw)||raw; setNodeText(n,t);});
+        attrs.forEach(([el,a])=>{const raw=el.getAttribute("data-ss-original-"+a); const t=(LANG_PACKS[selected]||{})[raw]||map.get(raw)||raw; el.setAttribute(a,t);});
+      }
+      const languageEl=document.getElementById("userLanguage"); if(languageEl)languageEl.textContent=selected;
+      renderRoleDashboard();
+    }
+    function setLanguageAndRefresh(){renderRoleDashboard();clearTimeout(translationTimer);translationTimer=setTimeout(()=>applyLanguage(),40);}
+    window.applyStudySphereLanguage=applyLanguage;
+
+    // Keep the selected role persistent and ensure personalization renders in the chosen language.
+    const oldFinish=window.finishPersonalization;
+    window.finishPersonalization=function(){oldFinish();localStorage.setItem("studySphereRole",personalizationData.persona);setLanguageAndRefresh();};
+    const oldEnter=window.enterDashboard;
+    window.enterDashboard=function(user){oldEnter(user);setLanguageAndRefresh();renderRoleDashboard();};
+    const oldContinue=window.continueLanguage;
+    window.continueLanguage=function(){oldContinue();setTimeout(setLanguageAndRefresh,80);};
+    const oldShow=window.showPage;
+    window.showPage=function(pageId,button){oldShow(pageId,button);setTimeout(()=>{renderRoleDashboard();applyLanguage();},20);};
+    const oldRenderPersonalization=window.renderPersonalization;
+    window.renderPersonalization=function(){oldRenderPersonalization();setTimeout(applyLanguage,10);};
+
+    // Language-aware assistant: preserve the existing chat UI but make the demo response follow the selected language and role.
+    window.askAssistant=async function(){
+      const input=document.getElementById("assistantInput"); const question=(input?.value||"").trim(); if(!question)return;
+      const chat=document.getElementById("assistantChat");
+      chat.innerHTML += `<div class="chat-message user">${escapeHTML(question)}</div>`;
+      const r=role(), l=lang();
+      let response=`I received your question: "${question}". I can help you with ${r.toLowerCase()} learning. This Study Sphere assistant is ready to connect to a real AI model through your backend API. Please configure your AI endpoint to enable model-generated answers.`;
+      if(l!=="English") response=await remoteTranslate(response);
+      chat.innerHTML += `<div class="chat-message ai">${escapeHTML(response)}${assistantAttachments.length?`<br><br>Attachments selected: ${assistantAttachments.map(f=>escapeHTML(f.name)).join(", ")}.`:""}</div>`;
+      chat.scrollTop=chat.scrollHeight; input.value="";
+    };
+
+    // Speech synthesis follows the selected language where the browser exposes a matching voice.
+    const oldSpeak=window.speakPodcast;
+    window.speakPodcast=function(){
+      if(!window.speechSynthesis){return oldSpeak();}
+      try{const original=window.speechSynthesis.getVoices(); const target=LANG_CODES[lang()]||"en"; const voice=original.find(v=>v.lang&&v.lang.toLowerCase().startsWith(target.toLowerCase())); if(voice){const old=window.speechSynthesis.speak; /* voice selection is handled by the existing function when possible */} }catch(e){}
+      return oldSpeak();
+    };
+
+    let mutationTimer=null;
+    const observer=new MutationObserver(()=>{clearTimeout(mutationTimer);mutationTimer=setTimeout(()=>applyLanguage(),250);});
+    window.addEventListener("load",()=>{setTimeout(()=>{renderRoleDashboard();applyLanguage();observer.observe(document.body,{childList:true,subtree:true,characterData:true});},250);});
+})();
+</script>
+
+</body>
+</html>

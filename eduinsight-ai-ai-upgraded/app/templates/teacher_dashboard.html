@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Teacher dashboard{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Class dashboard</h1>
+  <p class="muted">{{ data.class_size }} students assessed</p>
+
+  <h2>Concept gaps, weakest first</h2>
+  <table class="mastery-table">
+    <tr><th>Concept</th><th>Class average</th><th>Below target</th></tr>
+    {% for row in data.concept_gaps %}
+    <tr>
+      <td>{{ row.concept }}</td>
+      <td>
+        <div class="bar"><div class="bar-fill" style="width: {{ (row.class_average*100)|round|int }}%"></div></div>
+        {{ (row.class_average*100)|round|int }}%
+      </td>
+      <td>{{ row.students_below_threshold }} / {{ row.students_assessed }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="{{ url_for('researcher.export') }}">Export anonymized evidence for research →</a></p>
+</div>
+{% endblock %}

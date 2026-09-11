@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Start Learning{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>🎓 Welcome to EduInsight AI</h1>
+  <p class="muted">Enter your details to start a personalized AI learning session.</p>
+  <form method="POST" action="{{ url_for('student.login') }}">
+    <label>Student ID<input type="text" name="student_id" value="S100" required></label>
+    <label>Name<input type="text" name="student_name" value="Aisha Khan" required></label>
+    <button type="submit">Start AI Learning →</button>
+  </form>
+  <p class="muted small" style="margin-top:1rem">
+    Teacher: <a href="{{ url_for('teacher.dashboard') }}">Teacher dashboard</a>
+    &nbsp;·&nbsp; <a href="{{ url_for('researcher.export') }}">Research export</a>
+  </p>
+</div>
+{% endblock %}

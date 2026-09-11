@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .chat-wrapper {
+        max-width: 950px;
+        margin: 0 auto;
+    }
+
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+    }
+
+    .chat-header h1 {
+        margin: 0;
+    }
+
+    .chat-container {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 25px;
+        min-height: 500px;
+        max-height: 720px;
+        overflow-y: auto;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .message-row {
+        display: flex;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+
+    .message-row.user {
+        justify-content: flex-end;
+    }
+
+    .message-row.ai {
+        justify-content: flex-start;
+    }
+
+    .message-bubble {
+        max-width: 78%;
+        padding: 14px 18px;
+        border-radius: 18px;
+        line-height: 1.65;
+        font-size: 15px;
+        word-wrap: break-word;
+    }
+
+    .user .message-bubble {
+        background: #2563eb;
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+
+    .ai .message-bubble {
+        background: #f3f4f6;
+        color: #111827;
+        border-bottom-left-radius: 5px;
+    }
+
+    .message-label {
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        opacity: 0.75;
+    }
+
+    .user .message-label {
+        text-align: right;
+        color: #e5e7eb;
+    }
+
+    .ai .message-label {
+        color: #4b5563;
+    }
+
+    .message-bubble p {
+        margin: 8px 0;
+    }
+
+    .message-bubble p:first-child {
+        margin-top: 0;
+    }
+
+    .message-bubble p:last-child {
+        margin-bottom: 0;
+    }
+
+    .message-bubble h1,
+    .message-bubble h2,
+    .message-bubble h3,
+    .message-bubble h4 {
+        margin-top: 18px;
+        margin-bottom: 10px;
+    }
+
+    .message-bubble ul,
+    .message-bubble ol {
+        padding-left: 25px;
+    }
+
+    .message-bubble li {
+        margin-bottom: 5px;
+    }
+
+    .message-bubble code {
+        background: rgba(0,0,0,0.08);
+        padding: 2px 5px;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+    }
+
+    .message-bubble pre {
+        background: #111827;
+        color: #f9fafb;
+        padding: 14px;
+        border-radius: 10px;
+        overflow-x: auto;
+        margin-top: 12px;
+    }
+
+    .message-bubble pre code {
+        background: transparent;
+        padding: 0;
+        color: inherit;
+    }
+
+    .lesson-box {
+        margin-bottom: 25px;
+    }
+
+    .lesson-content {
+        line-height: 1.7;
+    }
+
+    .empty-chat {
+        text-align: center;
+        padding: 70px 20px;
+        color: #6b7280;
+    }
+
+    @media (max-width: 700px) {
+        .message-bubble {
+            max-width: 90%;
+        }
+
+        .chat-container {
+            padding: 15px;
+        }
+    }
+</style>
+
+
+<div class="chat-wrapper">
+
+    <!-- HEADER -->
+
+    <div class="chat-header">
+
+        <h1>🤖 {{ data.get("topic", "AI Learning") }}</h1>
+
+        <a href="{{ url_for('student.history') }}">
+            ← Back to History
+        </a>
+
+    </div>
+
+
+    <!-- AI LESSON -->
+
+    {% if data.get("lesson") %}
+
+    <div class="card lesson-box">
+
+        <h2>📖 AI Lesson</h2>
+
+        <div id="lessonContent" class="lesson-content"></div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- CHAT -->
+
+    <div class="chat-container" id="chatContainer">
+
+        {% if data.get("history") %}
+
+            {% for message in data["history"] %}
+
+                {% if message["role"] == "user" %}
+
+                    <div class="message-row user">
+
+                        <div class="message-bubble">
+
+                            <div class="message-label">
+                                You
+                            </div>
+
+                            <div class="rendered-message"
+                                 data-message="{{ message['content'] | e }}">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="message-row ai">
+
+                        <div class="message-bubble">
+
+                            <div class="message-label">
+                                🤖 EduInsight AI
+                            </div>
+
+                            <div class="rendered-message"
+                                 data-message="{{ message['content'] | e }}">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-chat">
+
+                <h2>💬 No conversation yet</h2>
+
+                <p>
+                    Ask the AI tutor a question to start your conversation.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- MARKDOWN -->
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+
+
+<!-- MATHJAX -->
+
+<script>
+
+window.MathJax = {
+
+    tex: {
+
+        inlineMath: [
+            ['$', '$'],
+            ['\\(', '\\)']
+        ],
+
+        displayMath: [
+            ['$$', '$$'],
+            ['\\[', '\\]']
+        ]
+
+    },
+
+    svg: {
+        fontCache: 'global'
+    }
+
+};
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+
+<script>
+
+function renderMarkdown(element) {
+
+    const text =
+        element.getAttribute("data-message") || "";
+
+    const html =
+        marked.parse(text);
+
+    element.innerHTML =
+        DOMPurify.sanitize(html);
+
+}
+
+
+/* Render all chat messages */
+
+document
+    .querySelectorAll(".rendered-message")
+    .forEach(renderMarkdown);
+
+
+/* Render lesson */
+
+const lessonText =
+    {{ data.get("lesson", "") | tojson }};
+
+const lessonElement =
+    document.getElementById("lessonContent");
+
+if (lessonText && lessonElement) {
+
+    lessonElement.innerHTML =
+        DOMPurify.sanitize(
+            marked.parse(lessonText)
+        );
+
+}
+
+
+/* Render equations */
+
+if (window.MathJax) {
+
+    MathJax.typesetPromise();
+
+}
+
+
+/* Automatically scroll chat to bottom */
+
+const chat =
+    document.getElementById("chatContainer");
+
+if (chat) {
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+</script>
+
+{% endblock %}

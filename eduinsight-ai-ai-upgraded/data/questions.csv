@@ -1,0 +1,11 @@
+question_id,concept_id,question_text,option_a,option_b,option_c,option_d,correct_option,misconception_option,misconception_name,difficulty
+Q1,C1,"In the fraction 3/4, what does the 4 represent?","The number of parts you have","The total number of equal parts the whole is split into","The number of wholes","A remainder",B,,,1
+Q2,C1,"A pizza is cut into 8 equal slices. You eat 3 slices. Which fraction shows how much you ate?","3/8","8/3","3/5","5/8",A,,,1
+Q3,C2,"Which fraction is equivalent to 1/2?","2/5","3/6","4/9","5/8",B,,,2
+Q4,C2,"Simplify 4/8 to its lowest terms.","1/2","2/4","4/8","1/4",A,,,2
+Q5,C3,"What is 1/4 + 2/4?","3/4","3/8","2/4","1/2",A,B,denominator-addition-error,2
+Q6,C3,"What is 1/2 + 1/3?","5/6","2/5","1/6","3/5",A,B,denominator-addition-error,3
+Q7,C4,"Which fraction is larger, 3/5 or 2/5?","2/5","3/5","They are equal","Cannot be determined",B,,,1
+Q8,C5,"What is 1/4 written as a decimal?","0.4","0.14","0.25","1.4",C,,,2
+Q9,C6,"Solve for x: 2/3 = x/9","6","3","18","12",A,C,cross-multiplication-error,3
+Q10,C6,"Solve for x: 4/5 = x/20","16","25","5","100",A,B,cross-multiplication-error,3

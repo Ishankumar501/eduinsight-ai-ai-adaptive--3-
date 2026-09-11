@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Diagnostic {{ index }} / {{ total }}{% endblock %}
+{% block content %}
+<div class="card">
+  <p class="muted">Question {{ index }} of {{ total }}</p>
+  <h2>{{ question.text }}</h2>
+  <form method="POST" action="{{ url_for('student.diagnostic') }}">
+    <input type="hidden" name="question_id" value="{{ question.question_id }}">
+    <div class="options">
+      {% for key, text in question.options.items() %}
+      <label class="option">
+        <input type="radio" name="chosen_option" value="{{ key }}" required>
+        <span>{{ key }}. {{ text }}</span>
+      </label>
+      {% endfor %}
+    </div>
+
+    <p class="muted">How confident are you in that answer?</p>
+    <div class="confidence-scale">
+      {% for level, label in [(1,"Just guessing"),(2,"Not very sure"),(3,"Somewhat sure"),(4,"Fairly confident"),(5,"Certain")] %}
+      <label class="option small">
+        <input type="radio" name="confidence" value="{{ level }}" required>
+        <span>{{ level }} — {{ label }}</span>
+      </label>
+      {% endfor %}
+    </div>
+
+    <button type="submit">Submit answer</button>
+  </form>
+</div>
+{% endblock %}
