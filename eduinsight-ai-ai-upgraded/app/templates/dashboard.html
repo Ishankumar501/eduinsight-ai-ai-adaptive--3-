@@ -1678,83 +1678,59 @@ body.theme-minimalist .sidebar { background:#e9e5dc; }
                 Preferred Language
             </label>
 
-            <select id="languageSelect">
+            <select id="languageSelect" class="form-control" onchange="changeLanguage(this.value)"></select>
 
                 <option value="">Select a language</option>
-
-                <option>English</option>
-                <option>Hindi</option>
-                <option>Bengali</option>
-                <option>German</option>
-                <option>French</option>
-                <option>Spanish</option>
-                <option>Portuguese</option>
-                <option>Italian</option>
-                <option>Dutch</option>
-                <option>Russian</option>
-                <option>Ukrainian</option>
-                <option>Polish</option>
-                <option>Czech</option>
-                <option>Slovak</option>
-                <option>Romanian</option>
-                <option>Hungarian</option>
-                <option>Greek</option>
-                <option>Turkish</option>
-                <option>Arabic</option>
-                <option>Hebrew</option>
-                <option>Persian</option>
-                <option>Urdu</option>
-                <option>Punjabi</option>
-                <option>Gujarati</option>
-                <option>Marathi</option>
-                <option>Tamil</option>
-                <option>Telugu</option>
-                <option>Kannada</option>
-                <option>Malayalam</option>
-                <option>Odia</option>
-                <option>Assamese</option>
-                <option>Nepali</option>
-                <option>Sinhala</option>
-                <option>Thai</option>
-                <option>Vietnamese</option>
-                <option>Indonesian</option>
-                <option>Malay</option>
-                <option>Filipino</option>
-                <option>Chinese</option>
-                <option>Japanese</option>
-                <option>Korean</option>
-                <option>Mongolian</option>
-                <option>Swahili</option>
-                <option>Zulu</option>
-                <option>Afrikaans</option>
-                <option>Amharic</option>
-                <option>Somali</option>
-                <option>Yoruba</option>
-                <option>Igbo</option>
-                <option>Hausa</option>
-                <option>Latin</option>
-                <option>Armenian</option>
-                <option>Georgian</option>
-                <option>Serbian</option>
-                <option>Croatian</option>
-                <option>Bulgarian</option>
-                <option>Slovenian</option>
-                <option>Lithuanian</option>
-                <option>Latvian</option>
-                <option>Estonian</option>
-                <option>Albanian</option>
-                <option>Pashto</option>
-                <option>Uzbek</option>
-                <option>Kazakh</option>
-                <option>Other</option>
+<option value="en">English</option>
+<option value="hi">Hindi</option>
+<option value="bn">Bengali</option>
+<option value="de">German</option>
+<option value="fr">French</option>
+<option value="es">Spanish</option>
+<option value="pt">Portuguese</option>
+<option value="it">Italian</option>
+<option value="nl">Dutch</option>
+<option value="ru">Russian</option>
+<option value="uk">Ukrainian</option>
+<option value="pl">Polish</option>
+<option value="cs">Czech</option>
+<option value="sk">Slovak</option>
+<option value="ro">Romanian</option>
+<option value="hu">Hungarian</option>
+<option value="el">Greek</option>
+<option value="tr">Turkish</option>
+<option value="ar">Arabic</option>
+<option value="he">Hebrew</option>
+<option value="fa">Persian</option>
+<option value="ur">Urdu</option>
+<option value="pa">Punjabi</option>
+<option value="gu">Gujarati</option>
+<option value="mr">Marathi</option>
+<option value="ta">Tamil</option>
+<option value="te">Telugu</option>
+<option value="kn">Kannada</option>
+<option value="ml">Malayalam</option>
+<option value="or">Odia</option>
+<option value="as">Assamese</option>
+<option value="ne">Nepali</option>
+<option value="si">Sinhala</option>
+<option value="th">Thai</option>
+<option value="vi">Vietnamese</option>
+<option value="id">Indonesian</option>
+<option value="ms">Malay</option>
+<option value="fil">Filipino</option>
+<option value="zh">Chinese</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
+<option value="mn">Mongolian</option>
 
             </select>
 
         </div>
 
-        <button class="primary-btn" onclick="continueLanguage()">
-            Continue
-        </button>
+        <button class="primary-btn" onclick="continueLanguage()" data-i18n="continueBtn">
+    Continue
+</button>
 
     </div>
 
@@ -6222,6 +6198,58 @@ window.addEventListener(
     const observer=new MutationObserver(()=>{clearTimeout(mutationTimer);mutationTimer=setTimeout(()=>applyLanguage(),250);});
     window.addEventListener("load",()=>{setTimeout(()=>{renderRoleDashboard();applyLanguage();observer.observe(document.body,{childList:true,subtree:true,characterData:true});},250);});
 })();
+const translations = {
+    en: {
+        continueBtn: "Continue",
+        selectLang: "Select a language"
+    },
+    hi: {
+        continueBtn: "Aage badhein",
+        selectLang: "Bhasha chunein"
+    },
+    bn: {
+        continueBtn: "Egiye jan",
+        selectLang: "Bhasha nirbachon korun"
+    },
+    de: {
+        continueBtn: "Fortfahren",
+        selectLang: "Sprache auswählen"
+    },
+    fr: {
+        continueBtn: "Continuer",
+        selectLang: "Choisir une langue"
+    },
+    es: {
+        continueBtn: "Continuar",
+        selectLang: "Seleccionar un idioma"
+    }
+};
+
+function changeLanguage(selectedLang) {
+    if (!selectedLang) return;
+    localStorage.setItem('preferredLang', selectedLang);
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[selectedLang] && translations[selectedLang][key]) {
+            element.innerText = translations[selectedLang][key];
+        }
+    });
+}
+
+function continueLanguage() {
+    const langSelect = document.getElementById('languageSelect');
+    const selectedLang = langSelect ? langSelect.value : '';
+    
+    if (selectedLang) {
+        changeLanguage(selectedLang);
+        const langScreen = document.getElementById('languageScreen');
+        if (langScreen) {
+            langScreen.classList.add('hidden');
+        }
+    } else {
+        alert("Please select a language first!");
+    }
+}
 </script>
 
 </body>
