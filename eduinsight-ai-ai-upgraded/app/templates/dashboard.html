@@ -3315,7 +3315,8 @@ setTimeout(() => {
    LANGUAGE
 ========================================================= */
 function continueLanguage() {
-    const language = document.getElementById("languageSelect").value;
+    const langSelect = document.getElementById("languageSelect");
+    const language = langSelect ? langSelect.value : "";
 
     if (!language) {
         alert("Please select your preferred language.");
@@ -3323,19 +3324,25 @@ function continueLanguage() {
     }
 
     localStorage.setItem("studySphereLanguage", language);
-    
-    // Language change apply karne ke liye
+
+    // Selected language translate apply karein
     if (typeof changeLanguage === 'function') {
         changeLanguage(language);
     }
 
+    // Modal screen ko hide karein
     const langScreen = document.getElementById("languageScreen");
     if (langScreen) {
-        langScreen.classList.add("hidden");
+        langScreen.style.display = "none";
     }
 
+    // Agar showPersonalization exists karta hai toh run karein, nahi toh skip karein
     if (typeof showPersonalization === 'function') {
-        showPersonalization();
+        try {
+            showPersonalization();
+        } catch (e) {
+            console.error("Personalization error:", e);
+        }
     }
 }
 
