@@ -3314,33 +3314,29 @@ setTimeout(() => {
 /* =========================================================
    LANGUAGE
 ========================================================= */
-
 function continueLanguage() {
-
-    const language =
-        document
-        .getElementById("languageSelect")
-        .value;
+    const language = document.getElementById("languageSelect").value;
 
     if (!language) {
-
-        alert(
-            "Please select your preferred language."
-        );
-
+        alert("Please select your preferred language.");
         return;
     }
 
-    localStorage.setItem(
-        "studySphereLanguage",
-        language
-    );
+    localStorage.setItem("studySphereLanguage", language);
+    
+    // Language change apply karne ke liye
+    if (typeof changeLanguage === 'function') {
+        changeLanguage(language);
+    }
 
-    document
-        .getElementById("languageScreen")
-        .classList.add("hidden");
+    const langScreen = document.getElementById("languageScreen");
+    if (langScreen) {
+        langScreen.classList.add("hidden");
+    }
 
-    showPersonalization();
+    if (typeof showPersonalization === 'function') {
+        showPersonalization();
+    }
 }
 
 
